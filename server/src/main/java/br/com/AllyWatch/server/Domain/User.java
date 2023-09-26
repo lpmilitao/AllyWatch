@@ -1,11 +1,13 @@
 package br.com.AllyWatch.server.Domain;
 
+import br.com.AllyWatch.server.Domain.Enum.Icon;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Builder @AllArgsConstructor @NoArgsConstructor
@@ -18,11 +20,16 @@ public class User {
 
     private String fullname;
 
+    @Column(unique = true)
     private String cpf;
 
+    @Column(unique = true)
     private String email;
 
     private String password;
+
+    @Enumerated(STRING)
+    private Icon icon;
 
     @OneToMany(mappedBy = "author")
     private List<Post> posts = new ArrayList<>();

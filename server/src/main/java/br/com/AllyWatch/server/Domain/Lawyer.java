@@ -1,5 +1,7 @@
 package br.com.AllyWatch.server.Domain;
 
+import br.com.AllyWatch.server.Domain.Enum.State;
+import br.com.AllyWatch.server.Domain.Enum.Status;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
