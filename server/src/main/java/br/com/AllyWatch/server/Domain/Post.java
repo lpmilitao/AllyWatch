@@ -40,4 +40,14 @@ public class Post {
 
     @OneToMany(mappedBy = "post")
     private List<Report> reports = new ArrayList<>();
+
+    public void addComment(Comment comment){
+        this.comments.add(comment);
+        comment.setPost(this);
+    }
+
+    public void addReport(Report report){
+        this.reports.add(report);
+        report.setPost(this);
+    }
 }

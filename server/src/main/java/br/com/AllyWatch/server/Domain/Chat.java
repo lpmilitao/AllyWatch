@@ -23,4 +23,9 @@ public class Chat {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "chat_id"))
     private List<User> users = new ArrayList<>();
+
+    public void addMessage(Message message){
+        this.messages.add(message);
+        message.setChat(this);
+    }
 }

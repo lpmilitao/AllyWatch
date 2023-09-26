@@ -42,4 +42,24 @@ public class User {
     @OneToMany(mappedBy = "author")
     private List<Report>  reportsMade = new ArrayList<>();
 
+
+    public void addPost(Post post){
+        this.posts.add(post);
+        post.setAuthor(this);
+    }
+
+    public void addCommentMade(Comment commentMade){
+        this.commentsMade.add(commentMade);
+        commentMade.setAuthor(this);
+    }
+
+    public void addMessage(Message message){
+        this.messagesSent.add(message);
+        message.setSender(this);
+    }
+
+    public void addReport(Report report){
+        this.reportsMade.add(report);
+        report.setAuthor(this);
+    }
 }
