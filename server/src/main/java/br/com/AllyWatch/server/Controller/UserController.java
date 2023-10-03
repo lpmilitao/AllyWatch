@@ -21,4 +21,10 @@ public class UserController {
         userService.add(request);
     }
 
+
+    @GetMapping
+    public String check(){
+        return "deu certo";
+    }
+
 }

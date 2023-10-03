@@ -31,6 +31,8 @@ public class User {
     @Enumerated(STRING)
     private Icon icon;
 
+    private boolean active;
+
     @OneToMany(mappedBy = "author")
     private List<Post> posts = new ArrayList<>();
 
