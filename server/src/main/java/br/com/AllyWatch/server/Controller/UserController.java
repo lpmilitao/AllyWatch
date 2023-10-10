@@ -17,14 +17,8 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(CREATED)
-    public void addNewUser(@Valid @RequestBody AddUserRequest request){
+    public void addNewUser(@RequestBody @Valid AddUserRequest request){
         userService.add(request);
-    }
-
-
-    @GetMapping
-    public String check(){
-        return "deu certo";
     }
 
 }

@@ -8,22 +8,20 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
 
-import static br.com.AllyWatch.server.Domain.Enum.Role.USUARIO;
-import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.POST;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.cors()
-                .and()
-                    .authorizeRequests()
-                        .requestMatchers(GET, "/hello")
-                            .hasAuthority(USUARIO.getRole())
+        http
+                .cors().and().csrf().disable()
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers(POST, "/user").permitAll()
+                ).authorizeHttpRequests(authorize -> authorize
                         .anyRequest().authenticated()
-                .and()
+                )
                     .oauth2ResourceServer()
                         .jwt()
                             .jwtAuthenticationConverter(getJwtAutheticationConverter());

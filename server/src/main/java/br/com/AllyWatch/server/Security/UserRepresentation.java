@@ -3,9 +3,7 @@ package br.com.AllyWatch.server.Security;
 import lombok.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Builder @NoArgsConstructor @AllArgsConstructor
 @Getter @Setter
@@ -21,20 +19,20 @@ public class UserRepresentation {
 
     private List<CredentialRepresentation> credentials = new ArrayList<>();
 
-    private Map<String, String> clientRoles = new HashMap<>();
+//    private List<String> clientRoles = new ArrayList<>();
 
-    private boolean enabled = true;
+    private boolean enabled;
 
     @Override
     public String toString() {
         return "{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
-                ", username='" + username + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", credentials= " + credentials +
-                ", clientRoles=" + clientRoles +
-                ", enabled=" + enabled +
-                "}";
+                " \"id\": \"" + id +
+                "\", \"email\": \"" + email +
+                "\", \"username\": \"" + username +
+                "\", \"firstName\": \"" + firstName +
+                "\", \"credentials\": " + credentials.toString() +
+//                ", \"clientRoles\": \"" + clientRoles +
+                "\", \"enabled\": \"" + enabled +
+                "\" }";
     }
 }

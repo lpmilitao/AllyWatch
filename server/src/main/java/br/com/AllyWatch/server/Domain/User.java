@@ -18,15 +18,14 @@ public class User {
     @Id @GeneratedValue(strategy = IDENTITY)
     private long id;
 
+    @Column(columnDefinition = "VARCHAR(2048)", nullable = false)
     private String fullname;
 
-    @Column(unique = true)
+    @Column(unique = true, columnDefinition = "VARCHAR(2048)", nullable = false)
     private String cpf;
 
-    @Column(unique = true)
+    @Column(unique = true, columnDefinition = "VARCHAR(2048)", nullable = false)
     private String email;
-
-    private String password;
 
     @Enumerated(STRING)
     private Icon icon;
