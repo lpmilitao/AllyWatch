@@ -10,12 +10,15 @@ import br.com.AllyWatch.server.Validator.PasswordValidator;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.security.*;
+import java.util.Base64;
 import java.util.Optional;
 
 import static br.com.AllyWatch.server.Core.Cryptography.*;
 import static br.com.AllyWatch.server.Domain.Enum.Icon.NEUTRAL;
+import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
 
 @Service
 public class UserService {
@@ -57,7 +60,7 @@ public class UserService {
         }
     }
 
-    public KeyCrypt findKey() {
+    private KeyCrypt findKey() {
         Optional<KeyCrypt> findKey = keyRepository.findAll().stream().findFirst();
         KeyCrypt key = null;
 
@@ -78,5 +81,31 @@ public class UserService {
         }
 
         return key;
+    }
+
+    public User getAuthenticatedUser(String authorization){
+        String email = getEmailFromJwtToken(authorization.substring(7));
+
+        //Procurar usuário no banco pelo email, porém email no banco está encriptado;
+
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResponseStatusException(UNPROCESSABLE_ENTITY));
+    }
+
+    private String getEmailFromJwtToken(String token){
+        String[] parts = token.split("\\.");
+        if (parts.length != 3) {
+            throw new IllegalArgumentException("Invalid JWT token.");
+        }
+
+        String payload = parts[1];
+        byte[] payloadBytes = Base64.getUrlDecoder().decode(payload);
+        String payloadString = new String(payloadBytes);
+
+        int start = payloadString.indexOf("\"email\":");
+        String fromEmail = payloadString.substring(start + ("\"email\":\"").length());
+        int end = fromEmail.indexOf("\"");
+
+        return fromEmail.substring(0, end);
     }
 }

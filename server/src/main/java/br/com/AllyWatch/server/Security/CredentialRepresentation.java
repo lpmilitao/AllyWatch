@@ -17,12 +17,4 @@ public class CredentialRepresentation {
         this.value = value;
         this.temporary = false;
     }
-
-    @Override
-    public String toString() {
-        return "{ " +
-                "\"type\": \"" + type + "\"," +
-                " \"value\": \"" + value + "\"" +
-                ", \"temporary: \"" + temporary + "\" }";
-    }
 }

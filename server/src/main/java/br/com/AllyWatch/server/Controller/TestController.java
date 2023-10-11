@@ -9,7 +9,7 @@ import static br.com.AllyWatch.server.Domain.Enum.Role.Names.USER;
 
 @RestController
 @RequestMapping("/hello")
-public class AuthController {
+public class TestController {
 
     @GetMapping
     @Secured(USER)

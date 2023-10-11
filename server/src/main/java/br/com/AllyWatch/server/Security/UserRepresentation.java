@@ -19,20 +19,5 @@ public class UserRepresentation {
 
     private List<CredentialRepresentation> credentials = new ArrayList<>();
 
-//    private List<String> clientRoles = new ArrayList<>();
-
     private boolean enabled;
-
-    @Override
-    public String toString() {
-        return "{" +
-                " \"id\": \"" + id +
-                "\", \"email\": \"" + email +
-                "\", \"username\": \"" + username +
-                "\", \"firstName\": \"" + firstName +
-                "\", \"credentials\": " + credentials.toString() +
-//                ", \"clientRoles\": \"" + clientRoles +
-                "\", \"enabled\": \"" + enabled +
-                "\" }";
-    }
 }
