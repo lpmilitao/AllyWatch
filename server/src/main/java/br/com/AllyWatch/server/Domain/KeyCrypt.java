@@ -1,13 +1,12 @@
 package br.com.AllyWatch.server.Domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.util.ArrayList;
+import java.util.List;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
@@ -24,4 +23,7 @@ public class KeyCrypt {
 
     @Column(unique = true, columnDefinition = "VARBINARY(2048)", nullable = false)
     private PrivateKey privateKey;
+
+    @OneToMany(mappedBy = "keys")
+    private List<User> users = new ArrayList<>();
 }

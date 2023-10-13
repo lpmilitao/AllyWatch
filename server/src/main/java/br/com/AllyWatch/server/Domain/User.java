@@ -32,6 +32,9 @@ public class User {
 
     private boolean active;
 
+    @ManyToOne @JoinColumn(name = "key_id")
+    private KeyCrypt keys;
+
     @OneToMany(mappedBy = "author")
     private List<Post> posts = new ArrayList<>();
 

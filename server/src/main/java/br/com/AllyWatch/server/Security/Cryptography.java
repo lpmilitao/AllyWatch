@@ -1,10 +1,13 @@
-package br.com.AllyWatch.server.Core;
+package br.com.AllyWatch.server.Security;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
-import java.security.*;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.util.Base64;
 
 public class Cryptography {
@@ -36,5 +39,22 @@ public class Cryptography {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static String getEmailFromJwtToken(String token) {
+        String[] parts = token.split("\\.");
+        if (parts.length != 3) {
+            throw new IllegalArgumentException("Invalid JWT token.");
+        }
+
+        String payload = parts[1];
+        byte[] payloadBytes = Base64.getUrlDecoder().decode(payload);
+        String payloadString = new String(payloadBytes);
+
+        int start = payloadString.indexOf("\"email\":");
+        String fromEmail = payloadString.substring(start + ("\"email\":\"").length());
+        int end = fromEmail.indexOf("\"");
+
+        return fromEmail.substring(0, end);
     }
 }
