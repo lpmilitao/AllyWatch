@@ -1,6 +1,6 @@
 package br.com.AllyWatch.server.Service;
 
-import br.com.AllyWatch.server.DTO.Request.AddUserRequest;
+import br.com.AllyWatch.server.DTO.Request.CreateUserRequest;
 import br.com.AllyWatch.server.Domain.KeyCrypt;
 import br.com.AllyWatch.server.Domain.User;
 import br.com.AllyWatch.server.Repository.KeyRepository;
@@ -30,7 +30,7 @@ public class UserService {
     private KeyRepository keyRepository;
 
     @Transactional
-    public void add(AddUserRequest request) {
+    public void add(CreateUserRequest request) {
 
         PasswordValidator.validate(request.getPassword());
 
