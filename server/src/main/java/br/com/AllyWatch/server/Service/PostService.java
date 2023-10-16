@@ -14,7 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Objects;
 
-import static br.com.AllyWatch.server.DTO.Mapper.PostMapper.toEntity;
+import static br.com.AllyWatch.server.DTO.Mapper.PostMapper.*;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
@@ -42,7 +42,7 @@ public class PostService {
         postRepository.save(post);
     }
 
-    public Post findById(long postId){
+    public Post findById(long postId) {
         return postRepository.findById(postId).orElseThrow(() ->
                 new ResponseStatusException(NOT_FOUND, "Post not found."));
     }
@@ -51,14 +51,14 @@ public class PostService {
         User user = userService.getAuthenticatedUser(authorization);
         Post post = findById(postId);
 
-        if (post.getAuthor().getId() != user.getId()){
+        if (post.getAuthor().getId() != user.getId()) {
             throw new ResponseStatusException(FORBIDDEN, "You can not edit a post that is not yours.");
         }
 
         post.setTitle(request.getTitle());
         post.setBody(request.getBody());
 
-        if (!Objects.equals(post.getAggressor(), request.getAggressor())){
+        if (!Objects.equals(post.getAggressor(), request.getAggressor())) {
             //verificar se o agressor mudou, se mudou, fazer a verificação de outros posts com o mesmo agressor
             post.setAggressor(request.getAggressor());
         }
@@ -73,17 +73,31 @@ public class PostService {
 
         Post post = findById(postId);
 
-        if (user.getId() != post.getAuthor().getId()){
+        if (user.getId() != post.getAuthor().getId()) {
             throw new ResponseStatusException(FORBIDDEN, "You can not delete a post that is not yours.");
         }
 
         postRepository.delete(post);
     }
 
-    public Page<PostResponse> listMyPosts(String authorization, Pageable pageable){
+    public Page<PostResponse> listMyPosts(String authorization, Pageable pageable) {
         User user = userService.getAuthenticatedUser(authorization);
 
         return postRepository.findAllByAuthor_IdOrderByPublicationTimeDesc(user.getId(), pageable)
                 .map(PostMapper::toMyResponse);
+    }
+
+    public Page<PostResponse> listAllPosts(String authorization, Pageable pageable) {
+        User user = userService.getAuthenticatedUser(authorization);
+
+        return postRepository.findAll(pageable)
+                .map(post -> {
+                    if (post.getAuthor().getId() == user.getId()) {
+                        return toMyResponse(post);
+                    } else if (post.isAnonymous()) {
+                        return toAnonymousResponse(post);
+                    }
+                    return PostMapper.toPublicResponse(post);
+                });
     }
 }

@@ -49,4 +49,11 @@ public class PostController {
                                           Pageable pageable){
         return postService.listMyPosts(authorization, pageable);
     }
+
+    @GetMapping
+    @Secured(USER)
+    public Page<PostResponse> listPosts(@RequestHeader String authorization,
+                                          Pageable pageable){
+        return postService.listAllPosts(authorization, pageable);
+    }
 }
