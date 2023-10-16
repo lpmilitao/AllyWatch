@@ -1,9 +1,12 @@
 package br.com.AllyWatch.server.DTO.Mapper;
 
 import br.com.AllyWatch.server.DTO.Request.PostRequest;
+import br.com.AllyWatch.server.DTO.Response.MyPostResponse;
 import br.com.AllyWatch.server.Domain.Post;
 
 import java.time.LocalDateTime;
+
+import static br.com.AllyWatch.server.Security.Cryptography.decrypt;
 
 public class PostMapper {
 
@@ -16,4 +19,19 @@ public class PostMapper {
                 .build();
     }
 
+    public static MyPostResponse toMyResponse(Post entity){
+        return new MyPostResponse(
+                entity.getId(),
+                entity.getTitle(),
+                entity.getBody(),
+                entity.getPublicationTime(),
+                entity.getComments().stream().map(CommentMapper::toResponse).toList(),
+                entity.getLikes().size(),
+                decrypt(entity.getAuthor().getFullname(), entity.getAuthor().getKeys().getPrivateKey()),
+                entity.getAuthor().getIcon(),
+                entity.getLikes().stream().map(user ->
+                        decrypt(user.getFullname(), user.getKeys().getPrivateKey())
+                ).toList()
+                );
+    }
 }

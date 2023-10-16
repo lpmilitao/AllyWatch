@@ -1,10 +1,14 @@
 package br.com.AllyWatch.server.Service;
 
+import br.com.AllyWatch.server.DTO.Mapper.PostMapper;
 import br.com.AllyWatch.server.DTO.Request.PostRequest;
+import br.com.AllyWatch.server.DTO.Response.PostResponse;
 import br.com.AllyWatch.server.Domain.Post;
 import br.com.AllyWatch.server.Domain.User;
 import br.com.AllyWatch.server.Repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -63,7 +67,7 @@ public class PostService {
 
         postRepository.save(post);
     }
-    
+
     public void delete(String authorization, long postId) {
         User user = userService.getAuthenticatedUser(authorization);
 
@@ -74,5 +78,12 @@ public class PostService {
         }
 
         postRepository.delete(post);
+    }
+
+    public Page<PostResponse> listMyPosts(String authorization, Pageable pageable){
+        User user = userService.getAuthenticatedUser(authorization);
+
+        return postRepository.findAllByAuthor_IdOrderByPublicationTimeDesc(user.getId(), pageable)
+                .map(PostMapper::toMyResponse);
     }
 }
