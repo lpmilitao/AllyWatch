@@ -1,6 +1,6 @@
 package br.com.AllyWatch.server.Controller;
 
-import br.com.AllyWatch.server.DTO.Request.CreatePostRequest;
+import br.com.AllyWatch.server.DTO.Request.PostRequest;
 import br.com.AllyWatch.server.Service.PostService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,22 @@ public class PostController {
     @Secured(USER)
     @ResponseStatus(CREATED)
     public void createPost(@RequestHeader String authorization,
-                           @RequestBody @Valid CreatePostRequest request){
+                           @RequestBody @Valid PostRequest request){
         postService.create(authorization, request);
+    }
+
+    @PutMapping("/{postId}")
+    @Secured(USER)
+    public void editPost(@RequestHeader String authorization,
+                           @RequestBody @Valid PostRequest request,
+                         @PathVariable long postId){
+        postService.edit(authorization, request, postId);
+    }
+
+    @DeleteMapping("/{postId}")
+    @Secured(USER)
+    public void deletePost(@RequestHeader String authorization,
+                         @PathVariable long postId){
+        postService.delete(authorization, postId);
     }
 }

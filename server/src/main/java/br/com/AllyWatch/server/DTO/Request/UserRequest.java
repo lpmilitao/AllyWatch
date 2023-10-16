@@ -6,7 +6,7 @@ import lombok.*;
 import org.hibernate.validator.constraints.br.CPF;
 
 @Getter @Setter
-public class CreateUserRequest {
+public class UserRequest {
 
     @NotBlank
     private String fullname;

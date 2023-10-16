@@ -1,6 +1,6 @@
 package br.com.AllyWatch.server.Controller;
 
-import br.com.AllyWatch.server.DTO.Request.CreateUserRequest;
+import br.com.AllyWatch.server.DTO.Request.UserRequest;
 import br.com.AllyWatch.server.Service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(CREATED)
-    public void addNewUser(@RequestBody @Valid CreateUserRequest request){
+    public void addNewUser(@RequestBody @Valid UserRequest request){
         userService.add(request);
     }
 

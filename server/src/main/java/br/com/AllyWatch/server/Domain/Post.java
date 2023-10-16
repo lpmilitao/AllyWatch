@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static jakarta.persistence.CascadeType.REMOVE;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Builder @AllArgsConstructor @NoArgsConstructor
@@ -30,15 +31,15 @@ public class Post {
     @ManyToOne @JoinColumn(name = "author_id")
     private User author;
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post", cascade = REMOVE)
     private List<Comment> comments = new ArrayList<>();
 
-    @ManyToMany @JoinTable(name = "user_likes_post",
+    @ManyToMany(cascade = REMOVE) @JoinTable(name = "user_likes_post",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "post_id"))
     private List<User> likes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post", cascade = REMOVE)
     private List<Report> reports = new ArrayList<>();
 
     public void addComment(Comment comment){

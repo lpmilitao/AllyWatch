@@ -7,6 +7,7 @@ import lombok.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static jakarta.persistence.CascadeType.REMOVE;
 import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
@@ -35,19 +36,19 @@ public class User {
     @ManyToOne @JoinColumn(name = "key_id")
     private KeyCrypt keys;
 
-    @OneToMany(mappedBy = "author")
+    @OneToMany(mappedBy = "author", cascade = REMOVE)
     private List<Post> posts = new ArrayList<>();
 
-    @OneToMany(mappedBy = "author")
+    @OneToMany(mappedBy = "author", cascade = REMOVE)
     private List<Comment> commentsMade = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "likes")
+    @ManyToMany(mappedBy = "likes", cascade = REMOVE)
     private List<Post> postsLiked = new ArrayList<>();
 
-    @OneToMany(mappedBy = "sender")
+    @OneToMany(mappedBy = "sender", cascade = REMOVE)
     private List<Message>  messagesSent = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "users")
+    @ManyToMany(mappedBy = "users", cascade = REMOVE)
     private List<Chat> chats = new ArrayList<>();
 
     @OneToMany(mappedBy = "author")
