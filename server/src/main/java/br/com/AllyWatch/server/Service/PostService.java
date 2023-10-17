@@ -6,6 +6,7 @@ import br.com.AllyWatch.server.DTO.Response.PostResponse;
 import br.com.AllyWatch.server.Domain.Post;
 import br.com.AllyWatch.server.Domain.User;
 import br.com.AllyWatch.server.Repository.PostRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +28,7 @@ public class PostService {
     @Autowired
     private PostRepository postRepository;
 
+    @Transactional
     public void create(String auth, PostRequest request) {
         User user = userService.getAuthenticatedUser(auth);
 
@@ -97,7 +99,7 @@ public class PostService {
                     } else if (post.isAnonymous()) {
                         return toAnonymousResponse(post);
                     }
-                    return PostMapper.toPublicResponse(post);
+                    return toPublicResponse(post);
                 });
     }
 }

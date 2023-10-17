@@ -1,7 +1,9 @@
 package br.com.AllyWatch.server.Controller;
 
+import br.com.AllyWatch.server.DTO.Request.CommentRequest;
 import br.com.AllyWatch.server.DTO.Request.PostRequest;
 import br.com.AllyWatch.server.DTO.Response.PostResponse;
+import br.com.AllyWatch.server.Service.CommentService;
 import br.com.AllyWatch.server.Service.PostService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,9 @@ public class PostController {
 
     @Autowired
     private PostService postService;
+
+    @Autowired
+    private CommentService commentService;
 
     @PostMapping
     @Secured(USER)
@@ -55,5 +60,21 @@ public class PostController {
     public Page<PostResponse> listPosts(@RequestHeader String authorization,
                                           Pageable pageable){
         return postService.listAllPosts(authorization, pageable);
+    }
+
+    @PostMapping("{postId}/comment")
+    @Secured(USER)
+    @ResponseStatus(CREATED)
+    public void addComment(@RequestHeader String authorization,
+                           @PathVariable long postId,
+                           @RequestBody @Valid CommentRequest request){
+        commentService.create(authorization, postId, request);
+    }
+
+    @DeleteMapping("/comment/{commentId}")
+    @Secured(USER)
+    public void deleteComment(@RequestHeader String authorization,
+                           @PathVariable long commentId){
+        commentService.delete(authorization, commentId);
     }
 }
