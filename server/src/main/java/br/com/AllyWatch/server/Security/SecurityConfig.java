@@ -1,5 +1,6 @@
 package br.com.AllyWatch.server.Security;
 
+import br.com.AllyWatch.server.Domain.Enum.Role;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -19,6 +20,7 @@ public class SecurityConfig {
                 .cors().and().csrf().disable()
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(POST, "/user").permitAll()
+                        .requestMatchers("/admin/*").hasAuthority(Role.Names.ADMIN)
                 ).authorizeHttpRequests(authorize -> authorize
                         .anyRequest().authenticated()
                 )

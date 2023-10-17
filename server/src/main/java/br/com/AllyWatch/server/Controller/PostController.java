@@ -2,9 +2,11 @@ package br.com.AllyWatch.server.Controller;
 
 import br.com.AllyWatch.server.DTO.Request.CommentRequest;
 import br.com.AllyWatch.server.DTO.Request.PostRequest;
+import br.com.AllyWatch.server.DTO.Request.ReportRequest;
 import br.com.AllyWatch.server.DTO.Response.PostResponse;
 import br.com.AllyWatch.server.Service.CommentService;
 import br.com.AllyWatch.server.Service.PostService;
+import br.com.AllyWatch.server.Service.ReportService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,6 +26,9 @@ public class PostController {
 
     @Autowired
     private CommentService commentService;
+
+    @Autowired
+    private ReportService reportService;
 
     @PostMapping
     @Secured(USER)
@@ -83,5 +88,13 @@ public class PostController {
     public void likePost(@RequestHeader String authorization,
                            @PathVariable long postId){
         postService.like(authorization, postId);
+    }
+
+    @PostMapping("/{postId}/report")
+    @Secured(USER)
+    public void reportPost(@RequestHeader String authorization,
+                           @PathVariable long postId,
+                           @RequestBody @Valid ReportRequest request){
+        reportService.add(authorization, postId, request);
     }
 }
