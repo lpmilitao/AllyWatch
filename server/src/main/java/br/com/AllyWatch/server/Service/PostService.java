@@ -6,6 +6,7 @@ import br.com.AllyWatch.server.DTO.Response.PostResponse;
 import br.com.AllyWatch.server.Domain.Post;
 import br.com.AllyWatch.server.Domain.User;
 import br.com.AllyWatch.server.Repository.PostRepository;
+import br.com.AllyWatch.server.Repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,6 +28,9 @@ public class PostService {
 
     @Autowired
     private PostRepository postRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Transactional
     public void create(String auth, PostRequest request) {
@@ -101,5 +105,21 @@ public class PostService {
                     }
                     return toPublicResponse(post);
                 });
+    }
+
+    public void like(String authorization, long postId) {
+        User user = userService.getAuthenticatedUser(authorization);
+        Post post = findById(postId);
+
+        if (post.getLikes().contains(user)) {
+            post.removeLike(user);
+            user.removePostsLiked(post);
+        } else {
+            user.addPostsLiked(post);
+            post.addLike(user);
+        }
+
+        postRepository.save(post);
+        userRepository.save(user);
     }
 }

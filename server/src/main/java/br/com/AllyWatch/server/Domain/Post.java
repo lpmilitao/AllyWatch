@@ -51,4 +51,12 @@ public class Post {
         this.reports.add(report);
         report.setPost(this);
     }
+
+    public void addLike(User user){
+        this.likes.add(user);
+    }
+
+    public void removeLike(User user){
+        this.likes.remove(user);
+    }
 }

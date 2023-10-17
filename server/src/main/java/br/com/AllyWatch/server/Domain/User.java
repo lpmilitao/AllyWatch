@@ -74,4 +74,12 @@ public class User {
         this.reportsMade.add(report);
         report.setAuthor(this);
     }
+
+    public void addPostsLiked(Post post){
+        this.postsLiked.add(post);
+    }
+
+    public void removePostsLiked(Post post){
+        this.postsLiked.remove(post);
+    }
 }

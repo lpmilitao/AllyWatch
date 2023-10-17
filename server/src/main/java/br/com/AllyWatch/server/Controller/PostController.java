@@ -77,4 +77,11 @@ public class PostController {
                            @PathVariable long commentId){
         commentService.delete(authorization, commentId);
     }
+
+    @PutMapping("/{postId}/like")
+    @Secured(USER)
+    public void likePost(@RequestHeader String authorization,
+                           @PathVariable long postId){
+        postService.like(authorization, postId);
+    }
 }
