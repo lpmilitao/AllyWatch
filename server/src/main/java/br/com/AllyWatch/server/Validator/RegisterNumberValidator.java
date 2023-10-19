@@ -6,7 +6,7 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 public class RegisterNumberValidator {
 
-    private static final String REGEX = "^\\d{2}\\/\\d{6}-IS$";
+    private static final String REGEX = "^\\d{2}/\\d{6}-IS$";
 
     public static void psychologistRegisterNumberValidator(String registerNumber){
 
