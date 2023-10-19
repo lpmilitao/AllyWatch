@@ -1,5 +1,6 @@
 package br.com.AllyWatch.server.Service;
 
+import br.com.AllyWatch.server.DTO.Request.IconRequest;
 import br.com.AllyWatch.server.DTO.Request.UserRequest;
 import br.com.AllyWatch.server.Domain.KeyCrypt;
 import br.com.AllyWatch.server.Domain.User;
@@ -16,8 +17,9 @@ import java.security.*;
 import java.util.Objects;
 import java.util.Optional;
 
-import static br.com.AllyWatch.server.Domain.Enum.Icon.NEUTRAL;
+import static br.com.AllyWatch.server.Domain.Enum.Icon.*;
 import static br.com.AllyWatch.server.Security.Cryptography.*;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Service
@@ -90,5 +92,19 @@ public class UserService {
             key = findKey.get();
         }
         return key;
+    }
+
+    public void editIcon(String authorization, IconRequest request) {
+        User user = getAuthenticatedUser(authorization);
+
+        if (request.getIcon() != MALE &&
+                request.getIcon() != FEMALE &&
+                request.getIcon() != NEUTRAL) {
+            throw new ResponseStatusException(BAD_REQUEST, "Invalid icon type.");
+        }
+
+        user.setIcon(request.getIcon());
+
+        userRepository.save(user);
     }
 }
