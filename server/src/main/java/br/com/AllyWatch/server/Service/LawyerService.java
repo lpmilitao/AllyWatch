@@ -1,14 +1,17 @@
 package br.com.AllyWatch.server.Service;
 
 import br.com.AllyWatch.server.DTO.Request.LawyerRequest;
+import br.com.AllyWatch.server.DTO.Request.VerifySpecialistRequest;
 import br.com.AllyWatch.server.Domain.KeyCrypt;
 import br.com.AllyWatch.server.Domain.Lawyer;
 import br.com.AllyWatch.server.Repository.LawyerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
-import static br.com.AllyWatch.server.Domain.Enum.Status.UNDER_REVIEW;
+import static br.com.AllyWatch.server.Domain.Enum.Status.*;
 import static br.com.AllyWatch.server.Security.Cryptography.encrypt;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Service
 public class LawyerService {
@@ -43,6 +46,24 @@ public class LawyerService {
                 .status(UNDER_REVIEW)
                 .keys(key)
                 .build();
+
+        lawyerRepository.save(lawyer);
+    }
+
+    public Lawyer findById(long id){
+        return lawyerRepository.findById(id)
+            .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Lawyer not found."));
+    }
+
+    public void verify(VerifySpecialistRequest request, long specialistId) {
+
+        Lawyer lawyer = findById(specialistId);
+
+        if (request.isAccepted()){
+            lawyer.setStatus(APPROVED);
+        } else {
+            lawyer.setStatus(DISAPPROVED);
+        }
 
         lawyerRepository.save(lawyer);
     }
