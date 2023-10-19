@@ -39,7 +39,7 @@ public class LawyerService {
                 .city(
                         encrypt(request.getCity(), key.getPublicKey())
                 )
-                .seccional(request.getSeccional())
+                .seccional(request.getState())
                 .status(UNDER_REVIEW)
                 .keys(key)
                 .build();

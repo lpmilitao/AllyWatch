@@ -17,20 +17,25 @@ public class Psychologist {
     @Id @GeneratedValue(strategy = IDENTITY)
     private long id;
 
+    @Column(columnDefinition = "VARCHAR(2048)", nullable = false)
     private String fullname;
 
+    @Column(columnDefinition = "VARCHAR(2048)", nullable = false)
     private String email;
 
     @Enumerated(STRING)
     private Type type;
 
+    @Column(columnDefinition = "VARCHAR(2048)", nullable = false)
     private String cpfOrCpnj;
 
+    @Column(columnDefinition = "VARCHAR(2048)", nullable = false)
     private String registerNumber;
 
     @Enumerated(STRING)
     private State state;
 
+    @Column(columnDefinition = "VARCHAR(2048)", nullable = false)
     private String city;
 
     @Enumerated(STRING)

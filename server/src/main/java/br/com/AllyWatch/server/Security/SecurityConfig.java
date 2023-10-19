@@ -21,6 +21,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(POST, "/user").permitAll()
                         .requestMatchers(POST, "/specialist/lawyer").permitAll()
+                        .requestMatchers(POST, "/specialist/psychologist").permitAll()
                         .requestMatchers("/admin/*").hasAuthority(ADMIN)
                 ).authorizeHttpRequests(authorize -> authorize
                         .anyRequest().authenticated()
