@@ -26,4 +26,7 @@ public class KeyCrypt {
 
     @OneToMany(mappedBy = "keys")
     private List<User> users = new ArrayList<>();
+
+    @OneToMany(mappedBy = "keys")
+    private List<Lawyer> lawyers = new ArrayList<>();
 }

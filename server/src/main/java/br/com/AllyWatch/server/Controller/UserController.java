@@ -27,7 +27,7 @@ public class UserController {
     @PutMapping
     @Secured(USER)
     public void editIcon(@RequestHeader String authorization,
-                           @RequestBody IconRequest request){
+                           @RequestBody @Valid IconRequest request){
         userService.editIcon(authorization, request);
     }
 

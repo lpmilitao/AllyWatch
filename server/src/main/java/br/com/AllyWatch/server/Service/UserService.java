@@ -4,7 +4,6 @@ import br.com.AllyWatch.server.DTO.Request.IconRequest;
 import br.com.AllyWatch.server.DTO.Request.UserRequest;
 import br.com.AllyWatch.server.Domain.KeyCrypt;
 import br.com.AllyWatch.server.Domain.User;
-import br.com.AllyWatch.server.Repository.KeyRepository;
 import br.com.AllyWatch.server.Repository.UserRepository;
 import br.com.AllyWatch.server.Security.KeycloakUserCreation;
 import br.com.AllyWatch.server.Validator.PasswordValidator;
@@ -13,9 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.security.*;
 import java.util.Objects;
-import java.util.Optional;
 
 import static br.com.AllyWatch.server.Domain.Enum.Icon.*;
 import static br.com.AllyWatch.server.Security.Cryptography.*;
@@ -29,7 +26,7 @@ public class UserService {
     private UserRepository userRepository;
 
     @Autowired
-    private KeyRepository keyRepository;
+    private KeyService keyService;
 
     @Transactional
     public void add(UserRequest request) {
@@ -38,7 +35,7 @@ public class UserService {
 
         User newUser = User.builder().active(true).icon(NEUTRAL).build();
 
-        KeyCrypt key = findKey();
+        KeyCrypt key = keyService.findKey();
         newUser.setCpf(
                 encrypt(request.getCpf(), key.getPublicKey())
         );
@@ -70,28 +67,6 @@ public class UserService {
                 .filter(u -> Objects.equals(decrypt(u.getEmail(), u.getKeys().getPrivateKey()), email))
                 .findFirst()
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "User not found."));
-    }
-
-    private KeyCrypt findKey() {
-        Optional<KeyCrypt> findKey = keyRepository.findAll().stream().findFirst();
-        KeyCrypt key = null;
-
-        if (findKey.isEmpty()) {
-            try {
-                KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(ALGORITHM);
-                keyPairGenerator.initialize(KEY_SIZE);
-                KeyPair keyPair = keyPairGenerator.generateKeyPair();
-                PublicKey publicKey = keyPair.getPublic();
-                PrivateKey privateKey = keyPair.getPrivate();
-                key = KeyCrypt.builder().privateKey(privateKey).publicKey(publicKey).build();
-                keyRepository.save(key);
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-            }
-        } else {
-            key = findKey.get();
-        }
-        return key;
     }
 
     public void editIcon(String authorization, IconRequest request) {

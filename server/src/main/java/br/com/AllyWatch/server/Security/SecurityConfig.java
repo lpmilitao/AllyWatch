@@ -1,6 +1,5 @@
 package br.com.AllyWatch.server.Security;
 
-import br.com.AllyWatch.server.Domain.Enum.Role;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -9,6 +8,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
 
+import static br.com.AllyWatch.server.Domain.Enum.Role.Names.ADMIN;
 import static org.springframework.http.HttpMethod.POST;
 
 @Configuration
@@ -20,7 +20,8 @@ public class SecurityConfig {
                 .cors().and().csrf().disable()
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(POST, "/user").permitAll()
-                        .requestMatchers("/admin/*").hasAuthority(Role.Names.ADMIN)
+                        .requestMatchers(POST, "/specialist/lawyer").permitAll()
+                        .requestMatchers("/admin/*").hasAuthority(ADMIN)
                 ).authorizeHttpRequests(authorize -> authorize
                         .anyRequest().authenticated()
                 )

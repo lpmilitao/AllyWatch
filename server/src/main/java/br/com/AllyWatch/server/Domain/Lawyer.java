@@ -2,10 +2,7 @@ package br.com.AllyWatch.server.Domain;
 
 import br.com.AllyWatch.server.Domain.Enum.State;
 import br.com.AllyWatch.server.Domain.Enum.Status;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 import static jakarta.persistence.EnumType.STRING;
@@ -19,19 +16,27 @@ public class Lawyer {
     @Id @GeneratedValue(strategy = IDENTITY)
     private long id;
 
+    @Column(columnDefinition = "VARCHAR(2048)", nullable = false)
     private String fullname;
 
     @Enumerated(STRING)
     private State seccional;
 
+    @Column(unique = true, columnDefinition = "VARCHAR(2048)", nullable = false)
     private String oabRegisterNumber;
 
+    @Column(columnDefinition = "VARCHAR(2048)")
     private String email;
 
+    @Column(columnDefinition = "VARCHAR(2048)")
     private String phone;
 
+    @Column(columnDefinition = "VARCHAR(2048)")
     private String city;
 
     @Enumerated(STRING)
     private Status status;
+
+    @ManyToOne @JoinColumn(name = "key_id")
+    private KeyCrypt keys;
 }
