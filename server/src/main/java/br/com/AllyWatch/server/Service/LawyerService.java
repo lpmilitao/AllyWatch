@@ -1,13 +1,18 @@
 package br.com.AllyWatch.server.Service;
 
+import br.com.AllyWatch.server.DTO.Mapper.SpecialistMapper;
 import br.com.AllyWatch.server.DTO.Request.LawyerRequest;
 import br.com.AllyWatch.server.DTO.Request.VerifySpecialistRequest;
+import br.com.AllyWatch.server.DTO.Response.SpecialistResponse;
+import br.com.AllyWatch.server.Domain.Enum.Status;
 import br.com.AllyWatch.server.Domain.KeyCrypt;
 import br.com.AllyWatch.server.Domain.Lawyer;
 import br.com.AllyWatch.server.Repository.LawyerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 import static br.com.AllyWatch.server.Domain.Enum.Status.*;
 import static br.com.AllyWatch.server.Security.Cryptography.encrypt;
@@ -66,5 +71,10 @@ public class LawyerService {
         }
 
         lawyerRepository.save(lawyer);
+    }
+
+    public List<SpecialistResponse> listByStatus(Status status) {
+        return lawyerRepository.findAllByStatusLike(status)
+                .stream().map(SpecialistMapper::toResponse).toList();
     }
 }

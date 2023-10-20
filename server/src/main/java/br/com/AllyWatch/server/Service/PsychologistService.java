@@ -1,6 +1,9 @@
 package br.com.AllyWatch.server.Service;
 
+import br.com.AllyWatch.server.DTO.Mapper.SpecialistMapper;
 import br.com.AllyWatch.server.DTO.Request.VerifySpecialistRequest;
+import br.com.AllyWatch.server.DTO.Response.SpecialistResponse;
+import br.com.AllyWatch.server.Domain.Enum.Status;
 import br.com.AllyWatch.server.Domain.KeyCrypt;
 import br.com.AllyWatch.server.Domain.Psychologist;
 import br.com.AllyWatch.server.Repository.PsychologistRepository;
@@ -8,6 +11,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 import static br.com.AllyWatch.server.Domain.Enum.Status.*;
 import static br.com.AllyWatch.server.Security.Cryptography.encrypt;
@@ -46,9 +51,13 @@ public class PsychologistService {
                 .city(
                         encrypt(request.getCity(), key.getPublicKey())
                 )
+                .phone(
+                        encrypt(request.getPhone(), key.getPublicKey())
+                )
                 .type(request.getType())
                 .state(request.getState())
                 .status(UNDER_REVIEW)
+                .keys(key)
                 .build();
 
         psychologistRepository.save(psychologist);
@@ -70,5 +79,11 @@ public class PsychologistService {
         }
 
         psychologistRepository.save(psychologist);
+    }
+
+    public List<SpecialistResponse> listByStatus(Status status) {
+        return psychologistRepository.findAllByStatusLike(status)
+                .stream().map(SpecialistMapper::toResponse)
+                .toList();
     }
 }

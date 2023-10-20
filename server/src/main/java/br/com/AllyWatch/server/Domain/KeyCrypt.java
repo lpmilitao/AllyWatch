@@ -29,4 +29,7 @@ public class KeyCrypt {
 
     @OneToMany(mappedBy = "keys")
     private List<Lawyer> lawyers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "keys")
+    private List<Psychologist> psychologists = new ArrayList<>();
 }

@@ -23,6 +23,9 @@ public class Psychologist {
     @Column(columnDefinition = "VARCHAR(2048)", nullable = false)
     private String email;
 
+    @Column(columnDefinition = "VARCHAR(2048)")
+    private String phone;
+
     @Enumerated(STRING)
     private Type type;
 
@@ -40,4 +43,7 @@ public class Psychologist {
 
     @Enumerated(STRING)
     private Status status;
+
+    @ManyToOne @JoinColumn(name = "key_id")
+    private KeyCrypt keys;
 }
