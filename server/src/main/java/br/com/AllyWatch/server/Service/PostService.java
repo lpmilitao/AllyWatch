@@ -3,9 +3,13 @@ package br.com.AllyWatch.server.Service;
 import br.com.AllyWatch.server.DTO.Mapper.PostMapper;
 import br.com.AllyWatch.server.DTO.Request.PostRequest;
 import br.com.AllyWatch.server.DTO.Response.PostResponse;
+import br.com.AllyWatch.server.Domain.Chat;
 import br.com.AllyWatch.server.Domain.Post;
+import br.com.AllyWatch.server.Domain.Solicitation;
 import br.com.AllyWatch.server.Domain.User;
+import br.com.AllyWatch.server.Repository.ChatRepository;
 import br.com.AllyWatch.server.Repository.PostRepository;
+import br.com.AllyWatch.server.Repository.SolicitationRepository;
 import br.com.AllyWatch.server.Repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +18,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import static br.com.AllyWatch.server.DTO.Mapper.PostMapper.*;
+import static br.com.AllyWatch.server.Domain.Enum.Status.UNDER_REVIEW;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
@@ -32,6 +39,12 @@ public class PostService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private SolicitationRepository solicitationRepository;
+
+    @Autowired
+    private ChatRepository chatRepository;
+
     @Transactional
     public void create(String auth, PostRequest request) {
         User user = userService.getAuthenticatedUser(auth);
@@ -40,10 +53,10 @@ public class PostService {
 
         user.addPost(post);
 
-        /*
-        verificar se o nome do agressor bate com o de algum post já cadastrado,
-        e aí criar solicitação de chat
-         */
+        if (!request.getAggressor().isEmpty()){
+            post.setAggressor(request.getAggressor());
+            verifyAgressor(post);
+        }
 
         postRepository.save(post);
     }
@@ -121,5 +134,45 @@ public class PostService {
 
         postRepository.save(post);
         userRepository.save(user);
+    }
+
+    private void verifyAgressor(Post post) {
+
+        List<Post> posts = postRepository.findAll();
+
+        List<Post> matching = posts.stream().filter(p ->
+                Objects.equals(p.getAggressor(), post.getAggressor())
+                && p.getAuthor().getId() != post.getAuthor().getId()
+        ).toList();
+
+        if (matching.isEmpty()) {
+            return;
+        }
+
+        matching.forEach(p -> {
+            Chat chat = Chat.builder()
+                    .open(false)
+                    .solicitations(new ArrayList<>())
+                    .messages(new ArrayList<>())
+                    .users(new ArrayList<>())
+                    .build();
+
+            Solicitation solicitationUser1 = Solicitation.builder()
+                    .status(UNDER_REVIEW)
+                    .user(post.getAuthor())
+                    .build();
+
+            Solicitation solicitationUser2 = Solicitation.builder()
+                    .status(UNDER_REVIEW)
+                    .user(p.getAuthor())
+                    .build();
+
+            chat.addSolicitation(solicitationUser1);
+            chat.addSolicitation(solicitationUser2);
+
+            chatRepository.save(chat);
+            solicitationRepository.save(solicitationUser1);
+            solicitationRepository.save(solicitationUser2);
+        });
     }
 }
