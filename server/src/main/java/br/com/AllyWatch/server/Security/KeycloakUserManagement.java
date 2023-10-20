@@ -70,6 +70,22 @@ public class KeycloakUserManagement {
         client.send(request, HttpResponse.BodyHandlers.ofString());
     }
 
+    public static void logout(String username) throws Exception{
+        String createUserUrl = BASE_URL + "admin/realms/" + REALM + "/users/"
+                + getUserIdByUsername(username) + "/logout";
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(createUserUrl))
+                .header(CONTENT_TYPE, "application/json")
+                .header(AUTHORIZATION, "Bearer " + getAccessToken())
+                .POST(HttpRequest.BodyPublishers.ofString(""))
+                .build();
+
+        HttpClient client = HttpClient.newHttpClient();
+
+        client.send(request, HttpResponse.BodyHandlers.ofString());
+    }
+
     private static String getUserIdByUsername(String username) throws Exception{
         String createUserUrl = BASE_URL + "admin/realms/" + REALM + "/users?username=" + username;
 

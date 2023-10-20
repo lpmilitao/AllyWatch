@@ -41,4 +41,9 @@ public class UserController {
         userService.delete(authorization);
     }
 
+    @PostMapping("/logout")
+    @Secured(USER)
+    public void logout(@RequestHeader String authorization){
+        userService.logout(authorization);
+    }
 }

@@ -123,4 +123,16 @@ public class UserService {
             throw  new ResponseStatusException(BAD_REQUEST, "CPF already in use.");
         }
     }
+
+    public void logout(String authorization){
+        User user = getAuthenticatedUser(authorization);
+
+        try {
+            KeycloakUserManagement.logout(
+                    decrypt(user.getEmail(), user.getKeys().getPrivateKey())
+            );
+        } catch (Exception e) {
+            throw new ResponseStatusException(INTERNAL_SERVER_ERROR, "An error has occured.");
+        }
+    }
 }
