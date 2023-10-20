@@ -5,8 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
 @Builder
 @Getter @Setter
 public class ReportResponse {
@@ -17,7 +15,7 @@ public class ReportResponse {
 
     private boolean checked;
 
-    private LocalDateTime reportTime;
+    private String reportTime;
 
     private long postId;
 

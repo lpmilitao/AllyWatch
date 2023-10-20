@@ -44,4 +44,10 @@ public class AdminController {
             psychologistService.verify(request, specialistId);
         }
     }
+
+    @GetMapping("/reports/{reportId}")
+    @Secured(ADMIN)
+    public ReportResponse findReport(@PathVariable long reportId){
+        return reportService.findById(reportId);
+    }
 }
