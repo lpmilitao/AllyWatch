@@ -5,19 +5,19 @@ import br.com.AllyWatch.server.DTO.Request.UserRequest;
 import br.com.AllyWatch.server.Domain.KeyCrypt;
 import br.com.AllyWatch.server.Domain.User;
 import br.com.AllyWatch.server.Repository.UserRepository;
-import br.com.AllyWatch.server.Security.KeycloakUserCreation;
-import br.com.AllyWatch.server.Validator.PasswordValidator;
+import br.com.AllyWatch.server.Security.KeycloakUserManagement;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.Objects;
 
 import static br.com.AllyWatch.server.Domain.Enum.Icon.*;
 import static br.com.AllyWatch.server.Security.Cryptography.*;
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static br.com.AllyWatch.server.Validator.PasswordValidator.validate;
+import static org.springframework.http.HttpStatus.*;
 
 @Service
 public class UserService {
@@ -31,7 +31,8 @@ public class UserService {
     @Transactional
     public void add(UserRequest request) {
 
-        PasswordValidator.validate(request.getPassword());
+        validate(request.getPassword());
+        verifyUnique(request);
 
         User newUser = User.builder().active(true).icon(NEUTRAL).build();
 
@@ -50,13 +51,13 @@ public class UserService {
         userRepository.save(newUser);
 
         try {
-            KeycloakUserCreation.createUser(
+            KeycloakUserManagement.createUser(
                     newUser.getId(), request.getFullname(), request.getEmail(), request.getPassword()
             );
         } catch (Exception e) {
-            e.printStackTrace();
 
             userRepository.delete(newUser);
+            throw new ResponseStatusException(INTERNAL_SERVER_ERROR, "An error has occured.");
         }
     }
 
@@ -81,5 +82,45 @@ public class UserService {
         user.setIcon(request.getIcon());
 
         userRepository.save(user);
+    }
+
+    public void delete(String authorization) {
+        User user = getAuthenticatedUser(authorization);
+
+        try {
+            KeycloakUserManagement.deleteUser(
+                    decrypt(user.getEmail(), user.getKeys().getPrivateKey())
+            );
+            userRepository.delete(user);
+        } catch (Exception e) {
+            throw new ResponseStatusException(INTERNAL_SERVER_ERROR, "An error has occured.");
+        }
+    }
+
+    public void verifyUnique(UserRequest request){
+        List<User> users = userRepository.findAll();
+
+        boolean hasUserWithSameEmail = users.stream().anyMatch(
+                user -> Objects.equals(
+                        decrypt(user.getEmail(), user.getKeys().getPrivateKey()),
+                        request.getEmail()
+                )
+        );
+
+        if (hasUserWithSameEmail){
+            throw new ResponseStatusException(BAD_REQUEST, "Email already in use.");
+        }
+
+        boolean hasUserWithSameCPF = users.stream().anyMatch(
+                user -> Objects.equals(
+                        decrypt(user.getCpf(), user.getKeys().getPrivateKey()),
+                        request.getCpf()
+                )
+        );
+
+        if (hasUserWithSameCPF){
+            System.out.println("cpf repetido");
+            throw  new ResponseStatusException(BAD_REQUEST, "CPF already in use.");
+        }
     }
 }

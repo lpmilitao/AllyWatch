@@ -2,6 +2,7 @@ package br.com.AllyWatch.server.Controller;
 
 import br.com.AllyWatch.server.DTO.Request.IconRequest;
 import br.com.AllyWatch.server.DTO.Request.UserRequest;
+import br.com.AllyWatch.server.Repository.UserRepository;
 import br.com.AllyWatch.server.Service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @PostMapping
     @ResponseStatus(CREATED)
     public void addNewUser(@RequestBody @Valid UserRequest request){
@@ -29,6 +33,12 @@ public class UserController {
     public void editIcon(@RequestHeader String authorization,
                            @RequestBody @Valid IconRequest request){
         userService.editIcon(authorization, request);
+    }
+
+    @DeleteMapping
+    @Secured(USER)
+    public void deleteAccount(@RequestHeader String authorization){
+        userService.delete(authorization);
     }
 
 }

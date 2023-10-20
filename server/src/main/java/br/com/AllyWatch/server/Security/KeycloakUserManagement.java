@@ -13,7 +13,7 @@ import java.util.List;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 
-public class KeycloakUserCreation {
+public class KeycloakUserManagement {
 
     private static final String BASE_URL = "http://localhost:8081/";
     private static final String REALM = "AllyWatch";
@@ -51,15 +51,40 @@ public class KeycloakUserCreation {
 
         HttpClient client = HttpClient.newHttpClient();
 
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        int statusCode = response.statusCode();
+        client.send(request, HttpResponse.BodyHandlers.ofString());
+    }
 
-        if (statusCode == 201) {
-            System.out.println("Usuário criado com sucesso!");
-        } else {
-            System.out.println("Erro ao criar o usuário. Código de status: " + statusCode);
-            System.out.println(response.body());
-        }
+    public static void deleteUser(String username) throws Exception{
+        String createUserUrl = BASE_URL + "admin/realms/" + REALM + "/users/"
+                + getUserIdByUsername(username);
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(createUserUrl))
+                .header(CONTENT_TYPE, "application/json")
+                .header(AUTHORIZATION, "Bearer " + getAccessToken())
+                .DELETE()
+                .build();
+
+        HttpClient client = HttpClient.newHttpClient();
+
+        client.send(request, HttpResponse.BodyHandlers.ofString());
+    }
+
+    private static String getUserIdByUsername(String username) throws Exception{
+        String createUserUrl = BASE_URL + "admin/realms/" + REALM + "/users?username=" + username;
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(createUserUrl))
+                .header(CONTENT_TYPE, "application/json")
+                .header(AUTHORIZATION, "Bearer " + getAccessToken())
+                .GET()
+                .build();
+
+        HttpClient client = HttpClient.newHttpClient();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        return response.body().substring(8,44);
     }
 
     private static String getAccessToken() {
@@ -85,8 +110,6 @@ public class KeycloakUserCreation {
             if (statusCode == 200) {
                 String responseBody = response.body();
                 return responseBody.split("\"access_token\":\"")[1].split("\"")[0];
-            } else {
-                System.out.println("Erro ao obter o token. Código de status: " + statusCode);
             }
         } catch (Exception e) {
             e.printStackTrace();
