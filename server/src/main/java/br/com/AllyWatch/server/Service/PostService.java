@@ -53,7 +53,7 @@ public class PostService {
 
         user.addPost(post);
 
-        if (!request.getAggressor().isEmpty()){
+        if (!request.getAggressor().isEmpty()) {
             post.setAggressor(request.getAggressor());
             verifyAgressor(post);
         }
@@ -142,7 +142,7 @@ public class PostService {
 
         List<Post> matching = posts.stream().filter(p ->
                 Objects.equals(p.getAggressor(), post.getAggressor())
-                && p.getAuthor().getId() != post.getAuthor().getId()
+                        && p.getAuthor().getId() != post.getAuthor().getId()
         ).toList();
 
         if (matching.isEmpty()) {
@@ -150,6 +150,9 @@ public class PostService {
         }
 
         matching.forEach(p -> {
+            if(verifyIfUsersAreAlreadyInChat(post.getAuthor(), p.getAuthor())){
+                return;
+            }
             Chat chat = Chat.builder()
                     .open(false)
                     .solicitations(new ArrayList<>())
@@ -169,10 +172,26 @@ public class PostService {
 
             chat.addSolicitation(solicitationUser1);
             chat.addSolicitation(solicitationUser2);
+            chat.addUser(p.getAuthor());
+            chat.addUser(post.getAuthor());
+            p.getAuthor().addChat(chat);
+            post.getAuthor().addChat(chat);
 
             chatRepository.save(chat);
+            userRepository.save(p.getAuthor());
+            userRepository.save(post.getAuthor());
             solicitationRepository.save(solicitationUser1);
             solicitationRepository.save(solicitationUser2);
         });
+    }
+
+    private boolean verifyIfUsersAreAlreadyInChat(User user1, User user2) {
+        List<Chat> calica = chatRepository.findAll().stream().filter(chat ->
+                chat.getUsers().contains(user1) &&
+                        chat.getUsers().contains(user2)
+        ).toList();
+        //se ja possuem um chat retorna true
+        //se não possuem, false
+        return !calica.isEmpty();
     }
 }

@@ -1,22 +1,29 @@
 package br.com.AllyWatch.server.Service;
 
 import br.com.AllyWatch.server.DTO.Response.SolicitationResponse;
+import br.com.AllyWatch.server.Domain.Chat;
 import br.com.AllyWatch.server.Domain.Solicitation;
 import br.com.AllyWatch.server.Domain.User;
+import br.com.AllyWatch.server.Repository.ChatRepository;
 import br.com.AllyWatch.server.Repository.SolicitationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
-import static br.com.AllyWatch.server.Domain.Enum.Status.UNDER_REVIEW;
+import static br.com.AllyWatch.server.Domain.Enum.Status.*;
 import static br.com.AllyWatch.server.Security.Cryptography.decrypt;
+import static org.springframework.http.HttpStatus.*;
 
 @Service
 public class ChatService {
 
     @Autowired
     private SolicitationRepository solicitationRepository;
+
+    @Autowired
+    private ChatRepository chatRepository;
 
     @Autowired
     private UserService userService;
@@ -50,5 +57,49 @@ public class ChatService {
                             .build();
                 }
         ).toList();
+    }
+
+    public void verifySolicitation(String authorization, long solicitationId, boolean accepted) {
+        User user = userService.getAuthenticatedUser(authorization);
+
+        Solicitation solicitation = solicitationRepository.findById(solicitationId).orElseThrow(
+                () -> new ResponseStatusException(NOT_FOUND, "Solicitation not found.")
+        );
+
+        if (solicitation.getUser().getId() != user.getId()){
+            throw new ResponseStatusException(FORBIDDEN,
+                    "You can not accept a solicitation that is not requested for you.");
+        }
+
+        if (accepted) {
+            solicitation.setStatus(APPROVED);
+        } else {
+            solicitation.setStatus(DISAPPROVED);
+        }
+
+        solicitationRepository.save(solicitation);
+        createChat(solicitation.getChat().getId());
+    }
+
+    public void createChat(long chatId){
+        List<Solicitation> solicitations = solicitationRepository.findAllByChat_Id(chatId);
+
+        if (solicitations.size() != 2){
+            throw new ResponseStatusException(INTERNAL_SERVER_ERROR,
+                    "It should not exists more than 2 solicitations for the same chat.");
+        }
+
+        boolean allAccepted = solicitations.stream().allMatch(solicitation ->
+                solicitation.getStatus() == APPROVED);
+
+        if (!allAccepted){
+            return;
+        }
+
+        Chat chat = solicitations.stream().findFirst().get().getChat();
+        chat.setOpen(true);
+
+        chatRepository.save(chat);
+        solicitationRepository.deleteAll(solicitations);
     }
 }

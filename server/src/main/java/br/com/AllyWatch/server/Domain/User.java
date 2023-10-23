@@ -13,7 +13,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Builder @AllArgsConstructor @NoArgsConstructor
 @Getter @Setter
-@Entity
+@Entity @EqualsAndHashCode(of = "id")
 public class User {
 
     @Id @GeneratedValue(strategy = IDENTITY)
@@ -73,6 +73,10 @@ public class User {
     public void addReport(Report report){
         this.reportsMade.add(report);
         report.setAuthor(this);
+    }
+
+    public void addChat(Chat chat){
+        this.chats.add(chat);
     }
 
     public void addPostsLiked(Post post){

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 import static br.com.AllyWatch.server.Domain.Enum.Role.Names.USER;
@@ -54,5 +55,14 @@ public class UserController {
     @Secured(USER)
     public List<SolicitationResponse> listChatSolicitations(@RequestHeader String authorization){
         return chatService.listSolicitations(authorization);
+    }
+
+    @PutMapping("/chat/solicitation/{solicitationId}")
+    @Secured(USER)
+    public void verifyChatSolicitation(@RequestHeader String authorization,
+                                       @PathVariable long solicitationId,
+                                       @PathParam("accepted") boolean accepted
+    ){
+        chatService.verifySolicitation(authorization, solicitationId, accepted);
     }
 }

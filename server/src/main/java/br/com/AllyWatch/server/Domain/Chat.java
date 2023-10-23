@@ -38,4 +38,8 @@ public class Chat {
         this.solicitations.add(solicitation);
         solicitation.setChat(this);
     }
+
+    public void addUser(User user){
+        this.users.add(user);
+    }
 }

@@ -10,4 +10,6 @@ public interface SolicitationRepository extends JpaRepository<Solicitation, Long
     List<Solicitation> findAllByUser_IdAndStatusEquals(long id, Status status);
 
     List<Solicitation> findAllByStatusLike(Status status);
+
+    List<Solicitation> findAllByChat_Id(long id);
 }
