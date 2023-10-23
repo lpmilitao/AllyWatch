@@ -1,9 +1,9 @@
 package br.com.AllyWatch.server.Controller;
 
 import br.com.AllyWatch.server.DTO.Request.LawyerRequest;
+import br.com.AllyWatch.server.DTO.Request.PsychologistRequest;
 import br.com.AllyWatch.server.DTO.Response.SpecialistResponse;
 import br.com.AllyWatch.server.Domain.Enum.Status;
-import br.com.AllyWatch.server.Domain.Psychologist;
 import br.com.AllyWatch.server.Service.LawyerService;
 import br.com.AllyWatch.server.Service.PsychologistService;
 import jakarta.validation.Valid;
@@ -41,7 +41,7 @@ public class SpecialistController {
 
     @PostMapping("/psychologist")
     @ResponseStatus(CREATED)
-    public void addPsychologist(@RequestBody @Valid Psychologist request){
+    public void addPsychologist(@RequestBody @Valid PsychologistRequest request){
         psychologistService.add(request);
     }
 

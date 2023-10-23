@@ -1,6 +1,7 @@
 package br.com.AllyWatch.server.Service;
 
 import br.com.AllyWatch.server.DTO.Mapper.SpecialistMapper;
+import br.com.AllyWatch.server.DTO.Request.PsychologistRequest;
 import br.com.AllyWatch.server.DTO.Request.VerifySpecialistRequest;
 import br.com.AllyWatch.server.DTO.Response.SpecialistResponse;
 import br.com.AllyWatch.server.Domain.Enum.Status;
@@ -14,8 +15,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
-import static br.com.AllyWatch.server.Domain.Enum.Status.*;
-import static br.com.AllyWatch.server.Security.Cryptography.encrypt;
+import static br.com.AllyWatch.server.DTO.Mapper.SpecialistMapper.toEntity;
+import static br.com.AllyWatch.server.Domain.Enum.Status.APPROVED;
+import static br.com.AllyWatch.server.Domain.Enum.Status.DISAPPROVED;
 import static br.com.AllyWatch.server.Validator.RegisterNumberValidator.psychologistRegisterNumberValidator;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
@@ -29,36 +31,13 @@ public class PsychologistService {
     private KeyService keyService;
 
     @Transactional
-    public void add(Psychologist request) {
+    public void add(PsychologistRequest request) {
 
         psychologistRegisterNumberValidator(request.getRegisterNumber());
 
         KeyCrypt key = keyService.findKey();
 
-        Psychologist psychologist = Psychologist.builder()
-                .fullname(
-                        encrypt(request.getFullname(), key.getPublicKey())
-                )
-                .email(
-                        encrypt(request.getEmail(), key.getPublicKey())
-                )
-                .cpfOrCpnj(
-                        encrypt(request.getCpfOrCpnj(), key.getPublicKey())
-                )
-                .registerNumber(
-                        encrypt(request.getRegisterNumber(), key.getPublicKey())
-                )
-                .city(
-                        encrypt(request.getCity(), key.getPublicKey())
-                )
-                .phone(
-                        encrypt(request.getPhone(), key.getPublicKey())
-                )
-                .type(request.getType())
-                .state(request.getState())
-                .status(UNDER_REVIEW)
-                .keys(key)
-                .build();
+        Psychologist psychologist = toEntity(request, key);
 
         psychologistRepository.save(psychologist);
     }

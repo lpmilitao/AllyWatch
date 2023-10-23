@@ -14,8 +14,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
-import static br.com.AllyWatch.server.Domain.Enum.Status.*;
-import static br.com.AllyWatch.server.Security.Cryptography.encrypt;
+import static br.com.AllyWatch.server.DTO.Mapper.SpecialistMapper.toEntity;
+import static br.com.AllyWatch.server.Domain.Enum.Status.APPROVED;
+import static br.com.AllyWatch.server.Domain.Enum.Status.DISAPPROVED;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Service
@@ -31,26 +32,7 @@ public class LawyerService {
 
         KeyCrypt key = keyService.findKey();
 
-        Lawyer lawyer = Lawyer.builder()
-                .fullname(
-                        encrypt(request.getFullname(), key.getPublicKey())
-                )
-                .oabRegisterNumber(
-                        encrypt(request.getOabRegisterNumber(), key.getPublicKey())
-                )
-                .email(
-                        encrypt(request.getEmail(), key.getPublicKey())
-                )
-                .phone(
-                        encrypt(request.getPhone(), key.getPublicKey())
-                )
-                .city(
-                        encrypt(request.getCity(), key.getPublicKey())
-                )
-                .seccional(request.getState())
-                .status(UNDER_REVIEW)
-                .keys(key)
-                .build();
+        Lawyer lawyer = toEntity(request, key);
 
         lawyerRepository.save(lawyer);
     }
