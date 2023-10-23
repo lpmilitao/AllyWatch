@@ -190,8 +190,6 @@ public class PostService {
                 chat.getUsers().contains(user1) &&
                         chat.getUsers().contains(user2)
         ).toList();
-        //se ja possuem um chat retorna true
-        //se não possuem, false
         return !calica.isEmpty();
     }
 }

@@ -34,8 +34,7 @@ public class ChatService {
         List<Solicitation> userSolicitations = solicitationRepository
                 .findAllByUser_IdAndStatusEquals(user.getId(), UNDER_REVIEW);
 
-        List<Solicitation> allSolicitations = solicitationRepository
-                .findAllByStatusLike(UNDER_REVIEW);
+        List<Solicitation> allSolicitations = solicitationRepository.findAll();
 
         return userSolicitations.stream().map(
                 solicitation -> {
