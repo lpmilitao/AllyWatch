@@ -2,6 +2,7 @@ package br.com.AllyWatch.server.Controller;
 
 import br.com.AllyWatch.server.DTO.Request.IconRequest;
 import br.com.AllyWatch.server.DTO.Request.UserRequest;
+import br.com.AllyWatch.server.DTO.Response.ChatDetailedResponse;
 import br.com.AllyWatch.server.DTO.Response.ChatResponse;
 import br.com.AllyWatch.server.DTO.Response.SolicitationResponse;
 import br.com.AllyWatch.server.Service.ChatService;
@@ -71,5 +72,12 @@ public class UserController {
     @Secured(USER)
     public List<ChatResponse> listChats(@RequestHeader String authorization){
         return chatService.listChats(authorization);
+    }
+
+    @GetMapping("/chat/{chatId}")
+    @Secured(USER)
+    public ChatDetailedResponse detailChat(@RequestHeader String authorization,
+                                           @PathVariable long chatId){
+        return chatService.detailChat(authorization, chatId);
     }
 }

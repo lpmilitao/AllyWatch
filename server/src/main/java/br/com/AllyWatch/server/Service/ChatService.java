@@ -1,5 +1,6 @@
 package br.com.AllyWatch.server.Service;
 
+import br.com.AllyWatch.server.DTO.Response.ChatDetailedResponse;
 import br.com.AllyWatch.server.DTO.Response.ChatResponse;
 import br.com.AllyWatch.server.DTO.Response.SolicitationResponse;
 import br.com.AllyWatch.server.Domain.Chat;
@@ -13,6 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
+import static br.com.AllyWatch.server.DTO.Mapper.ChatMapper.toDetailedResponse;
 import static br.com.AllyWatch.server.DTO.Mapper.ChatMapper.toResponse;
 import static br.com.AllyWatch.server.Domain.Enum.Status.*;
 import static br.com.AllyWatch.server.Security.Cryptography.decrypt;
@@ -120,5 +122,23 @@ public class ChatService {
                         }
                 )
                 .toList();
+    }
+
+    public ChatDetailedResponse detailChat(String authorization, long chatId){
+        User user = userService.getAuthenticatedUser(authorization);
+
+        Chat chat = chatRepository.findById(chatId).orElseThrow(() ->
+                new ResponseStatusException(NOT_FOUND, "Chat not found.")
+        );
+
+        if (!chat.getUsers().contains(user)){
+            throw new ResponseStatusException(FORBIDDEN, "You can not access this chat.");
+        }
+
+        User ally = chat.getUsers().stream()
+                .filter(u -> u.getId() != user.getId())
+                .findFirst().get();
+
+        return toDetailedResponse(chat, user, ally);
     }
 }
