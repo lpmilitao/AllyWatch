@@ -2,6 +2,7 @@ package br.com.AllyWatch.server.Controller;
 
 import br.com.AllyWatch.server.DTO.Request.IconRequest;
 import br.com.AllyWatch.server.DTO.Request.UserRequest;
+import br.com.AllyWatch.server.DTO.Response.ChatResponse;
 import br.com.AllyWatch.server.DTO.Response.SolicitationResponse;
 import br.com.AllyWatch.server.Service.ChatService;
 import br.com.AllyWatch.server.Service.UserService;
@@ -64,5 +65,11 @@ public class UserController {
                                        @PathParam("accepted") boolean accepted
     ){
         chatService.verifySolicitation(authorization, solicitationId, accepted);
+    }
+
+    @GetMapping("/chat")
+    @Secured(USER)
+    public List<ChatResponse> listChats(@RequestHeader String authorization){
+        return chatService.listChats(authorization);
     }
 }
