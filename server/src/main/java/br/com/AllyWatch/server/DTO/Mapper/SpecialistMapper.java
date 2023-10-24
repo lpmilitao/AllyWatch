@@ -13,7 +13,7 @@ import static br.com.AllyWatch.server.Security.Cryptography.encrypt;
 
 public class SpecialistMapper {
 
-    public static Lawyer toEntity(LawyerRequest request, KeyCrypt key){
+    public static Lawyer toEntity(LawyerRequest request, KeyCrypt key) {
         Lawyer lawyer = Lawyer.builder()
                 .oabRegisterNumber(
                         encrypt(request.getOabRegisterNumber(), key.getPublicKey())
@@ -39,7 +39,7 @@ public class SpecialistMapper {
         return lawyer;
     }
 
-    public static Psychologist toEntity(PsychologistRequest request, KeyCrypt key){
+    public static Psychologist toEntity(PsychologistRequest request, KeyCrypt key) {
         Psychologist psychologist = Psychologist.builder()
                 .cpfOrCpnj(
                         encrypt(request.getCpfOrCpnj(), key.getPublicKey())

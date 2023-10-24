@@ -1,6 +1,7 @@
 package br.com.AllyWatch.server.Controller;
 
 import br.com.AllyWatch.server.DTO.Request.IconRequest;
+import br.com.AllyWatch.server.DTO.Request.MessageRequest;
 import br.com.AllyWatch.server.DTO.Request.UserRequest;
 import br.com.AllyWatch.server.DTO.Response.ChatDetailedResponse;
 import br.com.AllyWatch.server.DTO.Response.ChatResponse;
@@ -79,5 +80,13 @@ public class UserController {
     public ChatDetailedResponse detailChat(@RequestHeader String authorization,
                                            @PathVariable long chatId){
         return chatService.detailChat(authorization, chatId);
+    }
+
+    @PostMapping("/chat/{chatId}")
+    @Secured(USER)
+    public void sendMessage(@RequestHeader String authorization,
+                            @PathVariable long chatId,
+                            @RequestBody @Valid MessageRequest request){
+        chatService.sendMessage(authorization, chatId, request);
     }
 }

@@ -7,6 +7,7 @@ import br.com.AllyWatch.server.DTO.Response.PublicPostResponse;
 import br.com.AllyWatch.server.Domain.Post;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import static br.com.AllyWatch.server.Security.Cryptography.decrypt;
 
@@ -26,7 +27,7 @@ public class PostMapper {
                 entity.getId(),
                 entity.getTitle(),
                 entity.getBody(),
-                entity.getPublicationTime(),
+                entity.getPublicationTime().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")),
                 entity.getComments().stream().map(CommentMapper::toResponse).toList(),
                 entity.getLikes().size(),
                 decrypt(entity.getAuthor().getFullname(), entity.getAuthor().getKeys().getPrivateKey()),
@@ -42,7 +43,7 @@ public class PostMapper {
                 entity.getId(),
                 entity.getTitle(),
                 entity.getBody(),
-                entity.getPublicationTime(),
+                entity.getPublicationTime().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")),
                 entity.getComments().stream().map(CommentMapper::toResponse).toList(),
                 entity.getLikes().size()
         );
@@ -53,7 +54,7 @@ public class PostMapper {
                 entity.getId(),
                 entity.getTitle(),
                 entity.getBody(),
-                entity.getPublicationTime(),
+                entity.getPublicationTime().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")),
                 entity.getComments().stream().map(CommentMapper::toResponse).toList(),
                 entity.getLikes().size(),
                 decrypt(entity.getAuthor().getFullname(), entity.getAuthor().getKeys().getPrivateKey()),

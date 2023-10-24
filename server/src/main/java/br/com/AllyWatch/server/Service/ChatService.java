@@ -1,12 +1,15 @@
 package br.com.AllyWatch.server.Service;
 
+import br.com.AllyWatch.server.DTO.Request.MessageRequest;
 import br.com.AllyWatch.server.DTO.Response.ChatDetailedResponse;
 import br.com.AllyWatch.server.DTO.Response.ChatResponse;
 import br.com.AllyWatch.server.DTO.Response.SolicitationResponse;
 import br.com.AllyWatch.server.Domain.Chat;
+import br.com.AllyWatch.server.Domain.Message;
 import br.com.AllyWatch.server.Domain.Solicitation;
 import br.com.AllyWatch.server.Domain.User;
 import br.com.AllyWatch.server.Repository.ChatRepository;
+import br.com.AllyWatch.server.Repository.MessageRepository;
 import br.com.AllyWatch.server.Repository.SolicitationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +19,7 @@ import java.util.List;
 
 import static br.com.AllyWatch.server.DTO.Mapper.ChatMapper.toDetailedResponse;
 import static br.com.AllyWatch.server.DTO.Mapper.ChatMapper.toResponse;
+import static br.com.AllyWatch.server.DTO.Mapper.MessageMapper.toEntity;
 import static br.com.AllyWatch.server.Domain.Enum.Status.*;
 import static br.com.AllyWatch.server.Security.Cryptography.decrypt;
 import static org.springframework.http.HttpStatus.*;
@@ -28,6 +32,9 @@ public class ChatService {
 
     @Autowired
     private ChatRepository chatRepository;
+
+    @Autowired
+    private MessageRepository messageRepository;
 
     @Autowired
     private UserService userService;
@@ -140,5 +147,23 @@ public class ChatService {
                 .findFirst().get();
 
         return toDetailedResponse(chat, user, ally);
+    }
+
+    public void sendMessage(String authorization, long chatId, MessageRequest request) {
+        User user = userService.getAuthenticatedUser(authorization);
+
+        Chat chat = chatRepository.findById(chatId).orElseThrow(
+                () -> new ResponseStatusException(NOT_FOUND, "Chat not found.")
+        );
+
+        if (!chat.getUsers().contains(user)){
+            throw new ResponseStatusException(FORBIDDEN, "You can not access this chat.");
+        }
+
+        Message newMessage = toEntity(request);
+        user.addMessage(newMessage);
+        chat.addMessage(newMessage);
+
+        messageRepository.save(newMessage);
     }
 }

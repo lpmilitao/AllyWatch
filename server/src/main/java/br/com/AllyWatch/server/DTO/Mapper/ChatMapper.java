@@ -2,7 +2,6 @@ package br.com.AllyWatch.server.DTO.Mapper;
 
 import br.com.AllyWatch.server.DTO.Response.ChatDetailedResponse;
 import br.com.AllyWatch.server.DTO.Response.ChatResponse;
-import br.com.AllyWatch.server.DTO.Response.MessageResponse;
 import br.com.AllyWatch.server.Domain.Chat;
 import br.com.AllyWatch.server.Domain.User;
 
@@ -29,14 +28,7 @@ public class ChatMapper {
                 )
                 .messages(
                         entity.getMessages().stream().map(
-                                        message -> MessageResponse.builder()
-                                                .id(message.getId())
-                                                .message(message.getMessage())
-                                                .sentAt(message.getSentTime())
-                                                .sentByMe(
-                                                        message.getSender().getId() == user.getId()
-                                                )
-                                                .build()
+                                        message -> MessageMapper.toResponse(message, user.getId())
                                 )
                                 .toList()
                 )

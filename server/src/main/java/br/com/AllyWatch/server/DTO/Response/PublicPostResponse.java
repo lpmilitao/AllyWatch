@@ -1,9 +1,9 @@
 package br.com.AllyWatch.server.DTO.Response;
 
 import br.com.AllyWatch.server.Domain.Enum.Icon;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter @Setter
@@ -13,9 +13,9 @@ public class PublicPostResponse extends PostResponse{
 
     private Icon icon;
 
-    public PublicPostResponse(long id, String title, String body, LocalDateTime publicationTime,
+    public PublicPostResponse(long id, String title, String body, String publicatedAt,
                               List<CommentResponse> comments, int numberOfLikes, String author, Icon icon) {
-        super(id, title, body, publicationTime, comments, numberOfLikes);
+        super(id, title, body, publicatedAt, comments, numberOfLikes);
         this.author = author;
         this.icon = icon;
     }
