@@ -1,5 +1,6 @@
 package br.com.AllyWatch.server.Service;
 
+import br.com.AllyWatch.server.DTO.Mapper.MessageMapper;
 import br.com.AllyWatch.server.DTO.Request.MessageRequest;
 import br.com.AllyWatch.server.DTO.Response.ChatDetailedResponse;
 import br.com.AllyWatch.server.DTO.Response.ChatResponse;
@@ -165,5 +166,26 @@ public class ChatService {
         chat.addMessage(newMessage);
 
         messageRepository.save(newMessage);
+    }
+
+
+    public void sendMessages(String authorization, long chatId, List<MessageRequest> request) {
+        User user = userService.getAuthenticatedUser(authorization);
+
+        Chat chat = chatRepository.findById(chatId).orElseThrow(
+                () -> new ResponseStatusException(NOT_FOUND, "Chat not found.")
+        );
+
+        if (!chat.getUsers().contains(user)){
+            throw new ResponseStatusException(FORBIDDEN, "You can not access this chat.");
+        }
+
+        List<Message> newMessage = request.stream().map(MessageMapper::toEntity).toList();
+        newMessage.forEach(message -> {
+            user.addMessage(message);
+            chat.addMessage(message);
+        });
+
+        messageRepository.saveAll(newMessage);
     }
 }

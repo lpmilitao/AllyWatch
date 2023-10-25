@@ -7,7 +7,6 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 public class PasswordValidator {
 
     private static final String REGEX = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
-
     public static void validate(String password){
         boolean isValid = password.matches(REGEX);
 
