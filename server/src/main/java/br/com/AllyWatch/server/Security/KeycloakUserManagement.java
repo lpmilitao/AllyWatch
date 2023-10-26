@@ -1,14 +1,13 @@
 package br.com.AllyWatch.server.Security;
 
+import br.com.AllyWatch.server.DTO.Request.LoginRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
+import java.util.*;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
@@ -41,7 +40,6 @@ public class KeycloakUserManagement {
 
         requestJSON = objectMapper.writeValueAsString(requestBody);
 
-
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(createUserUrl))
                 .header(CONTENT_TYPE, "application/json")
@@ -54,7 +52,7 @@ public class KeycloakUserManagement {
         client.send(request, HttpResponse.BodyHandlers.ofString());
     }
 
-    public static void deleteUser(String username) throws Exception{
+    public static void deleteUser(String username) throws Exception {
         String createUserUrl = BASE_URL + "admin/realms/" + REALM + "/users/"
                 + getUserIdByUsername(username);
 
@@ -70,7 +68,7 @@ public class KeycloakUserManagement {
         client.send(request, HttpResponse.BodyHandlers.ofString());
     }
 
-    public static void logout(String username) throws Exception{
+    public static void logout(String username) throws Exception {
         String createUserUrl = BASE_URL + "admin/realms/" + REALM + "/users/"
                 + getUserIdByUsername(username) + "/logout";
 
@@ -86,7 +84,29 @@ public class KeycloakUserManagement {
         client.send(request, HttpResponse.BodyHandlers.ofString());
     }
 
-    private static String getUserIdByUsername(String username) throws Exception{
+    public static String login(LoginRequest login) throws Exception {
+        String tokenUrl = BASE_URL + "realms/"+ REALM +"/protocol/openid-connect/token";
+
+        String requestBody = "grant_type=password&" +
+                "username="+ login.getEmail()+"&" +
+                "password="+ login.getPassword()+"&" +
+                "client_id="+ CLIENT_ID +"&" +
+                "client_secret="+ CLIENT_SECRET;
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(tokenUrl))
+                .header(CONTENT_TYPE, "application/x-www-form-urlencoded")
+                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                .build();
+
+        HttpClient client = HttpClient.newHttpClient();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        return response.body().split("\"access_token\":\"")[1].split("\"")[0];
+    }
+
+    private static String getUserIdByUsername(String username) throws Exception {
         String createUserUrl = BASE_URL + "admin/realms/" + REALM + "/users?username=" + username;
 
         HttpRequest request = HttpRequest.newBuilder()
@@ -100,7 +120,7 @@ public class KeycloakUserManagement {
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-        return response.body().substring(8,44);
+        return response.body().substring(8, 44);
     }
 
     private static String getAccessToken() {
@@ -132,4 +152,5 @@ public class KeycloakUserManagement {
         }
         return null;
     }
+
 }
