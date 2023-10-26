@@ -48,12 +48,6 @@ public class UserController {
         userService.delete(authorization);
     }
 
-    @PostMapping("/logout")
-    @Secured(USER)
-    public void logout(@RequestHeader String authorization){
-        userService.logout(authorization);
-    }
-
     @GetMapping("/chat/solicitation")
     @Secured(USER)
     public List<SolicitationResponse> listChatSolicitations(@RequestHeader String authorization){
