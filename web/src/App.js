@@ -1,12 +1,11 @@
-import { useEffect } from "react";
-import { logout } from "./external/server/auth/logout";
+import { useEffect } from 'react';
+import { logout } from './external/server/auth/logout';
 
 const user = {
-    email: "militao.luiza1505@gmail.com", password: "Biel#t34m0"
-}
+  email: 'militao.luiza1505@gmail.com',
+  password: 'Biel#t34m0',
+};
 
-function App() {
-
-}
+function App() {}
 
 export default App;

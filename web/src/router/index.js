@@ -1,24 +1,31 @@
 import { createBrowserRouter } from 'react-router-dom';
+import {
+  ChooseType,
+  Home,
+  SignIn,
+  SpecialistSignUp,
+  UserSignUp,
+} from '../ui/screens';
 
 export const router = createBrowserRouter([
   {
-    path: '/welcome',
-    element: <></>,
+    path: '/home',
+    element: <Home />,
   },
   {
     path: '/signin',
-    element: <></>,
+    element: <SignIn />,
   },
   {
     path: '/signup',
-    element: <></>,
+    element: <ChooseType />,
   },
   {
     path: '/signup-user',
-    element: <></>,
+    element: <UserSignUp />,
   },
   {
     path: '/signup-specialist',
-    element: <></>,
+    element: <SpecialistSignUp />,
   },
 ]);
