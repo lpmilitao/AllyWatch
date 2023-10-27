@@ -10,5 +10,10 @@
     "exclude": [
         "node_modules",
         "**/node_modules/*"
-    ]
+    ],
+    "editor.formatOnSave": true,
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
+
 }
