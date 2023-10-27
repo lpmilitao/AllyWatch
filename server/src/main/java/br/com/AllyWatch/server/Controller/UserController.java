@@ -20,7 +20,7 @@ import static br.com.AllyWatch.server.Domain.Enum.Role.Names.USER;
 import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
 
     @Autowired
@@ -48,13 +48,13 @@ public class UserController {
         userService.delete(authorization);
     }
 
-    @GetMapping("/chat/solicitation")
+    @GetMapping("/chats/solicitations")
     @Secured(USER)
     public List<SolicitationResponse> listChatSolicitations(@RequestHeader String authorization){
         return chatService.listSolicitations(authorization);
     }
 
-    @PutMapping("/chat/solicitation/{solicitationId}")
+    @PutMapping("/chats/solicitations/{solicitationId}")
     @Secured(USER)
     public void verifyChatSolicitation(@RequestHeader String authorization,
                                        @PathVariable long solicitationId,
@@ -63,20 +63,20 @@ public class UserController {
         chatService.verifySolicitation(authorization, solicitationId, accepted);
     }
 
-    @GetMapping("/chat")
+    @GetMapping("/chats")
     @Secured(USER)
     public List<ChatResponse> listChats(@RequestHeader String authorization){
         return chatService.listChats(authorization);
     }
 
-    @GetMapping("/chat/{chatId}")
+    @GetMapping("/chats/{chatId}")
     @Secured(USER)
     public ChatDetailedResponse detailChat(@RequestHeader String authorization,
                                            @PathVariable long chatId){
         return chatService.detailChat(authorization, chatId);
     }
 
-    @PostMapping("/chat/{chatId}")
+    @PostMapping("/chats/{chatId}")
     @Secured(USER)
     public void sendMessage(@RequestHeader String authorization,
                             @PathVariable long chatId,

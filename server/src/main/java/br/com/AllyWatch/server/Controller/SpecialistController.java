@@ -18,7 +18,7 @@ import static br.com.AllyWatch.server.Domain.Enum.Role.Names.USER;
 import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
-@RequestMapping("/specialist")
+@RequestMapping("/specialists")
 public class SpecialistController {
 
     @Autowired
@@ -27,25 +27,25 @@ public class SpecialistController {
     @Autowired
     private PsychologistService psychologistService;
 
-    @PostMapping("/lawyer")
+    @PostMapping("/lawyers")
     @ResponseStatus(CREATED)
     public void addLawyer(@RequestBody @Valid LawyerRequest request){
         lawyerService.add(request);
     }
 
-    @GetMapping("/lawyer")
+    @GetMapping("/lawyers")
     @Secured(USER)
     public List<SpecialistResponse> listLawyersByStatus(@PathParam("status") Status status){
         return lawyerService.listByStatus(status);
     }
 
-    @PostMapping("/psychologist")
+    @PostMapping("/psychologists")
     @ResponseStatus(CREATED)
     public void addPsychologist(@RequestBody @Valid PsychologistRequest request){
         psychologistService.add(request);
     }
 
-    @GetMapping("/psychologist")
+    @GetMapping("/psychologists")
     @Secured(USER)
     public List<SpecialistResponse> listPsychologistsByStatus(@PathParam("status") Status status){
         return psychologistService.listByStatus(status);

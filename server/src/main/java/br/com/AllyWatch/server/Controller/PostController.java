@@ -18,7 +18,7 @@ import static br.com.AllyWatch.server.Domain.Enum.Role.Names.USER;
 import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
-@RequestMapping("/post")
+@RequestMapping("/posts")
 public class PostController {
 
     @Autowired
@@ -67,7 +67,7 @@ public class PostController {
         return postService.listAllPosts(authorization, pageable);
     }
 
-    @PostMapping("{postId}/comment")
+    @PostMapping("{postId}/comments")
     @Secured(USER)
     @ResponseStatus(CREATED)
     public void addComment(@RequestHeader String authorization,
@@ -76,21 +76,21 @@ public class PostController {
         commentService.create(authorization, postId, request);
     }
 
-    @DeleteMapping("/comment/{commentId}")
+    @DeleteMapping("/comments/{commentId}")
     @Secured(USER)
     public void deleteComment(@RequestHeader String authorization,
                            @PathVariable long commentId){
         commentService.delete(authorization, commentId);
     }
 
-    @PutMapping("/{postId}/like")
+    @PutMapping("/{postId}/likes")
     @Secured(USER)
     public void likePost(@RequestHeader String authorization,
                            @PathVariable long postId){
         postService.like(authorization, postId);
     }
 
-    @PostMapping("/{postId}/report")
+    @PostMapping("/{postId}/reports")
     @Secured(USER)
     public void reportPost(@RequestHeader String authorization,
                            @PathVariable long postId,

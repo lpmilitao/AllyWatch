@@ -28,7 +28,7 @@ public class AdminController {
     @Autowired
     private PsychologistService psychologistService;
 
-    @GetMapping("/report")
+    @GetMapping("/reports")
     @Secured(ADMIN)
     public List<ReportResponse> listReports() {
         return reportService.listAll();
