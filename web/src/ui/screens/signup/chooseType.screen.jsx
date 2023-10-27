@@ -1,3 +1,3 @@
-import './chooseTyle.style.css';
+import './chooseType.style.css';
 
 export function ChooseType() {}

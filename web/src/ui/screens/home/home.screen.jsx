@@ -1,3 +1,11 @@
 import './home.style.css';
 
-export function Home() {}
+import image from '../../../assets/images/Home.png';
+
+export function Home() {
+  return (
+    <section className='home'>
+      <img src={image} alt='' />
+    </section>
+  );
+}
