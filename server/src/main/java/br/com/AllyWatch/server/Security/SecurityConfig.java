@@ -26,9 +26,10 @@ public class SecurityConfig {
                 ).authorizeHttpRequests(authorize -> authorize
                         .anyRequest().authenticated()
                 )
-                    .oauth2ResourceServer()
-                        .jwt()
-                            .jwtAuthenticationConverter(getJwtAutheticationConverter());
+                .logout().disable()
+                .oauth2ResourceServer()
+                    .jwt()
+                        .jwtAuthenticationConverter(getJwtAutheticationConverter());
         return http.build();
     }
 
