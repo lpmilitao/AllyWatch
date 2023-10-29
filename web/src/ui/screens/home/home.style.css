@@ -1,12 +1,36 @@
-.home{
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-top: 5px solid ;
+.home {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  border-top: 20px solid var(--pink);
+  border-bottom: 20px solid var(--pink);
 }
 
-.home > img{
-    max-width: 40%;
+.home > img {
+  max-width: 40%;
+}
+
+.home-button {
+  width: 15em;
+  height: 6.25em;
+  background-color: var(--pink);
+  border: none;
+  border-radius: 3.75em;
+  color: var(--white);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  align-self: flex-end;
+  margin-bottom: 3em;
+  padding: 0 1em;
+}
+
+.home-button p {
+  font-size: 20px;
+}
+
+.left {
+  transform: scaleX(-1);
 }
