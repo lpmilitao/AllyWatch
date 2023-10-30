@@ -24,7 +24,7 @@ export function Home() {
         </button>
       </section>
       <section className='about-us'>
-        <div>
+        <div className='card-holder'>
           <h1>
             Sobre <br />
             nós
@@ -40,8 +40,9 @@ export function Home() {
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente
             eius fuga ut temporibus reiciendis facilis autem beatae laborum
             obcaecati assumenda, dignissimos ducimus sequi error aperiam enim
-            culpa deserunt fugiat esse! Lorem ipsum dolor sit amet consectetur,
-            adipisicing elit. Ad molestias corrupti laborum, natus doloremque.
+            culpa deserunt fugiat esse! Lorem ipsum dolgabriellindoor sit amet
+            consectetur, adipisicing elit. Ad molestias corrupti laborum, natus
+            doloremque.
           </p>
         </article>
         <a href='#top'>
