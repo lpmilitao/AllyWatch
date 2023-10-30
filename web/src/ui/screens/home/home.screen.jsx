@@ -1,7 +1,6 @@
 import './home.style.css';
 
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
 
 import image from '../../../assets/images/Home.png';
 import arrow from '../../../assets/icons/arrow-white.svg';
@@ -10,23 +9,6 @@ import { Card } from '../../components';
 
 export function Home() {
   const navigate = useNavigate();
-  const [index, setIndex] = useState(0);
-
-  function next() {
-    if (index + 1 > 6) {
-      setIndex(0);
-    } else {
-      setIndex(index + 1);
-    }
-  }
-
-  function previous() {
-    if (index - 1 < 0) {
-      setIndex(6);
-    } else {
-      setIndex(index - 1);
-    }
-  }
 
   return (
     <>
@@ -47,7 +29,7 @@ export function Home() {
             Sobre <br />
             nós
           </h1>
-          <Card index={index} previous={previous} next={next} />
+          <Card />
         </div>
         <article className='banner'>
           <h1>

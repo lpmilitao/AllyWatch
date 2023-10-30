@@ -2,10 +2,29 @@ import './card.style.css';
 
 import arrow from '../../../assets/icons/short-arrow-pink.svg';
 import { cardsContent } from '../../../assets/arrays/presentation-cards.js';
+import { useState } from 'react';
 
 const circles = [0, 1, 2, 3, 4, 5];
 
-export function Card(index, previous, next) {
+export function Card() {
+  const [index, setIndex] = useState(0);
+
+  function next() {
+    if (index + 1 > 5) {
+      setIndex(0);
+    } else {
+      setIndex(index + 1);
+    }
+  }
+
+  function previous() {
+    if (index - 1 < 0) {
+      setIndex(5);
+    } else {
+      setIndex(index - 1);
+    }
+  }
+
   return (
     <div className='card'>
       <img
@@ -23,9 +42,9 @@ export function Card(index, previous, next) {
         </button>
       </div>
       <div className='circles-holder'>
-        {cardsContent.map((card, i) => {
+        {circles.map((c) => {
           return (
-            <div className={i === index ? 'circle fullfilled' : 'circle'} />
+            <div className={c === index ? 'circle fullfilled' : 'circle'} />
           );
         })}
       </div>
