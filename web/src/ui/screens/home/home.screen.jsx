@@ -44,6 +44,9 @@ export function Home() {
             adipisicing elit. Ad molestias corrupti laborum, natus doloremque.
           </p>
         </article>
+        <a href='#top'>
+          <img src={arrow} alt='White arrow' className='go-up' />
+        </a>
       </section>
     </>
   );

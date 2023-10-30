@@ -38,6 +38,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
 .about-us > div {
@@ -79,4 +80,15 @@
 
 .banner p {
   font-size: 1.5em;
+}
+
+.go-up {
+  transform: rotate(-90deg);
+  position: absolute;
+  bottom: 1em;
+  right: 1em;
+}
+
+.go-up:hover {
+  cursor: pointer;
 }
