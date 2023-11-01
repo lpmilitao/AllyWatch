@@ -13,8 +13,8 @@
 }
 
 .home-button {
-  width: 15em;
-  height: 6.25em;
+  width: 13em;
+  height: 5em;
   background-color: var(--pink);
   border: none;
   border-radius: 3.75em;
@@ -29,6 +29,10 @@
 
 .home-button p {
   font-size: 20px;
+}
+
+.home-button img {
+  max-width: 25%;
 }
 
 .about-us {

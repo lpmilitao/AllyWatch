@@ -8,7 +8,7 @@ import { Back, Input, SendButton } from '../../components';
 import { useAuth } from '../../../hooks';
 
 export function SignIn() {
-  const { user, token, handleLogin, onChange } = useAuth();
+  const { user, handleLogin, onChange } = useAuth();
 
   return (
     <section className='sign-in-container'>
