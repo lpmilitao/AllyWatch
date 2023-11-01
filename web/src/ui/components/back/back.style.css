@@ -1,0 +1,20 @@
+.back-button {
+  width: 6em;
+  height: 2em;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  font-weight: 700;
+  color: var(--white);
+  position: fixed;
+  top: 1em;
+  left: 1em;
+}
+
+.back-button > img {
+  max-width: 30%;
+}
+
+.back-button:hover {
+  cursor: pointer;
+}

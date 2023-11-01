@@ -22,6 +22,14 @@ body {
   --gray: #b0b0b0;
 }
 
+input:focus {
+  outline: none;
+}
+
+input[type='date']::-webkit-calendar-picker-indicator {
+  display: none;
+}
+
 .mirror {
   transform: scaleX(-1);
 }

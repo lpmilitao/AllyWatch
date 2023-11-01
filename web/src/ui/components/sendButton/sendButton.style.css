@@ -1,0 +1,19 @@
+.send-button {
+  width: 100%;
+  height: 4em;
+  background-color: var(--pink);
+  border: none;
+  border-radius: 1.3em;
+  margin-top: 1em;
+}
+
+.send-button p {
+  font-size: 1.5em;
+  font-weight: 500;
+  color: var(--white);
+  letter-spacing: 0.3px;
+}
+
+.send-button:hover {
+  cursor: pointer;
+}
