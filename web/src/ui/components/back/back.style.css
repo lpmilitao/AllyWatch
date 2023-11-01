@@ -9,6 +9,7 @@
   position: fixed;
   top: 1em;
   left: 1em;
+  z-index: 1;
 }
 
 .back-button > img {

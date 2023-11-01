@@ -1,0 +1,57 @@
+.choose-type {
+  width: 100%;
+  height: 100vh;
+  background-color: var(--pink);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 3em;
+}
+
+.choose-type h1 {
+  font-size: 3em;
+  font-weight: 300;
+  color: var(--white);
+}
+
+.choose-type > div {
+  width: 100%;
+  height: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6em;
+}
+
+.select-card {
+  width: 30%;
+  height: 85%;
+  background-color: var(--white);
+  border-radius: 3em;
+  box-shadow: 0.5em 0.5em 0.7em 1em #00000010;
+  color: var(--blue);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  padding: 2em;
+}
+
+.select-card:hover {
+  box-shadow: -0.2em -0.2em 0.5em 0.8em #00000010 inset;
+  cursor: pointer;
+}
+
+.select-card > img {
+  max-width: 30%;
+}
+
+.select-card > h2 {
+  font-size: 2em;
+  font-weight: 400;
+}
+
+.select-card > p {
+  font-size: 1.4em;
+  text-align: center;
+}

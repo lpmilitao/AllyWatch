@@ -35,6 +35,10 @@
   max-width: 25%;
 }
 
+.home-button:hover {
+  cursor: pointer;
+}
+
 .about-us {
   width: 100%;
   height: 100vh;
