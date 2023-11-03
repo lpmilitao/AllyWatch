@@ -19,9 +19,9 @@ public class SecurityConfig {
         http
                 .cors().and().csrf().disable()
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(POST, "/user").permitAll()
                         .requestMatchers(POST, "/login").permitAll()
-                        .requestMatchers(POST, "/specialist/**").permitAll()
+                        .requestMatchers(POST, "/users").permitAll()
+                        .requestMatchers(POST, "/specialists/**").permitAll()
                         .requestMatchers("/admin/*").hasAuthority(ADMIN)
                 ).authorizeHttpRequests(authorize -> authorize
                         .anyRequest().authenticated()

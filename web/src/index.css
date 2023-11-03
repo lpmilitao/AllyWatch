@@ -33,3 +33,11 @@ input[type='date']::-webkit-calendar-picker-indicator {
 .mirror {
   transform: scaleX(-1);
 }
+
+a {
+  color: var(--pink);
+}
+
+a:hover {
+  text-decoration: underline;
+}

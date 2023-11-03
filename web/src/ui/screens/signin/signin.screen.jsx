@@ -12,7 +12,7 @@ export function SignIn() {
 
   return (
     <section className='sign-in-container'>
-      <Back />
+      <Back route={'/home'} />
       <div className='login-modal'>
         <img src={logo} alt='Logo do AllyWatch' />
         <h1>Login</h1>

@@ -12,13 +12,13 @@ export function ChooseType() {
 
   return (
     <>
-      <Back mode={'white'} />
+      <Back mode={'white'} route={'/home'} />
       <section className='choose-type'>
         <h1>Cadastre-se como</h1>
         <div>
           <div
             className='select-card'
-            onClick={() => navigate('signup-specialist')}
+            onClick={() => navigate('/signup-specialist')}
           >
             <h2>Especialista</h2>
             <img
@@ -30,7 +30,7 @@ export function ChooseType() {
               AllyWatch.
             </p>
           </div>
-          <div className='select-card' onClick={() => navigate('signup-user')}>
+          <div className='select-card' onClick={() => navigate('/signup-user')}>
             <h2>Usuário</h2>
             <img
               src={help}
