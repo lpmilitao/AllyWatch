@@ -1,0 +1,31 @@
+.radio input {
+  display: none;
+}
+
+.radio input + label {
+  position: relative;
+  cursor: pointer;
+  padding-left: 2em;
+}
+
+.radio > input[type='radio'] + label::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 1.5em;
+  height: 1.5em;
+  border-radius: 50%;
+  border: solid 1px var(--pink);
+}
+
+input[type='radio']:checked + label::after {
+  content: '';
+  background-color: var(--pink);
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  position: absolute;
+  left: 8%;
+  bottom: 25%;
+}

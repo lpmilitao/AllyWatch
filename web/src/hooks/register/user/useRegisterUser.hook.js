@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { createNewUser } from '../../../external/server';
 
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 
 export function UseRegisterUser() {
