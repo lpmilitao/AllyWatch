@@ -8,7 +8,6 @@
   color: var(--white);
   position: fixed;
   top: 1em;
-  left: 1em;
   z-index: 1;
 }
 
@@ -18,4 +17,13 @@
 
 .back-button:hover {
   cursor: pointer;
+}
+
+.left-side {
+  left: 1em;
+}
+
+.right-side {
+  flex-direction: row-reverse;
+  right: 1em;
 }

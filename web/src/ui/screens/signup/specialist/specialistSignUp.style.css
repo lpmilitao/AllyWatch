@@ -1,0 +1,66 @@
+.specialist-signup-container {
+  width: 100%;
+  height: 100vh;
+  background-color: var(--blue);
+  display: flex;
+  align-items: center;
+}
+
+.pick {
+  width: 60%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2em;
+}
+
+.pick > button {
+  width: 30%;
+  height: 5em;
+  background-color: var(--white);
+  border: none;
+  border-radius: 3em;
+}
+
+.pick > button > span {
+  font-size: 1.5em;
+  color: var(--blue);
+}
+
+.pick > h1 {
+  font-size: 2em;
+  color: var(--white);
+  letter-spacing: 0.5px;
+}
+
+.specialist-presentation {
+  width: 40%;
+  height: 100%;
+  background-color: var(--white);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 3em;
+  color: var(--blue);
+  text-align: right;
+  font-size: 1.4em;
+  gap: 1em;
+}
+
+.specialist-presentation > h1 {
+  color: var(--pink);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  font-size: 1.8em;
+}
+
+.specialist-presentation > span > p {
+  color: var(--pink);
+}
+
+.specialist-presentation > img {
+  max-width: 70%;
+}
