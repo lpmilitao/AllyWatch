@@ -4,6 +4,7 @@ import {
   Home,
   SignIn,
   SpecialistSignUp,
+  Timeline,
   UserSignUp,
 } from '../ui/screens';
 
@@ -27,5 +28,9 @@ export const router = createBrowserRouter([
   {
     path: '/signup-specialist',
     element: <SpecialistSignUp />,
+  },
+  {
+    path: '/',
+    element: <Timeline />,
   },
 ]);

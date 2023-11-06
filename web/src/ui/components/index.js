@@ -1,3 +1,4 @@
+export { Header } from './header/header.component';
 export { Radio } from './radio/radio.component';
 export { Form } from './form/form.component';
 export { SendButton } from './sendButton/sendButton.component';
