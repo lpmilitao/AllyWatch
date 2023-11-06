@@ -17,7 +17,7 @@ export function SideMenu({ selected }) {
         />
         <h3>Timeline</h3>
       </div>
-      <div onClick={() => navigate('/')}>
+      <div onClick={() => navigate('/me')}>
         <img
           src={
             selected === 'profile'
@@ -27,7 +27,7 @@ export function SideMenu({ selected }) {
         />
         <h3>Meu perfil</h3>
       </div>
-      <div onClick={() => navigate('/')}>
+      <div onClick={() => navigate('/specialists')}>
         <img
           src={
             selected === 'specialists'
@@ -37,7 +37,7 @@ export function SideMenu({ selected }) {
         />
         <h3>Especialistas</h3>
       </div>
-      <div onClick={() => navigate('/')}>
+      <div onClick={() => navigate('/chatbot')}>
         <img
           src={
             selected === 'chatbot'
@@ -47,7 +47,7 @@ export function SideMenu({ selected }) {
         />
         <h3>Chatbot</h3>
       </div>
-      <div onClick={() => navigate('/')}>
+      <div onClick={() => navigate('/report')}>
         <img
           src={
             selected === 'police'
@@ -57,7 +57,7 @@ export function SideMenu({ selected }) {
         />
         <h3>Denúncia</h3>
       </div>
-      <div onClick={() => navigate('/')}>
+      <div onClick={() => navigate('/help-points')}>
         <img
           src={
             selected === 'local'
@@ -67,7 +67,7 @@ export function SideMenu({ selected }) {
         />
         <h3>Pontos de ajuda</h3>
       </div>
-      <div onClick={() => navigate('/')}>
+      <div onClick={() => navigate('/chats')}>
         <img
           src={
             selected === 'chat' ? iconsMenu.chat.colored : iconsMenu.chat.white

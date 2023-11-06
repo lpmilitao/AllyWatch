@@ -1,8 +1,14 @@
 import { createBrowserRouter } from 'react-router-dom';
 import {
+  Chatbot,
+  Chats,
   ChooseType,
+  HelpPoints,
   Home,
+  Profile,
+  Report,
   SignIn,
+  Specialist,
   SpecialistSignUp,
   Timeline,
   UserSignUp,
@@ -32,5 +38,29 @@ export const router = createBrowserRouter([
   {
     path: '/',
     element: <Timeline />,
+  },
+  {
+    path: '/me',
+    element: <Profile />,
+  },
+  {
+    path: '/specialists',
+    element: <Specialist />,
+  },
+  {
+    path: '/chatbot',
+    element: <Chatbot />,
+  },
+  {
+    path: '/report',
+    element: <Report />,
+  },
+  {
+    path: '/help-points',
+    element: <HelpPoints />,
+  },
+  {
+    path: '/chats',
+    element: <Chats />,
   },
 ]);

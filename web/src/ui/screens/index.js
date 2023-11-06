@@ -1,6 +1,12 @@
+export { Chats } from './chats/chats.screen';
+export { HelpPoints } from './helpPoints/helpPoints.screen';
+export { Chatbot } from './chatbot/chatbot.screen';
+export { Specialist } from './specialists/specialists.screen';
+export { Profile } from './profile/profile.screen';
 export { Timeline } from './timeline/timeline.screen';
 export { ChooseType } from './signup/chooseType.screen';
 export { Home } from './home/home.screen';
 export { SignIn } from './signin/signin.screen';
 export { SpecialistSignUp } from './signup/specialist/specialistSignUp.screen';
 export { UserSignUp } from './signup/user/userSignUp.screen';
+export { Report } from './report/report.screen';
