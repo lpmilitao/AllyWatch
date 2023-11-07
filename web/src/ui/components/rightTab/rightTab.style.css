@@ -1,0 +1,8 @@
+.right-tab-container {
+  width: 20%;
+  height: 100%;
+  background-color: var(--blue);
+  position: fixed;
+  right: 0;
+  top: 0;
+}

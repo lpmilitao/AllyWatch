@@ -1,6 +1,5 @@
 package br.com.AllyWatch.server.Service;
 
-import br.com.AllyWatch.server.DTO.Mapper.PostMapper;
 import br.com.AllyWatch.server.DTO.Request.PostRequest;
 import br.com.AllyWatch.server.DTO.Response.PostResponse;
 import br.com.AllyWatch.server.Domain.Chat;
@@ -103,7 +102,7 @@ public class PostService {
         User user = userService.getAuthenticatedUser(authorization);
 
         return postRepository.findAllByAuthor_IdOrderByPublicationTimeDesc(user.getId(), pageable)
-                .map(PostMapper::toMyResponse);
+                .map(post -> toMyResponse(post, post.getLikes().contains(user)));
     }
 
     public Page<PostResponse> listAllPosts(String authorization, Pageable pageable) {
@@ -112,11 +111,19 @@ public class PostService {
         return postRepository.findAll(pageable)
                 .map(post -> {
                     if (post.getAuthor().getId() == user.getId()) {
-                        return toMyResponse(post);
+                        return toMyResponse(post,
+                                post.getLikes().contains(user)
+                        );
                     } else if (post.isAnonymous()) {
-                        return toAnonymousResponse(post);
+                        return toAnonymousResponse(post,
+                                post.getLikes().contains(user)
+
+                        );
                     }
-                    return toPublicResponse(post);
+                    return toPublicResponse(post,
+                            post.getLikes().contains(user)
+
+                    );
                 });
     }
 
@@ -150,7 +157,7 @@ public class PostService {
         }
 
         matching.forEach(p -> {
-            if(verifyIfUsersAreAlreadyInChat(post.getAuthor(), p.getAuthor())){
+            if (verifyIfUsersAreAlreadyInChat(post.getAuthor(), p.getAuthor())) {
                 return;
             }
             Chat chat = Chat.builder()

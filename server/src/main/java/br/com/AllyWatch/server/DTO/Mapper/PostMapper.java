@@ -22,7 +22,7 @@ public class PostMapper {
                 .build();
     }
 
-    public static MyPostResponse toMyResponse(Post entity) {
+    public static MyPostResponse toMyResponse(Post entity, boolean liked) {
         return new MyPostResponse(
                 entity.getId(),
                 entity.getTitle(),
@@ -34,13 +34,14 @@ public class PostMapper {
                 decrypt(entity.getAuthor().getFullname(), entity.getAuthor().getKeys().getPrivateKey()),
                 entity.getAuthor().getIcon(),
                 entity.isAnonymous(),
+                liked,
                 entity.getLikes().stream().map(user ->
                         decrypt(user.getFullname(), user.getKeys().getPrivateKey())
                 ).toList()
         );
     }
 
-    public static PostResponse toAnonymousResponse(Post entity) {
+    public static PostResponse toAnonymousResponse(Post entity, boolean liked) {
         return new PostResponse(
                 entity.getId(),
                 entity.getTitle(),
@@ -51,11 +52,12 @@ public class PostMapper {
                 false,
                 "Ally",
                 NEUTRAL,
-                true
+                true,
+                liked
         );
     }
 
-    public static PostResponse toPublicResponse(Post entity) {
+    public static PostResponse toPublicResponse(Post entity, boolean liked) {
         return new PostResponse(
                 entity.getId(),
                 entity.getTitle(),
@@ -68,7 +70,8 @@ public class PostMapper {
                         entity.getAuthor().getFullname(), entity.getAuthor().getKeys().getPrivateKey()
                 ),
                 entity.getAuthor().getIcon(),
-                false
+                false,
+                liked
         );
     }
 }

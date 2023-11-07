@@ -8,11 +8,12 @@ import java.util.List;
 
 @Getter @Setter
 public class MyPostResponse extends PostResponse {
+
     private List<String> likedBy;
 
     public MyPostResponse(long id, String title, String body, String publicatedAt, List<CommentResponse> comments,
-                          int numberOfLikes, boolean mine, String author, Icon icon, boolean anonymous, List<String> likedBy) {
-        super(id, title, body, publicatedAt, comments, numberOfLikes, mine, author, icon, anonymous);
+                          int numberOfLikes, boolean mine, String author, Icon icon, boolean anonymous, boolean likedByMe, List<String> likedBy) {
+        super(id, title, body, publicatedAt, comments, numberOfLikes, mine, author, icon, anonymous, likedByMe);
         this.likedBy = likedBy;
     }
 }

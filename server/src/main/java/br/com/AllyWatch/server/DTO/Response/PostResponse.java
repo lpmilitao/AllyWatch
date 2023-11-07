@@ -29,8 +29,10 @@ public class PostResponse {
 
     private boolean anonymous;
 
+    private boolean likedByMe;
+
     public PostResponse(long id, String title, String body, String publicatedAt, List<CommentResponse> comments,
-                        int numberOfLikes, boolean mine, String author, Icon icon, boolean anonymous) {
+                        int numberOfLikes, boolean mine, String author, Icon icon, boolean anonymous, boolean likedByMe) {
         this.id = id;
         this.title = title;
         this.body = body;
@@ -41,5 +43,6 @@ public class PostResponse {
         this.author = author;
         this.icon = icon;
         this.anonymous = anonymous;
+        this.likedByMe = likedByMe;
     }
 }
