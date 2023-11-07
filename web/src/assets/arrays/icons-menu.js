@@ -13,11 +13,13 @@ import homeWhite from '../icons/home-white.svg';
 import chatbotColored from '../icons/chatbot.svg';
 import chatbotWhite from '../icons/chatbot-white.svg';
 
-import contactColored from '../icons/contact-pink.svg';
+import contactPink from '../icons/contact-pink.svg';
 import contactWhite from '../icons/contact-white.svg';
+import contactColored from '../icons/contact.svg';
 
-import chatColored from '../icons/chat-pink.svg';
+import chatPink from '../icons/chat-pink.svg';
 import chatWhite from '../icons/chat-white.svg';
+import chatColored from '../icons/chat.svg';
 
 export const iconsMenu = {
   profile: {
@@ -40,12 +42,14 @@ export const iconsMenu = {
     colored: chatbotColored,
     white: chatbotWhite,
   },
-  specialist: {
+  specialists: {
     colored: contactColored,
     white: contactWhite,
+    pink: contactPink,
   },
   chat: {
-    colored: chatColored,
+    pink: chatPink,
     white: chatWhite,
+    colored: chatColored,
   },
 };

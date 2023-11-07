@@ -6,14 +6,15 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  gap: 2em;
+  gap: 1%;
   position: absolute;
   top: 0;
   left: 0;
-  padding-left: 5em;
+  padding: 5em 0 0 3%;
 }
 
 .side-menu > div {
+  height: 10%;
   display: flex;
   align-items: center;
   color: var(--white);
@@ -22,15 +23,19 @@
 
 .side-menu h3 {
   font-weight: 300;
-  font-size: 1.2em;
+  font-size: 115%;
   letter-spacing: 0.5px;
 }
 
-.side-menu > div:hover h3 {
-  cursor: pointer;
-  text-decoration: underline;
+.side-menu > div > img {
+  max-height: 55%;
 }
 
 .side-menu > div:hover {
   cursor: pointer;
+  text-decoration: underline;
+}
+
+.side-menu .selected {
+  font-weight: 600;
 }

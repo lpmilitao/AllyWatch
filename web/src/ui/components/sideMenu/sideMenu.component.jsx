@@ -15,7 +15,7 @@ export function SideMenu({ selected }) {
             selected === 'home' ? iconsMenu.home.colored : iconsMenu.home.white
           }
         />
-        <h3>Timeline</h3>
+        <h3 className={selected === 'home' ? 'selected' : null}>Timeline</h3>
       </div>
       <div onClick={() => navigate('/me')}>
         <img
@@ -25,17 +25,21 @@ export function SideMenu({ selected }) {
               : iconsMenu.profile.white
           }
         />
-        <h3>Meu perfil</h3>
+        <h3 className={selected === 'profile' ? 'selected' : null}>
+          Meu perfil
+        </h3>
       </div>
       <div onClick={() => navigate('/specialists')}>
         <img
           src={
             selected === 'specialists'
-              ? iconsMenu.specialist.colored
-              : iconsMenu.specialist.white
+              ? iconsMenu.specialists.pink
+              : iconsMenu.specialists.white
           }
         />
-        <h3>Especialistas</h3>
+        <h3 className={selected === 'specialists' ? 'selected' : null}>
+          Especialistas
+        </h3>
       </div>
       <div onClick={() => navigate('/chatbot')}>
         <img
@@ -45,7 +49,7 @@ export function SideMenu({ selected }) {
               : iconsMenu.chatbot.white
           }
         />
-        <h3>Chatbot</h3>
+        <h3 className={selected === 'chatbot' ? 'selected' : null}>Chatbot</h3>
       </div>
       <div onClick={() => navigate('/report')}>
         <img
@@ -55,7 +59,7 @@ export function SideMenu({ selected }) {
               : iconsMenu.police.white
           }
         />
-        <h3>Denúncia</h3>
+        <h3 className={selected === 'police' ? 'selected' : null}>Denúncia</h3>
       </div>
       <div onClick={() => navigate('/help-points')}>
         <img
@@ -65,15 +69,15 @@ export function SideMenu({ selected }) {
               : iconsMenu.local.white
           }
         />
-        <h3>Pontos de ajuda</h3>
+        <h3 className={selected === 'local' ? 'selected' : null}>
+          Pontos de ajuda
+        </h3>
       </div>
       <div onClick={() => navigate('/chats')}>
         <img
-          src={
-            selected === 'chat' ? iconsMenu.chat.colored : iconsMenu.chat.white
-          }
+          src={selected === 'chat' ? iconsMenu.chat.pink : iconsMenu.chat.white}
         />
-        <h3>Chats</h3>
+        <h3 className={selected === 'chat' ? 'selected' : null}>Chats</h3>
       </div>
     </section>
   );

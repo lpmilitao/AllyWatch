@@ -1,0 +1,5 @@
+.base-screen {
+  width: 100%;
+  min-height: 100vh;
+  padding: 5% 0 0 20%;
+}

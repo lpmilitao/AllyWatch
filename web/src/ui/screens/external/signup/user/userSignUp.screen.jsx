@@ -5,11 +5,11 @@ import { Link } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 
-import help from '../../../../assets/images/help.png';
+import help from '../../../../../assets/images/help.png';
 
-import { UseRegisterUser } from '../../../../hooks';
+import { UseRegisterUser } from '../../../../../hooks';
 
-import { Back, Form, Input, SendButton } from '../../../components';
+import { Back, Form, Input, SendButton } from '../../../../components';
 
 export function UserSignUp() {
   const { user, onChange, handleRegister } = UseRegisterUser();

@@ -2,10 +2,10 @@ import './home.style.css';
 
 import { useNavigate } from 'react-router-dom';
 
-import image from '../../../assets/images/Home.png';
-import arrow from '../../../assets/icons/arrow-white.svg';
+import image from '../../../../assets/images/Home.png';
+import arrow from '../../../../assets/icons/arrow-white.svg';
 
-import { Card } from '../../components';
+import { Card } from '../../../components';
 
 export function Home() {
   const navigate = useNavigate();

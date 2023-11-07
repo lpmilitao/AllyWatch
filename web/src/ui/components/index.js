@@ -1,3 +1,4 @@
+export { BaseScreen } from './baseScreen/baseScreen.component';
 export { SideMenu } from './sideMenu/sideMenu.component';
 export { Header } from './header/header.component';
 export { Radio } from './radio/radio.component';

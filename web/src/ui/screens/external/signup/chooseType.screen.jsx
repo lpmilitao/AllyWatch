@@ -2,10 +2,10 @@ import './chooseType.style.css';
 
 import { useNavigate } from 'react-router-dom';
 
-import specialist from '../../../assets/icons/specialist.svg';
-import help from '../../../assets/icons/help.svg';
+import specialist from '../../../../assets/icons/specialist.svg';
+import help from '../../../../assets/images/help.png';
 
-import { Back } from '../../components';
+import { Back } from '../../../components';
 
 export function ChooseType() {
   const navigate = useNavigate();

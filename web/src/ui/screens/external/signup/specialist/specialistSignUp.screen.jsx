@@ -5,11 +5,11 @@ import { useEffect } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 
-import specialist from '../../../../assets/images/specialist.png';
+import specialist from '../../../../../assets/images/specialist.png';
 
-import { UseRegisterSpecialist } from '../../../../hooks';
+import { UseRegisterSpecialist } from '../../../../../hooks';
 
-import { Back, Form, Input, Radio, SendButton } from '../../../components';
+import { Back, Form, Input, Radio, SendButton } from '../../../../components';
 
 export function SpecialistSignUp() {
   const {

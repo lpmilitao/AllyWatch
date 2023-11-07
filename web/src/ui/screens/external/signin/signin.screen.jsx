@@ -2,10 +2,10 @@ import './signin.style.css';
 
 import { Link } from 'react-router-dom';
 
-import logo from '../../../assets/images/logo.png';
+import logo from '../../../../assets/images/logo.png';
 
-import { Back, Input, SendButton } from '../../components';
-import { useAuth } from '../../../hooks';
+import { Back, Input, SendButton } from '../../../components';
+import { useAuth } from '../../../../hooks';
 
 export function SignIn() {
   const { user, handleLogin, onChange } = useAuth();

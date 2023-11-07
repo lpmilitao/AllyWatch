@@ -1,6 +1,6 @@
 .header-container {
   width: 100%;
-  height: 5em;
+  height: 10%;
   background-color: var(--white);
   border-bottom-left-radius: 1em;
   border-bottom-right-radius: 1em;
@@ -12,6 +12,7 @@
   z-index: 2;
   position: fixed;
   top: 0;
+  left: 0;
 }
 
 .header-container > img {
