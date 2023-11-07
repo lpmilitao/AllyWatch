@@ -1,7 +1,10 @@
 import './timeline.style.css';
 
 import { BaseScreen, Post, RightTab } from '../../../components';
-
+import { useEffect, useState } from 'react';
+import { listAllPosts } from '../../../../external/server';
+import useGlobalUser from '../../../../context/user/user.context';
+/*
 const POST = {
   id: 1,
   title: 'Post title',
@@ -17,12 +20,25 @@ const POST = {
 };
 
 const POSTS = [POST, POST, POST, POST, POST, POST, POST, POST, POST, POST];
-
+*/
 export function Timeline() {
+  const [posts, setPosts] = useState([]);
+  const [globarUser] = useGlobalUser();
+
+  useEffect(() => {
+    getPosts();
+  }, []);
+
+  async function getPosts() {
+    console.log(globarUser);
+    const response = await listAllPosts(globarUser, 'publicationTime');
+    setPosts(response.content);
+  }
+
   return (
     <BaseScreen at='home' rightTab={true}>
       <section className='timeline-container'>
-        {POSTS.map((post) => (
+        {posts.map((post) => (
           <Post key={post?.id} post={post} />
         ))}
       </section>
