@@ -1,5 +1,6 @@
 package br.com.AllyWatch.server.DTO.Response;
 
+import br.com.AllyWatch.server.Domain.Enum.Icon;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,13 +21,25 @@ public class PostResponse {
 
     private int numberOfLikes;
 
-    public PostResponse(long id, String title, String body, String publicatedAt,
-                        List<CommentResponse> comments, int numberOfLikes) {
+    private boolean mine;
+
+    private String author;
+
+    private Icon icon;
+
+    private boolean anonymous;
+
+    public PostResponse(long id, String title, String body, String publicatedAt, List<CommentResponse> comments,
+                        int numberOfLikes, boolean mine, String author, Icon icon, boolean anonymous) {
         this.id = id;
         this.title = title;
         this.body = body;
         this.publicatedAt = publicatedAt;
         this.comments = comments;
         this.numberOfLikes = numberOfLikes;
+        this.mine = mine;
+        this.author = author;
+        this.icon = icon;
+        this.anonymous = anonymous;
     }
 }
