@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 
 import useGlobalUser from '../../context/user/user.context';
+import useGlobalReload from '../../context/reload/reload.context';
+
 import { listAllPosts } from '../../external/server';
 
 export function UseGetPosts() {
@@ -13,6 +15,7 @@ export function UseGetPosts() {
   const [hasNextPage, setHasNextPage] = useState(false);
   const [hasPreviousPage, setHasPreviousPage] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
+  const [reload, setReload] = useGlobalReload();
 
   async function getPosts() {
     try {
@@ -35,6 +38,7 @@ export function UseGetPosts() {
     } else {
       setOrder('publicationTime');
     }
+    setReload(!reload);
   }
 
   function nextPage() {
@@ -42,6 +46,7 @@ export function UseGetPosts() {
     if (page + 1 > totalPages) return;
 
     setPage(page + 1);
+    setReload(!reload);
   }
 
   function previousPage() {
@@ -49,6 +54,7 @@ export function UseGetPosts() {
     if (page - 1 <= 0) return;
 
     setPage(page - 1);
+    setReload(!reload);
   }
 
   return {
