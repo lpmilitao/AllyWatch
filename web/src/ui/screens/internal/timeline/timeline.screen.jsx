@@ -1,10 +1,17 @@
 import './timeline.style.css';
 
-import { BaseScreen, Post, RightTab } from '../../../components';
 import { useEffect, useState } from 'react';
-import { listAllPosts } from '../../../../external/server';
+
 import useGlobalUser from '../../../../context/user/user.context';
-/*
+
+import { UseGetPosts } from '../../../../hooks/posts/useGetPosts.hook';
+
+import { BaseScreen, Post, RightTab } from '../../../components';
+
+import switchArrow from '../../../../assets/icons/switch-arrow-pink.svg';
+import circledPlus from '../../../../assets/icons/circled-plus.svg';
+import whiteArrow from '../../../../assets/icons/short-arrow-white.svg';
+
 const POST = {
   id: 1,
   title: 'Post title',
@@ -20,20 +27,23 @@ const POST = {
 };
 
 const POSTS = [POST, POST, POST, POST, POST, POST, POST, POST, POST, POST];
-*/
+
 export function Timeline() {
-  const [posts, setPosts] = useState([]);
-  const [globarUser] = useGlobalUser();
+  const {
+    posts,
+    getPosts,
+    order,
+    switchOrder,
+    page,
+    nextPage,
+    previousPage,
+    hasNextPage,
+    hasPreviousPage,
+  } = UseGetPosts();
 
   useEffect(() => {
     getPosts();
-  }, []);
-
-  async function getPosts() {
-    console.log(globarUser);
-    const response = await listAllPosts(globarUser, 'publicationTime');
-    setPosts(response.content);
-  }
+  }, [order, page]);
 
   return (
     <BaseScreen at='home' rightTab={true}>
@@ -42,7 +52,23 @@ export function Timeline() {
           <Post key={post?.id} post={post} />
         ))}
       </section>
-      <RightTab></RightTab>
+      <RightTab class={'timeline-right-tab'}>
+        <button onClick={switchOrder} className='switch-order'>
+          <img src={switchArrow} />
+          <h3>
+            {order === 'publicationTime' ? 'Mais recentes' : 'Mais curtidas'}
+          </h3>
+        </button>
+        <button onClick={switchOrder} className='switch-order'>
+          <img src={circledPlus} />
+          <h3>Fazer publicação</h3>
+        </button>
+        <div className='pagination-holder'>
+          <img src={whiteArrow} onClick={previousPage} />
+          <h3>{page + 1}</h3>
+          <img src={whiteArrow} className='mirror' onClick={nextPage} />
+        </div>
+      </RightTab>
     </BaseScreen>
   );
 }

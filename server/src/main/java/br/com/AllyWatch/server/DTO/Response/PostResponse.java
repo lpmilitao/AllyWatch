@@ -11,8 +11,6 @@ public class PostResponse {
 
     private long id;
 
-    private String title;
-
     private String body;
 
     private String publicatedAt;
@@ -31,10 +29,9 @@ public class PostResponse {
 
     private boolean likedByMe;
 
-    public PostResponse(long id, String title, String body, String publicatedAt, List<CommentResponse> comments,
+    public PostResponse(long id, String body, String publicatedAt, List<CommentResponse> comments,
                         int numberOfLikes, boolean mine, String author, Icon icon, boolean anonymous, boolean likedByMe) {
         this.id = id;
-        this.title = title;
         this.body = body;
         this.publicatedAt = publicatedAt;
         this.comments = comments;

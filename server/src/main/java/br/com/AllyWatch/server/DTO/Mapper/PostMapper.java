@@ -15,7 +15,6 @@ public class PostMapper {
 
     public static Post toEntity(PostRequest request) {
         return Post.builder()
-                .title(request.getTitle())
                 .body(request.getBody())
                 .anonymous(request.isAnonymous())
                 .publicationTime(LocalDateTime.now())
@@ -25,7 +24,6 @@ public class PostMapper {
     public static MyPostResponse toMyResponse(Post entity, boolean liked) {
         return new MyPostResponse(
                 entity.getId(),
-                entity.getTitle(),
                 entity.getBody(),
                 entity.getPublicationTime().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")),
                 entity.getComments().stream().map(CommentMapper::toResponse).toList(),
@@ -44,7 +42,6 @@ public class PostMapper {
     public static PostResponse toAnonymousResponse(Post entity, boolean liked) {
         return new PostResponse(
                 entity.getId(),
-                entity.getTitle(),
                 entity.getBody(),
                 entity.getPublicationTime().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")),
                 entity.getComments().stream().map(CommentMapper::toResponse).toList(),
@@ -60,7 +57,6 @@ public class PostMapper {
     public static PostResponse toPublicResponse(Post entity, boolean liked) {
         return new PostResponse(
                 entity.getId(),
-                entity.getTitle(),
                 entity.getBody(),
                 entity.getPublicationTime().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")),
                 entity.getComments().stream().map(CommentMapper::toResponse).toList(),

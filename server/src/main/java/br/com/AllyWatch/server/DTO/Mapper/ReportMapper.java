@@ -16,7 +16,6 @@ public class ReportMapper {
                         entity.getReportTime().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))
                 )
                 .postId(entity.getPost().getId())
-                .postTitle(entity.getPost().getTitle())
                 .author(
                         decrypt(entity.getAuthor().getFullname(),
                                 entity.getAuthor().getKeys().getPrivateKey())

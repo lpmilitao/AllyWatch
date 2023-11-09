@@ -73,7 +73,6 @@ public class PostService {
             throw new ResponseStatusException(FORBIDDEN, "You can not edit a post that is not yours.");
         }
 
-        post.setTitle(request.getTitle());
         post.setBody(request.getBody());
 
         if (!Objects.equals(post.getAggressor(), request.getAggressor())) {

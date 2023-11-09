@@ -9,9 +9,6 @@ import lombok.Setter;
 public class PostRequest {
 
     @NotBlank
-    private String title;
-
-    @NotBlank
     private String body;
 
     private String aggressor;

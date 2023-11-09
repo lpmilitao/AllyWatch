@@ -24,7 +24,7 @@ export function SignIn() {
           onChange={onChange}
         />
         <Input
-          type={'text'}
+          type={'password'}
           title={'Senha'}
           name={'password'}
           value={user.password}

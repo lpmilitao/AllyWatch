@@ -18,8 +18,7 @@ public class Post {
     @Id @GeneratedValue(strategy = IDENTITY)
     private long id;
 
-    private String title;
-
+    @Column(columnDefinition = "VARCHAR(2000)")
     private String body;
 
     private String aggressor;
