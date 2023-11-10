@@ -4,11 +4,15 @@ import { toast } from 'react-toastify';
 import useGlobalUser from '../../context/user/user.context';
 import useGlobalReload from '../../context/reload/reload.context';
 
-import { commentOnPost, listPostsComments } from '../../external/server';
+import {
+  commentOnPost,
+  deleteComment,
+  listPostsComments,
+} from '../../external/server';
 
 export function useHandleComments(postId) {
   const [user] = useGlobalUser();
-  const [reload, setReaload] = useGlobalReload();
+  const [reload, setReload] = useGlobalReload();
 
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
@@ -28,13 +32,27 @@ export function useHandleComments(postId) {
     event.preventDefault();
     try {
       await commentOnPost(user, postId, newComment);
-      setReaload(!reload);
+      setReload(!reload);
       toast.success('Comentário feito com sucesso!', {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
       setNewComment('');
     } catch (error) {
       toast.error('Ocorreu um erro ao fazer um comentário.', {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    }
+  }
+
+  async function deleteCommentFromPost(commentId) {
+    try {
+      await deleteComment(user, commentId);
+      toast.success('Comentário deletado com sucesso!', {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+      setReload(!reload);
+    } catch (error) {
+      toast.error('Ocorreu um erro ao excluir o comentário.', {
         position: toast.POSITION.TOP_RIGHT,
       });
     }
@@ -50,5 +68,6 @@ export function useHandleComments(postId) {
     addCommentToPost,
     onChange,
     getComments,
+    deleteCommentFromPost,
   };
 }

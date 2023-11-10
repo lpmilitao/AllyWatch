@@ -89,3 +89,15 @@
 .new-comment > img:hover {
   cursor: pointer;
 }
+
+.delete-comment {
+  color: var(--pink);
+  font-weight: 700;
+  position: relative;
+  margin: 0 2em 0 auto;
+}
+
+.delete-comment:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}

@@ -12,8 +12,14 @@ import { XButton } from '../xButton/xButton.component';
 
 export function CommentList({ close, isOpen, postId }) {
   const [reload] = useGlobalReload();
-  const { comments, newComment, addCommentToPost, onChange, getComments } =
-    useHandleComments(postId);
+  const {
+    comments,
+    newComment,
+    addCommentToPost,
+    onChange,
+    getComments,
+    deleteCommentFromPost,
+  } = useHandleComments(postId);
 
   useEffect(() => {
     if (isOpen) {
@@ -30,6 +36,14 @@ export function CommentList({ close, isOpen, postId }) {
             <div className='comment'>
               <header>
                 <h3>{comment?.author}</h3>
+                {comment?.mine ? (
+                  <h6
+                    className='delete-comment'
+                    onClick={() => deleteCommentFromPost(comment?.id)}
+                  >
+                    Excluir
+                  </h6>
+                ) : null}
                 <h6>{comment?.publicationTime}</h6>
               </header>
               <p>{comment?.comment}</p>
