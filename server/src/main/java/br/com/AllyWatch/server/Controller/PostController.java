@@ -3,6 +3,7 @@ package br.com.AllyWatch.server.Controller;
 import br.com.AllyWatch.server.DTO.Request.CommentRequest;
 import br.com.AllyWatch.server.DTO.Request.PostRequest;
 import br.com.AllyWatch.server.DTO.Request.ReportRequest;
+import br.com.AllyWatch.server.DTO.Response.CommentResponse;
 import br.com.AllyWatch.server.DTO.Response.PostResponse;
 import br.com.AllyWatch.server.Service.CommentService;
 import br.com.AllyWatch.server.Service.PostService;
@@ -13,6 +14,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import static br.com.AllyWatch.server.Domain.Enum.Role.Names.USER;
 import static org.springframework.http.HttpStatus.CREATED;
@@ -74,6 +77,14 @@ public class PostController {
                            @PathVariable long postId,
                            @RequestBody @Valid CommentRequest request){
         commentService.create(authorization, postId, request);
+    }
+
+    @GetMapping("{postId}/comments")
+    @Secured(USER)
+    @ResponseStatus(CREATED)
+    public List<CommentResponse> listPostComments(@RequestHeader String authorization,
+                                                  @PathVariable long postId){
+        return commentService.list(authorization, postId);
     }
 
     @DeleteMapping("/comments/{commentId}")

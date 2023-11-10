@@ -1,6 +1,8 @@
 package br.com.AllyWatch.server.Service;
 
+import br.com.AllyWatch.server.DTO.Mapper.CommentMapper;
 import br.com.AllyWatch.server.DTO.Request.CommentRequest;
+import br.com.AllyWatch.server.DTO.Response.CommentResponse;
 import br.com.AllyWatch.server.Domain.Comment;
 import br.com.AllyWatch.server.Domain.Post;
 import br.com.AllyWatch.server.Domain.User;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
@@ -54,5 +57,13 @@ public class CommentService {
         }
 
         commentRepository.delete(comment);
+    }
+
+    public List<CommentResponse> list(String authorization, long postId) {
+        User user = userService.getAuthenticatedUser(authorization);
+
+        return commentRepository.findAllByPost_IdOrderByPublicationTimeDesc(postId)
+                .stream().map(comment -> CommentMapper.toResponse(comment, user.getId()))
+                .toList();
     }
 }
