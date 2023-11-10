@@ -23,6 +23,7 @@ export { editPost } from './post/editPost';
 export { likeOrDislikePost } from './post/likeOrDislikePost';
 export { listAllPosts } from './post/listAllPosts';
 export { reportPost } from './post/reportPost';
+export { listPostsComments } from './post/listPostsComments';
 
 //LAWYER
 export { createNewLawyer } from './specialist/lawyer/createNewLawyer';

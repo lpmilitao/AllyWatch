@@ -1,19 +1,27 @@
 import { useState } from 'react';
-import { commentOnPost } from '../../external/server';
-import useGlobalUser from '../../context/user/user.context';
 import { toast } from 'react-toastify';
+
+import useGlobalUser from '../../context/user/user.context';
 import useGlobalReload from '../../context/reload/reload.context';
 
-export function useHandleComments(postId, postsComments) {
+import { commentOnPost, listPostsComments } from '../../external/server';
+
+export function useHandleComments(postId) {
   const [user] = useGlobalUser();
   const [reload, setReaload] = useGlobalReload();
 
-  const [comments, setComments] = useState(postsComments);
-  const [openComments, setOpenComments] = useState(false);
+  const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
 
-  function openCommentList() {
-    setOpenComments(!openComments);
+  async function getComments() {
+    try {
+      const response = await listPostsComments(user, postId);
+      setComments(response);
+    } catch (error) {
+      toast.error('Ocorreu um erro ao buscar os comentários deste post.', {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    }
   }
 
   async function addCommentToPost(event) {
@@ -38,10 +46,9 @@ export function useHandleComments(postId, postsComments) {
 
   return {
     comments,
-    openComments,
     newComment,
-    openCommentList,
     addCommentToPost,
     onChange,
+    getComments,
   };
 }

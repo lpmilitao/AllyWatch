@@ -1,6 +1,6 @@
 import './post.style.css';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { avatarList } from '../../../assets/arrays/avatars';
@@ -14,41 +14,11 @@ import useGlobalUser from '../../../context/user/user.context';
 import useGlobalReload from '../../../context/reload/reload.context';
 
 import { CommentList } from '../commentList/commentList.component';
-import { useHandleComments } from '../../../hooks/posts/useHandleComments.hook';
-
-const COMMENTS = [
-  {
-    id: 1,
-    comment: 'Comentário 1',
-    publicationTime: '10/10/2021 10:10',
-    author: 'Ally',
-  },
-  {
-    id: 2,
-    comment:
-      'Comentário 2 Comentário 2 Comentário 2 Comentário 2 Comentário 2 Comentário 2 Comentário 2 Comentário 2 Comentário 2 Comentário 2 Comentário 2 Comentário 2 Comentário 2 Comentário 2 Comentário 2 Comentário 2 Comentário 2 Comentário 2 Comentário 2',
-    publicationTime: '10/10/2021 10:10',
-    author: 'Ally',
-  },
-  {
-    id: 3,
-    comment: 'Comentário 3',
-    publicationTime: '10/10/2021 10:10',
-    author: 'Ally',
-  },
-];
 
 export function Post({ post, reportPost }) {
   const [user] = useGlobalUser();
   const [reload, setReload] = useGlobalReload();
-  const {
-    comments,
-    openComments,
-    newComment,
-    openCommentList,
-    addCommentToPost,
-    onChange,
-  } = useHandleComments(post?.id, post?.comments);
+  const [openComments, setOpenComments] = useState(false);
 
   async function likePost(id) {
     try {
@@ -59,6 +29,10 @@ export function Post({ post, reportPost }) {
         position: toast.POSITION.TOP_RIGHT,
       });
     }
+  }
+
+  function openCommentList() {
+    setOpenComments(!openComments);
   }
 
   return (
@@ -80,10 +54,7 @@ export function Post({ post, reportPost }) {
       <CommentList
         isOpen={openComments}
         close={openCommentList}
-        comments={comments}
-        newComment={newComment}
-        onChange={onChange}
-        addCommentToPost={addCommentToPost}
+        postId={post?.id}
       />
     </section>
   );
