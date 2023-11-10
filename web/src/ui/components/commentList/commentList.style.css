@@ -1,0 +1,90 @@
+.comment-list {
+  background-color: var(--white);
+  width: 40%;
+  height: 70%;
+  top: 15%;
+  left: 30%;
+  position: fixed;
+  border: none;
+  box-shadow: 8px 8px 8px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 1em;
+  padding: 2em 1em 0;
+  z-index: 2;
+}
+.list {
+  width: 100%;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  padding: 0 1em;
+  overflow-y: scroll;
+}
+
+.list::-webkit-scrollbar {
+  display: none;
+}
+
+.list::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.list::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 10px;
+}
+
+.comment {
+  width: 100%;
+  max-height: 25%;
+  margin: 1em 0;
+  display: flex;
+  flex-direction: column;
+  color: var(--blue);
+}
+
+.comment > header {
+  width: 100%;
+  height: 1.5em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 3em;
+}
+
+.comment > header > h3 {
+  font-weight: 600;
+  font-size: 1em;
+}
+
+.comment > p {
+  display: inline-block;
+  width: 100%;
+  height: auto;
+  max-height: 8em;
+  font-size: 1em;
+}
+
+.new-comment {
+  width: 100%;
+  height: 10%;
+  border-top: 1px solid var(--gray);
+  display: flex;
+  align-items: center;
+}
+
+.new-comment > input {
+  width: 90%;
+  height: 100%;
+  border: none;
+  padding-left: 1em;
+  font-size: 1em;
+}
+
+.new-comment > img {
+  max-height: 70%;
+}
+
+.new-comment > img:hover {
+  cursor: pointer;
+}

@@ -51,7 +51,7 @@ export function UseGetPosts() {
 
   function previousPage() {
     if (!hasPreviousPage) return;
-    if (page - 1 <= 0) return;
+    if (page - 1 < 0) return;
 
     setPage(page - 1);
     setReload(!reload);

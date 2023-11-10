@@ -21,12 +21,14 @@ public class PostMapper {
                 .build();
     }
 
-    public static MyPostResponse toMyResponse(Post entity, boolean liked) {
+    public static MyPostResponse toMyResponse(Post entity, boolean liked, long userId) {
         return new MyPostResponse(
                 entity.getId(),
                 entity.getBody(),
                 entity.getPublicationTime().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")),
-                entity.getComments().stream().map(CommentMapper::toResponse).toList(),
+                entity.getComments().stream().map(
+                        comment -> CommentMapper.toResponse(comment, userId)
+                ).toList(),
                 entity.getLikes().size(),
                 true,
                 decrypt(entity.getAuthor().getFullname(), entity.getAuthor().getKeys().getPrivateKey()),
@@ -39,12 +41,14 @@ public class PostMapper {
         );
     }
 
-    public static PostResponse toAnonymousResponse(Post entity, boolean liked) {
+    public static PostResponse toAnonymousResponse(Post entity, boolean liked, long userId) {
         return new PostResponse(
                 entity.getId(),
                 entity.getBody(),
                 entity.getPublicationTime().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")),
-                entity.getComments().stream().map(CommentMapper::toResponse).toList(),
+                entity.getComments().stream().map(
+                        comment -> CommentMapper.toResponse(comment, userId)
+                ).toList(),
                 entity.getLikes().size(),
                 false,
                 "Ally",
@@ -54,12 +58,14 @@ public class PostMapper {
         );
     }
 
-    public static PostResponse toPublicResponse(Post entity, boolean liked) {
+    public static PostResponse toPublicResponse(Post entity, boolean liked, long userId) {
         return new PostResponse(
                 entity.getId(),
                 entity.getBody(),
                 entity.getPublicationTime().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")),
-                entity.getComments().stream().map(CommentMapper::toResponse).toList(),
+                entity.getComments().stream().map(
+                        comment -> CommentMapper.toResponse(comment, userId)
+                ).toList(),
                 entity.getLikes().size(),
                 false,
                 decrypt(

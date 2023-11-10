@@ -4,8 +4,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
 @Builder
 @Getter @Setter
 public class CommentResponse {
@@ -14,7 +12,9 @@ public class CommentResponse {
 
     private String comment;
 
-    private LocalDateTime publicationTime;
+    private String publicationTime;
 
     private String author;
+
+    private boolean mine;
 }

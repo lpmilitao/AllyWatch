@@ -76,8 +76,8 @@ public class PostService {
         post.setBody(request.getBody());
 
         if (!Objects.equals(post.getAggressor(), request.getAggressor())) {
-            //verificar se o agressor mudou, se mudou, fazer a verificação de outros posts com o mesmo agressor
             post.setAggressor(request.getAggressor());
+            verifyAgressor(post);
         }
 
         post.setAnonymous(request.isAnonymous());
@@ -101,7 +101,7 @@ public class PostService {
         User user = userService.getAuthenticatedUser(authorization);
 
         return postRepository.findAllByAuthor_IdOrderByPublicationTimeDesc(user.getId(), pageable)
-                .map(post -> toMyResponse(post, post.getLikes().contains(user)));
+                .map(post -> toMyResponse(post, post.getLikes().contains(user), user.getId()));
     }
 
     public Page<PostResponse> listAllPosts(String authorization, Pageable pageable) {
@@ -111,17 +111,18 @@ public class PostService {
                 .map(post -> {
                     if (post.getAuthor().getId() == user.getId()) {
                         return toMyResponse(post,
-                                post.getLikes().contains(user)
+                                post.getLikes().contains(user),
+                                user.getId()
                         );
                     } else if (post.isAnonymous()) {
                         return toAnonymousResponse(post,
-                                post.getLikes().contains(user)
-
+                                post.getLikes().contains(user),
+                                user.getId()
                         );
                     }
                     return toPublicResponse(post,
-                            post.getLikes().contains(user)
-
+                            post.getLikes().contains(user),
+                            user.getId()
                     );
                 });
     }
@@ -144,6 +145,8 @@ public class PostService {
 
     private void verifyAgressor(Post post) {
 
+        if (post.getAggressor().isEmpty()) return;
+
         List<Post> posts = postRepository.findAll();
 
         List<Post> matching = posts.stream().filter(p ->
@@ -151,9 +154,7 @@ public class PostService {
                         && p.getAuthor().getId() != post.getAuthor().getId()
         ).toList();
 
-        if (matching.isEmpty()) {
-            return;
-        }
+        if (matching.isEmpty()) return;
 
         matching.forEach(p -> {
             if (verifyIfUsersAreAlreadyInChat(post.getAuthor(), p.getAuthor())) {

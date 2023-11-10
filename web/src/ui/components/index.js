@@ -1,3 +1,5 @@
+export { XButton } from './xButton/xButton.component';
+export { CommentList } from './commentList/commentList.component';
 export { RightTab } from './rightTab/rightTab.component';
 export { Post } from './post/post.component';
 export { BaseScreen } from './baseScreen/baseScreen.component';

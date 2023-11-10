@@ -13,6 +13,7 @@ import {
   Timeline,
   UserSignUp,
 } from '../ui/screens';
+import { PrivateRoute } from './privateRoute';
 
 export const router = createBrowserRouter([
   {
@@ -37,7 +38,7 @@ export const router = createBrowserRouter([
   },
   {
     path: '/',
-    element: <Timeline />,
+    element: <PrivateRoute Screen={Timeline} />,
   },
   {
     path: '/me',

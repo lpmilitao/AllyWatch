@@ -1,0 +1,12 @@
+.x-button {
+  background: none;
+  border: none;
+  position: absolute;
+  top: 2%;
+  right: 1%;
+  width: 7%;
+}
+
+.x-button > img {
+  max-width: 100%;
+}
