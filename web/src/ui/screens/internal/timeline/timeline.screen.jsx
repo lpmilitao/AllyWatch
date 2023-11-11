@@ -1,6 +1,6 @@
 import './timeline.style.css';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import switchArrow from '../../../../assets/icons/switch-arrow-pink.svg';
 import circledPlus from '../../../../assets/icons/circled-plus.svg';
@@ -8,10 +8,9 @@ import whiteArrow from '../../../../assets/icons/short-arrow-white.svg';
 
 import useGlobalReload from '../../../../context/reload/reload.context';
 
-import { UseGetPosts } from '../../../../hooks/posts/useGetPosts.hook';
+import { UseHandlePosts } from '../../../../hooks/posts/useGetPosts.hook';
 
-import { BaseScreen, CommentList, Post, RightTab } from '../../../components';
-import { useHandleComments } from '../../../../hooks/posts/useHandleComments.hook';
+import { AddPost, BaseScreen, Post, RightTab } from '../../../components';
 
 export function Timeline() {
   const [reload, setReload] = useGlobalReload();
@@ -25,7 +24,9 @@ export function Timeline() {
     previousPage,
     hasNextPage,
     hasPreviousPage,
-  } = UseGetPosts();
+    addPostIsOpen,
+    closeAddPost,
+  } = UseHandlePosts();
 
   useEffect(() => {
     getPosts();
@@ -37,6 +38,7 @@ export function Timeline() {
         {posts.map((post) => (
           <Post key={post?.id} post={post} />
         ))}
+        <AddPost isOpen={addPostIsOpen} onClose={closeAddPost} />
       </section>
       <RightTab class={'timeline-right-tab'}>
         <button onClick={switchOrder} className='switch-order'>
@@ -45,7 +47,7 @@ export function Timeline() {
             {order === 'publicationTime' ? 'Mais recentes' : 'Mais curtidas'}
           </h3>
         </button>
-        <button onClick={switchOrder} className='switch-order'>
+        <button onClick={closeAddPost} className='switch-order'>
           <img src={circledPlus} />
           <h3>Fazer publicação</h3>
         </button>

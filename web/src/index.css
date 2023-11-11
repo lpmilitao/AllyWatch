@@ -22,7 +22,8 @@ body {
   --gray: #b0b0b0;
 }
 
-input:focus {
+input:focus,
+textarea:focus {
   outline: none;
 }
 

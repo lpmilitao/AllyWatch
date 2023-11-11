@@ -1,9 +1,10 @@
 .post {
   width: 65%;
-  min-height: 15em;
+  max-height: 15em;
+  min-height: 8em;
   border-bottom: 1px solid var(--gray);
   background-color: var(--white);
-  margin: 1em 0;
+  margin-top: 1em;
   color: var(--blue);
   display: flex;
   flex-direction: column;
@@ -22,18 +23,18 @@
 }
 
 .post > header > img {
-  max-height: 80%;
+  max-height: 60%;
 }
 
 .post > header > h3 {
-  font-size: 1.2em;
+  font-size: 1.15em;
   font-weight: 500;
   font-style: italic;
   text-transform: capitalize;
 }
 
 .icons > img {
-  max-height: 60%;
+  max-height: 50%;
 }
 
 .icons:hover {

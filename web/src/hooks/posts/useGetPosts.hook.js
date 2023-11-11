@@ -5,17 +5,24 @@ import { toast } from 'react-toastify';
 import useGlobalUser from '../../context/user/user.context';
 import useGlobalReload from '../../context/reload/reload.context';
 
-import { listAllPosts } from '../../external/server';
+import { createNewPost, listAllPosts } from '../../external/server';
 
-export function UseGetPosts() {
-  const [posts, setPosts] = useState([]);
+export function UseHandlePosts() {
   const [globarUser] = useGlobalUser();
+  const [reload, setReload] = useGlobalReload();
+
+  const [posts, setPosts] = useState([]);
   const [order, setOrder] = useState('publicationTime');
   const [page, setPage] = useState(0);
   const [hasNextPage, setHasNextPage] = useState(false);
   const [hasPreviousPage, setHasPreviousPage] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
-  const [reload, setReload] = useGlobalReload();
+  const [newPost, setNewPost] = useState({
+    body: '',
+    aggressor: '',
+    anonymous: false,
+  });
+  const [addPostIsOpen, setAddPostIsOpen] = useState(false);
 
   async function getPosts() {
     try {
@@ -57,6 +64,53 @@ export function UseGetPosts() {
     setReload(!reload);
   }
 
+  async function handleAddNewPost(event) {
+    event.preventDefault();
+    try {
+      await createNewPost(globarUser, newPost);
+      toast.success('Post criado com sucesso!', {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      setReload(!reload);
+      setNewPost({
+        body: '',
+        aggressor: '',
+        anonymous: false,
+      });
+    } catch (error) {
+      toast.error('Ocorreu um erro na criação do post.', {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    }
+  }
+
+  function onChange(event) {
+    setNewPost({
+      ...newPost,
+      [event.target.name]: event.target.value,
+    });
+  }
+
+  function closeAddPost() {
+    setAddPostIsOpen(!addPostIsOpen);
+  }
+
+  function onChangeCheckbox(event) {
+    const { checked } = event.target;
+
+    if (checked) {
+      setNewPost({
+        ...newPost,
+        anonymous: true,
+      });
+    } else {
+      setNewPost({
+        ...newPost,
+        anonymous: false,
+      });
+    }
+  }
+
   return {
     posts,
     getPosts,
@@ -67,5 +121,11 @@ export function UseGetPosts() {
     previousPage,
     hasNextPage,
     hasPreviousPage,
+    handleAddNewPost,
+    onChange,
+    newPost,
+    addPostIsOpen,
+    closeAddPost,
+    onChangeCheckbox,
   };
 }
