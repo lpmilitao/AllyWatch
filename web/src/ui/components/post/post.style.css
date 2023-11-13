@@ -52,3 +52,7 @@
 .end {
   margin-left: auto;
 }
+
+.icons > .trash {
+  max-height: 40%;
+}

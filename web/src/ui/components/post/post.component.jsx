@@ -7,8 +7,9 @@ import { avatarList } from '../../../assets/arrays/avatars';
 import like from '../../../assets/icons/like.svg';
 import comment from '../../../assets/icons/comment.svg';
 import report from '../../../assets/icons/report.svg';
+import trash from '../../../assets/icons/trash-blue.svg';
 
-import { likeOrDislikePost } from '../../../external/server';
+import { deletePost, likeOrDislikePost } from '../../../external/server';
 
 import useGlobalUser from '../../../context/user/user.context';
 import useGlobalReload from '../../../context/reload/reload.context';
@@ -35,6 +36,20 @@ export function Post({ post, reportPost }) {
     setOpenComments(!openComments);
   }
 
+  async function deleteThisPost() {
+    try {
+      await deletePost(user, post?.id);
+      toast.success('Post excluído com sucesso.', {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      setReload(!reload);
+    } catch (error) {
+      toast.error('Ocorreu ao excluir o post.', {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    }
+  }
+
   return (
     <section className='post'>
       <header>
@@ -49,6 +64,9 @@ export function Post({ post, reportPost }) {
           onClick={() => likePost(post?.id)}
         />
         <img src={comment} onClick={openCommentList} />
+        {post?.mine ? (
+          <img src={trash} className='trash' onClick={deleteThisPost} />
+        ) : null}
         <img src={report} className='end' onClick={reportPost} />
       </div>
       <CommentList
