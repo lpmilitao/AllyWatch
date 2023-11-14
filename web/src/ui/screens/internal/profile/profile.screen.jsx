@@ -1,10 +1,10 @@
 import './profile.style.css';
 
 import { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
 
 import { avatarList } from '../../../../assets/arrays/avatars';
 import whiteArrow from '../../../../assets/icons/short-arrow-white.svg';
+import pencil from '../../../../assets/icons/pencil-white.svg';
 
 import useGlobalReload from '../../../../context/reload/reload.context';
 
@@ -24,7 +24,8 @@ export function Profile() {
     hasPreviousPage,
     getMyPosts,
   } = UseHandlePosts();
-  const { getInfo, user, deleteAccount } = UseHandleUser();
+  const { getInfo, user, deleteAccount, editOpen, editIcon, setEditOpen } =
+    UseHandleUser();
 
   useEffect(() => {
     getMyPosts();
@@ -41,6 +42,30 @@ export function Profile() {
       <RightTab className={'profile'}>
         <div className='profile-pic'>
           <img src={avatarList[user.icon]} />
+        </div>
+        <div className='edit-icon'>
+          {editOpen ? (
+            <>
+              <button
+                className='change-icon blue'
+                onClick={() => editIcon('MALE')}
+              ></button>
+              <button
+                className='change-icon pink'
+                onClick={() => editIcon('FEMALE')}
+              ></button>
+              <button
+                className='change-icon yellow'
+                onClick={() => editIcon('NEUTRAL')}
+              ></button>
+            </>
+          ) : (
+            <img
+              src={pencil}
+              className='pencil'
+              onClick={() => setEditOpen(true)}
+            />
+          )}
         </div>
         <h1>{user.name}</h1>
         <h3>{user.email}</h3>

@@ -3,7 +3,7 @@ import useGlobalReload from '../../context/reload/reload.context';
 import useGlobalUser from '../../context/user/user.context';
 import { getUserInfo } from '../../external/server/user/getUserInfo';
 import { useState } from 'react';
-import { deleteUser } from '../../external/server';
+import { deleteUser, editUsersIcon } from '../../external/server';
 import { Navigate, useNavigate } from 'react-router-dom';
 
 export function UseHandleUser() {
@@ -14,6 +14,7 @@ export function UseHandleUser() {
     email: '',
     icon: 'NEUTRAL',
   });
+  const [editOpen, setEditOpen] = useState(false);
   const navigate = useNavigate();
 
   async function getInfo() {
@@ -40,9 +41,32 @@ export function UseHandleUser() {
     }
   }
 
+  async function editIcon(icon) {
+    if (icon === user.icon) {
+      setEditOpen(false);
+      return;
+    }
+
+    try {
+      await editUsersIcon(token, icon);
+      toast.success('Icone alterado com sucesso.', {
+        position: 'bottom-right',
+      });
+      setReload(!reload);
+      setEditOpen(false);
+    } catch (error) {
+      toast.error('Erro ao alterar icone.', {
+        position: 'top-right',
+      });
+    }
+  }
+
   return {
     getInfo,
     user,
     deleteAccount,
+    editOpen,
+    editIcon,
+    setEditOpen,
   };
 }

@@ -6,6 +6,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 2em;
 }
 
 .profile {
@@ -40,4 +41,43 @@
   cursor: pointer;
   text-decoration: underline;
   color: var(--pink);
+}
+
+.edit-icon {
+  width: 100%;
+  height: 2em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+}
+
+.edit-icon img {
+  max-height: 70%;
+}
+
+.pencil {
+  position: relative;
+  top: -1em;
+  right: -2em;
+  cursor: pointer;
+}
+
+.change-icon {
+  width: 1.5em;
+  height: 1.5em;
+  border-radius: 50%;
+  border: 2px solid var(--white);
+}
+
+.blue {
+  background-color: var(--blue);
+}
+
+.pink {
+  background-color: var(--pink);
+}
+
+.yellow {
+  background-color: var(--yellow);
 }
