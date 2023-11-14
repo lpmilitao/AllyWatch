@@ -14,12 +14,13 @@ import { deletePost, likeOrDislikePost } from '../../../external/server';
 import useGlobalUser from '../../../context/user/user.context';
 import useGlobalReload from '../../../context/reload/reload.context';
 
-import { CommentList } from '../commentList/commentList.component';
+import { CommentList, ReportPost } from '../';
 
-export function Post({ post, reportPost }) {
+export function Post({ post }) {
   const [user] = useGlobalUser();
   const [reload, setReload] = useGlobalReload();
   const [openComments, setOpenComments] = useState(false);
+  const [openReport, setOpenReport] = useState(false);
 
   async function likePost(id) {
     try {
@@ -30,10 +31,6 @@ export function Post({ post, reportPost }) {
         position: toast.POSITION.TOP_RIGHT,
       });
     }
-  }
-
-  function openCommentList() {
-    setOpenComments(!openComments);
   }
 
   async function deleteThisPost() {
@@ -48,6 +45,14 @@ export function Post({ post, reportPost }) {
         position: toast.POSITION.TOP_RIGHT,
       });
     }
+  }
+
+  function openCommentList() {
+    setOpenComments(!openComments);
+  }
+
+  function openReportDialog() {
+    setOpenReport(!openReport);
   }
 
   return (
@@ -67,13 +72,22 @@ export function Post({ post, reportPost }) {
         {post?.mine ? (
           <img src={trash} className='trash' onClick={deleteThisPost} />
         ) : null}
-        <img src={report} className='end' onClick={reportPost} />
+        <img src={report} className='end' onClick={openReportDialog} />
       </div>
-      <CommentList
-        isOpen={openComments}
-        close={openCommentList}
-        postId={post?.id}
-      />
+      {openComments ? (
+        <CommentList
+          isOpen={openComments}
+          close={openCommentList}
+          postId={post?.id}
+        />
+      ) : null}
+      {openReport ? (
+        <ReportPost
+          isOpen={openReport}
+          onClose={openReportDialog}
+          postId={post?.id}
+        />
+      ) : null}
     </section>
   );
 }

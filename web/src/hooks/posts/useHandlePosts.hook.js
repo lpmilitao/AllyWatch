@@ -5,9 +5,9 @@ import { toast } from 'react-toastify';
 import useGlobalUser from '../../context/user/user.context';
 import useGlobalReload from '../../context/reload/reload.context';
 
-import { createNewPost, listAllPosts } from '../../external/server';
+import { createNewPost, listAllPosts, reportPost } from '../../external/server';
 
-export function UseHandlePosts() {
+export function UseHandlePosts(postId) {
   const [globarUser] = useGlobalUser();
   const [reload, setReload] = useGlobalReload();
 
@@ -23,6 +23,7 @@ export function UseHandlePosts() {
     anonymous: false,
   });
   const [addPostIsOpen, setAddPostIsOpen] = useState(false);
+  const [report, setReport] = useState('');
 
   async function getPosts() {
     try {
@@ -84,7 +85,7 @@ export function UseHandlePosts() {
     }
   }
 
-  function onChange(event) {
+  function onChangeNewPost(event) {
     setNewPost({
       ...newPost,
       [event.target.name]: event.target.value,
@@ -111,6 +112,32 @@ export function UseHandlePosts() {
     }
   }
 
+  function onChangeReport(event) {
+    setReport(event.target.value);
+  }
+
+  async function submitReport(event) {
+    event.preventDefault();
+
+    if (report.trim() === '') {
+      toast.error('Por favor, informe o motivo da sua denúncia.', {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      return;
+    }
+
+    try {
+      await reportPost(globarUser, postId, report);
+      toast.success('Post denunciado com sucesso!', {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    } catch (error) {
+      toast.error('Ocorreu um erro na denúncia do post.', {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    }
+  }
+
   return {
     posts,
     getPosts,
@@ -122,10 +149,13 @@ export function UseHandlePosts() {
     hasNextPage,
     hasPreviousPage,
     handleAddNewPost,
-    onChange,
+    onChangeNewPost,
     newPost,
     addPostIsOpen,
     closeAddPost,
     onChangeCheckbox,
+    onChangeReport,
+    report,
+    submitReport,
   };
 }

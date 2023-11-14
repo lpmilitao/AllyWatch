@@ -1,0 +1,23 @@
+.report {
+  background-color: var(--blue);
+  width: 40%;
+  height: 60%;
+  top: 20%;
+  left: 30%;
+  position: fixed;
+  border: none;
+  box-shadow: 8px 8px 8px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 1em;
+  padding: 3em;
+  z-index: 2;
+  color: var(--white);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 1em;
+}
+
+.report h1 {
+  font-size: 1.7em;
+  font-weight: 500;
+}

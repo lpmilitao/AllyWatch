@@ -8,7 +8,7 @@ import whiteArrow from '../../../../assets/icons/short-arrow-white.svg';
 
 import useGlobalReload from '../../../../context/reload/reload.context';
 
-import { UseHandlePosts } from '../../../../hooks/posts/useGetPosts.hook';
+import { UseHandlePosts } from '../../../../hooks/posts/useHandlePosts.hook';
 
 import { AddPost, BaseScreen, Post, RightTab } from '../../../components';
 

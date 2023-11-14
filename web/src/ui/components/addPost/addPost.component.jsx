@@ -1,10 +1,10 @@
 import './addPost.style.css';
 
-import { UseHandlePosts } from '../../../hooks/posts/useGetPosts.hook';
+import { UseHandlePosts } from '../../../hooks/posts/useHandlePosts.hook';
 import { XButton, SendButton } from '../';
 
 export function AddPost({ isOpen, onClose }) {
-  const { handleAddNewPost, onChange, newPost, onChangeCheckbox } =
+  const { handleAddNewPost, onChangeNewPost, newPost, onChangeCheckbox } =
     UseHandlePosts();
 
   return (
@@ -14,7 +14,11 @@ export function AddPost({ isOpen, onClose }) {
         <h1>Adicione um post</h1>
         <div className='textarea'>
           <h3>Conte-nos seu relato</h3>
-          <textarea name='body' value={newPost.body} onChange={onChange} />
+          <textarea
+            name='body'
+            value={newPost.body}
+            onChange={onChangeNewPost}
+          />
         </div>
         <div className='aggressor'>
           <h3>Escreva o nome do seu agressor</h3>
@@ -28,7 +32,7 @@ export function AddPost({ isOpen, onClose }) {
             type='text'
             value={newPost.aggressor}
             name='aggressor'
-            onChange={onChange}
+            onChange={onChangeNewPost}
           />
         </div>
         <div className='anonymous'>
