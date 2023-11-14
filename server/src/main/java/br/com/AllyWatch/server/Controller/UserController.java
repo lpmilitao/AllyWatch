@@ -6,6 +6,7 @@ import br.com.AllyWatch.server.DTO.Request.UserRequest;
 import br.com.AllyWatch.server.DTO.Response.ChatDetailedResponse;
 import br.com.AllyWatch.server.DTO.Response.ChatResponse;
 import br.com.AllyWatch.server.DTO.Response.SolicitationResponse;
+import br.com.AllyWatch.server.DTO.Response.UserResponse;
 import br.com.AllyWatch.server.Service.ChatService;
 import br.com.AllyWatch.server.Service.UserService;
 import jakarta.validation.Valid;
@@ -47,6 +48,14 @@ public class UserController {
     public void deleteAccount(@RequestHeader String authorization){
         userService.delete(authorization);
     }
+
+    @GetMapping
+    @Secured(USER)
+    public UserResponse getUserInfo(@RequestHeader String authorization){
+        return userService.getUserInfo(authorization);
+    }
+
+
 
     @GetMapping("/chats/solicitations")
     @Secured(USER)

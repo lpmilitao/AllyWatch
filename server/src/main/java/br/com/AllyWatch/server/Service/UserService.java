@@ -2,6 +2,7 @@ package br.com.AllyWatch.server.Service;
 
 import br.com.AllyWatch.server.DTO.Request.IconRequest;
 import br.com.AllyWatch.server.DTO.Request.UserRequest;
+import br.com.AllyWatch.server.DTO.Response.UserResponse;
 import br.com.AllyWatch.server.Domain.KeyCrypt;
 import br.com.AllyWatch.server.Domain.User;
 import br.com.AllyWatch.server.Repository.UserRepository;
@@ -82,6 +83,20 @@ public class UserService {
         user.setIcon(request.getIcon());
 
         userRepository.save(user);
+    }
+
+    public UserResponse getUserInfo(String authorization) {
+        User user = getAuthenticatedUser(authorization);
+
+        return UserResponse.builder()
+                .name(
+                        decrypt(user.getFullname(), user.getKeys().getPrivateKey())
+                )
+                .email(
+                        decrypt(user.getEmail(), user.getKeys().getPrivateKey())
+                )
+                .icon(user.getIcon())
+                .build();
     }
 
     public void delete(String authorization) {
