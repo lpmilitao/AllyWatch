@@ -40,7 +40,7 @@ export function Timeline() {
         ))}
         <AddPost isOpen={addPostIsOpen} onClose={closeAddPost} />
       </section>
-      <RightTab class={'timeline-right-tab'}>
+      <RightTab>
         <button onClick={switchOrder} className='switch-order'>
           <img src={switchArrow} />
           <h3>

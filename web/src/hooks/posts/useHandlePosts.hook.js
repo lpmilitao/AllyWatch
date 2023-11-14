@@ -6,6 +6,7 @@ import useGlobalUser from '../../context/user/user.context';
 import useGlobalReload from '../../context/reload/reload.context';
 
 import { createNewPost, listAllPosts, reportPost } from '../../external/server';
+import { listUsersPosts } from '../../external/server/post/listUsersPosts';
 
 export function UseHandlePosts(postId) {
   const [globarUser] = useGlobalUser();
@@ -138,6 +139,21 @@ export function UseHandlePosts(postId) {
     }
   }
 
+  async function getMyPosts() {
+    try {
+      const response = await listUsersPosts(globarUser);
+
+      setHasNextPage(!response.last);
+      setHasPreviousPage(!response.first);
+      setTotalPages(response.totalPages);
+      setPosts(response.content);
+    } catch (error) {
+      toast.error('Ocorreu um erro na busca dos posts.', {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    }
+  }
+
   return {
     posts,
     getPosts,
@@ -157,5 +173,6 @@ export function UseHandlePosts(postId) {
     onChangeReport,
     report,
     submitReport,
+    getMyPosts,
   };
 }

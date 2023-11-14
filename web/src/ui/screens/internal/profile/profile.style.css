@@ -1,0 +1,43 @@
+.profile-pic {
+  width: 4.5em;
+  height: 4.5em;
+  background-color: var(--white);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--white);
+  gap: 0.3em;
+}
+
+.profile > h1 {
+  font-size: 1.5em;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  margin-top: 1em;
+}
+
+.profile > h3 {
+  font-size: 1em;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  color: var(--gray);
+}
+
+.profile > span {
+  font-size: 0.9em;
+  margin-top: 0.3em;
+  letter-spacing: 0.4px;
+}
+
+.profile > span:hover {
+  cursor: pointer;
+  text-decoration: underline;
+  color: var(--pink);
+}
