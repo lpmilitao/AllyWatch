@@ -1,3 +1,4 @@
+export { EditPost } from '../components/editPost/editPost.component';
 export { Chats } from './internal/chats/chats.screen';
 export { HelpPoints } from './internal/helpPoints/helpPoints.screen';
 export { Chatbot } from './internal/chatbot/chatbot.screen';

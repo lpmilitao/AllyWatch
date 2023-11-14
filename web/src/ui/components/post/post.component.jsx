@@ -8,6 +8,7 @@ import like from '../../../assets/icons/like.svg';
 import comment from '../../../assets/icons/comment.svg';
 import report from '../../../assets/icons/report.svg';
 import trash from '../../../assets/icons/trash-blue.svg';
+import pencil from '../../../assets/icons/pencil-blue.svg';
 
 import { deletePost, likeOrDislikePost } from '../../../external/server';
 
@@ -15,12 +16,14 @@ import useGlobalUser from '../../../context/user/user.context';
 import useGlobalReload from '../../../context/reload/reload.context';
 
 import { CommentList, ReportPost } from '../';
+import { EditPost } from '../editPost/editPost.component';
 
 export function Post({ post }) {
   const [user] = useGlobalUser();
   const [reload, setReload] = useGlobalReload();
   const [openComments, setOpenComments] = useState(false);
   const [openReport, setOpenReport] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
 
   async function likePost(id) {
     try {
@@ -70,7 +73,14 @@ export function Post({ post }) {
         />
         <img src={comment} onClick={openCommentList} />
         {post?.mine ? (
-          <img src={trash} className='trash' onClick={deleteThisPost} />
+          <>
+            <img src={trash} className='trash' onClick={deleteThisPost} />
+            <img
+              src={pencil}
+              className='trash'
+              onClick={() => setOpenEdit(true)}
+            />
+          </>
         ) : null}
         <img src={report} className='end' onClick={openReportDialog} />
       </div>
@@ -87,6 +97,9 @@ export function Post({ post }) {
           onClose={openReportDialog}
           postId={post?.id}
         />
+      ) : null}
+      {openEdit ? (
+        <EditPost postId={post?.id} onClose={() => setOpenEdit(false)} />
       ) : null}
     </section>
   );

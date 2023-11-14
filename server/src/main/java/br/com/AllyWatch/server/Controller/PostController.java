@@ -1,6 +1,7 @@
 package br.com.AllyWatch.server.Controller;
 
 import br.com.AllyWatch.server.DTO.Request.CommentRequest;
+import br.com.AllyWatch.server.DTO.Request.PostEditResponse;
 import br.com.AllyWatch.server.DTO.Request.PostRequest;
 import br.com.AllyWatch.server.DTO.Request.ReportRequest;
 import br.com.AllyWatch.server.DTO.Response.CommentResponse;
@@ -54,6 +55,12 @@ public class PostController {
     public void deletePost(@RequestHeader String authorization,
                          @PathVariable long postId){
         postService.delete(authorization, postId);
+    }
+
+    @GetMapping("/{postId}")
+    @Secured(USER)
+    public PostEditResponse getPost(@PathVariable long postId){
+        return postService.getById(postId);
     }
 
     @GetMapping("/mine")

@@ -1,5 +1,6 @@
 package br.com.AllyWatch.server.Service;
 
+import br.com.AllyWatch.server.DTO.Request.PostEditResponse;
 import br.com.AllyWatch.server.DTO.Request.PostRequest;
 import br.com.AllyWatch.server.DTO.Response.PostResponse;
 import br.com.AllyWatch.server.Domain.Chat;
@@ -198,5 +199,17 @@ public class PostService {
                         chat.getUsers().contains(user2)
         ).toList();
         return !calica.isEmpty();
+    }
+
+    public PostEditResponse getById(long postId) {
+        Post post = postRepository.findById(postId).orElseThrow(() -> new ResponseStatusException(
+                NOT_FOUND, "Post not found."
+        ));
+
+        return PostEditResponse.builder()
+                .body(post.getBody())
+                .aggressor(post.getAggressor())
+                .anonymous(post.isAnonymous())
+                .build();
     }
 }
