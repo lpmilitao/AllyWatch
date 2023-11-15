@@ -9,10 +9,10 @@ import br.com.AllyWatch.server.Domain.KeyCrypt;
 import br.com.AllyWatch.server.Domain.Lawyer;
 import br.com.AllyWatch.server.Repository.LawyerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.List;
 
 import static br.com.AllyWatch.server.DTO.Mapper.SpecialistMapper.toEntity;
 import static br.com.AllyWatch.server.Domain.Enum.Status.APPROVED;
@@ -55,8 +55,8 @@ public class LawyerService {
         lawyerRepository.save(lawyer);
     }
 
-    public List<SpecialistResponse> listByStatus(Status status) {
-        return lawyerRepository.findAllByStatusLike(status)
-                .stream().map(SpecialistMapper::toResponse).toList();
+    public Page<SpecialistResponse> listByStatus(Status status, Pageable pageable) {
+            return lawyerRepository.findAllByStatusLike(status, pageable)
+                    .map(SpecialistMapper::toResponse);
     }
 }

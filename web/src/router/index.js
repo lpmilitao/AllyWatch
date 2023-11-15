@@ -46,22 +46,22 @@ export const router = createBrowserRouter([
   },
   {
     path: '/specialists',
-    element: <Specialist />,
+    element: <PrivateRoute Screen={Specialist} />,
   },
   {
     path: '/chatbot',
-    element: <Chatbot />,
+    element: <PrivateRoute Screen={Chatbot} />,
   },
   {
     path: '/report',
-    element: <Report />,
+    element: <PrivateRoute Screen={Report} />,
   },
   {
     path: '/help-points',
-    element: <HelpPoints />,
+    element: <PrivateRoute Screen={HelpPoints} />,
   },
   {
     path: '/chats',
-    element: <Chats />,
+    element: <PrivateRoute Screen={Chats} />,
   },
 ]);

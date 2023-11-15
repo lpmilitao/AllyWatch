@@ -10,10 +10,10 @@ import br.com.AllyWatch.server.Domain.Psychologist;
 import br.com.AllyWatch.server.Repository.PsychologistRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.List;
 
 import static br.com.AllyWatch.server.DTO.Mapper.SpecialistMapper.toEntity;
 import static br.com.AllyWatch.server.Domain.Enum.Status.APPROVED;
@@ -60,9 +60,8 @@ public class PsychologistService {
         psychologistRepository.save(psychologist);
     }
 
-    public List<SpecialistResponse> listByStatus(Status status) {
-        return psychologistRepository.findAllByStatusLike(status)
-                .stream().map(SpecialistMapper::toResponse)
-                .toList();
+    public Page<SpecialistResponse> listByStatus(Status status, Pageable pageable) {
+        return psychologistRepository.findAllByStatusLike(status, pageable)
+                .map(SpecialistMapper::toResponse);
     }
 }
