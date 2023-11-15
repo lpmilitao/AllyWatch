@@ -37,12 +37,13 @@ export function Home() {
             Allywatch?
           </h1>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente
-            eius fuga ut temporibus reiciendis facilis autem beatae laborum
-            obcaecati assumenda, dignissimos ducimus sequi error aperiam enim
-            culpa deserunt fugiat esse! Lorem ipsum dolgabriellindoor sit amet
-            consectetur, adipisicing elit. Ad molestias corrupti laborum, natus
-            doloremque.
+            O AllyWatch é uma plataforma que tem como objetivo servir como uma
+            rede de apoio a vítimas de violência sexual e assédio moral dentro
+            do ambiente escolar, oferecendo funcionalidades ao usuário que podem
+            auxiliá-lo a identificar se o que está ocorrendo com ele é algo que
+            merece atenção profissional, ajudá-lo a navegar por este momento
+            ruim e procurar a ajuda e o apoio - psicológico, legal ou social -
+            que desejar.
           </p>
         </article>
         <a href='#top'>
