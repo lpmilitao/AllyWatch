@@ -35,3 +35,8 @@
   color: var(--blue);
   text-decoration: underline;
 }
+
+.reports-container select {
+  width: 10em;
+  border-radius: 0.5em;
+}
