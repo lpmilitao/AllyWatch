@@ -1,3 +1,4 @@
+export { Message } from './message/message.component';
 export { ReportPost } from './reportPost/reportPost.component';
 export { AddPost } from './addPost/addPost.component';
 export { XButton } from './xButton/xButton.component';

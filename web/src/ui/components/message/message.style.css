@@ -1,0 +1,21 @@
+.message {
+  width: 40%;
+  min-height: 5em;
+  border-radius: 2em;
+  padding: 0.5em 1em;
+  position: relative;
+}
+
+.me {
+  background-color: var(--white);
+  margin-left: auto;
+  border-bottom-right-radius: 0;
+  color: var(--blue);
+}
+
+.friend {
+  background-color: var(--light-blue);
+  margin-right: auto;
+  border-bottom-left-radius: 0;
+  color: var(--white);
+}

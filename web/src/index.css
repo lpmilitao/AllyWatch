@@ -17,10 +17,11 @@ body {
   --baby-pink: #ffc2d1;
   --strong-pink: #ae163c;
   --blue: #14213d;
-  --baby-blue: #294277;
+  --light-blue: #294277;
   --white: #ffffff;
   --gray: #b0b0b0;
   --yellow: #fcc419;
+  --light-gray: #e5e5e5;
 
   --primary: var(--pink);
 }

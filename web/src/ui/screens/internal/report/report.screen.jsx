@@ -33,7 +33,7 @@ export function Report() {
             Faça uma denúncia online na polícia civil do {stateSelected}
           </a>
         </div>
-        <h1>Números de telefoneque podem ajudar</h1>
+        <h1>Números de telefone que podem ajudar</h1>
         <p>
           Central de Atendimento à Mulher (para vítimas de violência contra a
           mulher): <b>180</b>
