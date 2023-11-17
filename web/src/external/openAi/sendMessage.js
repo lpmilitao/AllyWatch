@@ -2,15 +2,15 @@ import axios from 'axios';
 import { axiosInstance } from './_baseInstance';
 import { OPEN_AI_API_KEY } from './apiKey';
 
-export async function sendMessage(message) {
-  axios
-    .post(
-      'https://api.openai.com/v1/engines/davinci/completions',
+export async function sendMessage(messages) {
+  try {
+    const response = await axios.post(
+      'https://api.openai.com/v1/chat/completions',
       {
-        prompt: message,
-        max_tokens: 200,
+        messages: messages,
+        model: 'gpt-3.5-turbo',
+        max_tokens: 200000,
         temperature: 0.1,
-        stop: ['.'],
       },
       {
         headers: {
@@ -18,11 +18,11 @@ export async function sendMessage(message) {
           Authorization: `Bearer ${OPEN_AI_API_KEY}`,
         },
       },
-    )
-    .then((response) => {
-      console.log(response.data.choices[0].text);
-    })
-    .catch((error) => {
-      console.error('Erro na API:', error);
-    });
+    );
+
+    return response.data.choices[0].text;
+  } catch (error) {
+    console.error('Erro na API:', error);
+    throw error;
+  }
 }

@@ -9,12 +9,25 @@ export function UseHandleOpenAi() {
 
   async function handleSend() {
     try {
-      setMessages([...messages]);
-
-      const response = await sendMessage(newMessage);
-
-      setMessages([...messages, { message: response, isMe: false }]);
+      setMessages((currentMessages) => [
+        ...currentMessages,
+        { message: newMessage, isMe: true },
+      ]);
       setNewMessage('');
+
+      const response = await sendMessage(
+        messages.map((m) => {
+          return {
+            role: m.isMe ? 'user' : 'system',
+            content: m.message,
+          };
+        }),
+      );
+
+      setMessages((currentMessages) => [
+        ...currentMessages,
+        { message: response, isMe: false },
+      ]);
     } catch (error) {
       toast.error('Erro ao enviar a mensagem.', {
         position: toast.POSITION.TOP_RIGHT,

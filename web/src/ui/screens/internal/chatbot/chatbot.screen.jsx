@@ -12,9 +12,15 @@ export function Chatbot() {
   return (
     <BaseScreen at={'chatbot'}>
       <section className='chatbot-container'>
-        {messages?.map((message) => (
-          <Message message={message?.message} isMe={message?.isMe} />
-        ))}
+        {messages
+          ? messages.map((message, index) => (
+              <Message
+                key={index}
+                message={message?.message}
+                isMe={message?.isMe}
+              />
+            ))
+          : null}
         <div className='send-message'>
           <input type='text' onChange={onChange} value={newMessage} />
           <button onClick={handleSend}>

@@ -3,7 +3,8 @@
   min-height: 5em;
   border-radius: 2em;
   padding: 0.5em 1em;
-  position: relative;
+  margin: 0.5em 0;
+  overflow: hidden;
 }
 
 .me {
