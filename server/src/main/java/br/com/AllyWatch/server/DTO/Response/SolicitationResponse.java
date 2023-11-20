@@ -1,5 +1,6 @@
 package br.com.AllyWatch.server.DTO.Response;
 
+import br.com.AllyWatch.server.Domain.Enum.Icon;
 import br.com.AllyWatch.server.Domain.Enum.Status;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,4 +17,6 @@ public class SolicitationResponse {
     private String requestedUser;
 
     private String requestingUser;
+
+    private Icon requestingUserIcon;
 }

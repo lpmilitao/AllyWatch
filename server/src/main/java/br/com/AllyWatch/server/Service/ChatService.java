@@ -65,6 +65,7 @@ public class ChatService {
                                     decrypt(otherSolicitation.getUser().getFullname(),
                                             otherSolicitation.getUser().getKeys().getPrivateKey())
                             )
+                            .requestingUserIcon(otherSolicitation.getUser().getIcon())
                             .build();
                 }
         ).toList();

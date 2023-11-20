@@ -16,6 +16,7 @@ public class ChatMapper {
                 .ally(
                         decrypt(user.getFullname(), user.getKeys().getPrivateKey())
                 )
+                .allyIcon(user.getIcon())
                 .build();
     }
 
