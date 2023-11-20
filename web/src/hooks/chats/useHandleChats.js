@@ -1,15 +1,19 @@
 import { useState } from 'react';
+import { toast } from 'react-toastify';
+
 import {
   answerChatSolicitation,
   detailChat,
   listChats,
   listChatsSolicitations,
 } from '../../external/server';
+
 import useGlobalUser from '../../context/user/user.context';
-import { toast } from 'react-toastify';
+import useGlobalReload from '../../context/reload/reload.context';
 
 export function UseHandleChats() {
   const [token] = useGlobalUser();
+  const [reload, setReload] = useGlobalReload();
   const [listOpened, setListOpened] = useState('chats');
   const [chats, setChats] = useState([{ id: 0, open: true, ally: '' }]);
   const [solicitatons, setSolicitations] = useState([
@@ -47,6 +51,7 @@ export function UseHandleChats() {
       toast.success('Solicitação aceita!', {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
+      setReload(!reload);
     } catch (error) {
       toast.error('Erro ao aceitar solicitação', {
         position: toast.POSITION.BOTTOM_RIGHT,
@@ -60,6 +65,7 @@ export function UseHandleChats() {
       toast.success('Solicitação negada!', {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
+      setReload(!reload);
     } catch (error) {
       toast.error('Erro ao recusar solicitação', {
         position: toast.POSITION.BOTTOM_RIGHT,

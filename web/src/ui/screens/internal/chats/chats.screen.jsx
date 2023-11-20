@@ -1,56 +1,18 @@
 import './chats.style.css';
 
+import { useEffect } from 'react';
+
+import send from '../../../../assets/icons/send-pink.svg';
 import { avatarList } from '../../../../assets/arrays/avatars';
+
+import useGlobalReload from '../../../../context/reload/reload.context';
 
 import { UseHandleChats } from '../../../../hooks';
 
-import { BaseScreen, RightTab } from '../../../components';
-import { useEffect } from 'react';
-
-const CHATS = [
-  {
-    id: 1,
-    open: true,
-    ally: 'Joana Joana Joana Joana Joana Joana',
-    allyIcon: 'NEUTRAL',
-  },
-  { id: 2, open: true, ally: 'Maria', allyIcon: 'FEMALE' },
-  { id: 3, open: true, ally: 'Paulo', allyIcon: 'MALE' },
-  { id: 4, open: true, ally: 'Catarina', allyIcon: 'NEUTRAL' },
-];
-
-const SOLICITATIONS = [
-  {
-    id: 1,
-    status: 'UNDER_REVIEW',
-    requestedUser: 'Luiza',
-    requestingUser: 'Carla Carla Carla Carla Carla',
-    requestingUserIcon: 'NEUTRAL',
-  },
-  {
-    id: 2,
-    status: 'UNDER_REVIEW',
-    requestedUser: 'Luiza',
-    requestingUser: 'Marcos',
-    requestingUserIcon: 'MALE',
-  },
-  {
-    id: 3,
-    status: 'UNDER_REVIEW',
-    requestedUser: 'Luiza',
-    requestingUser: 'Paulo',
-    requestingUserIcon: 'MALE',
-  },
-  {
-    id: 4,
-    status: 'UNDER_REVIEW',
-    requestedUser: 'Luiza',
-    requestingUser: 'Cristina',
-    requestingUserIcon: 'FEMALE',
-  },
-];
+import { BaseScreen, Message, RightTab } from '../../../components';
 
 export function Chats() {
+  const [reload] = useGlobalReload();
   const {
     listOpened,
     setListOpened,
@@ -69,17 +31,40 @@ export function Chats() {
   } = UseHandleChats();
 
   useEffect(() => {
-    listOpened === 'chats' ? handleListChats() : handleListSolicitations();
-  }, [listOpened]);
+    //listOpened === 'chats' ? handleListChats() : handleListSolicitations();
+  }, [listOpened, reload]);
 
   useEffect(() => {
     if (isChatSelected) {
-      handleChatSelection();
+      //handleChatSelection();
     }
   }, [isChatSelected, chatSelectedId]);
 
   return (
     <BaseScreen at={'chat'} rightTab={true}>
+      <section className='chat-container'>
+        <span>
+          Essa conversa foi iniciada pelo AllyWatch. Isso significa que você e
+          esta pessoa foram, possivelmente, vítimas de um mesmo agressor, e por
+          isso, colocamos vocês em contato para que tomem alguma provindência em
+          conjunto, troquem relatos e ajudem-se. Se este chat está aberto,
+          significa que vocês dois aceitaram participar dele.
+        </span>
+        <Message message={'Oi'} />
+        <Message message={'Oi tudo'} isMe={true} />
+        <Message message={'Oi tudo tudo'} />
+        <Message message={'Oi tudo tudo tudo'} isMe={true} />
+        <Message message={'Oi'} />
+        <Message message={'Oi tudo'} isMe={true} />
+        <Message message={'Oi tudo tudo'} />
+        <Message message={'Oi tudo tudo tudo'} isMe={true} />
+        <div className='sender'>
+          <input type='text' name='' />
+          <div>
+            <img src={send} alt='' />
+          </div>
+        </div>
+      </section>
       <RightTab>
         <div className='switch-list'>
           <button onClick={() => setListOpened('chats')}>Chats</button>
