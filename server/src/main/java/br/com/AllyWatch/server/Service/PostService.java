@@ -24,6 +24,7 @@ import java.util.Objects;
 
 import static br.com.AllyWatch.server.DTO.Mapper.PostMapper.*;
 import static br.com.AllyWatch.server.Domain.Enum.Status.UNDER_REVIEW;
+import static java.util.Objects.isNull;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
@@ -151,8 +152,12 @@ public class PostService {
         List<Post> posts = postRepository.findAll();
 
         List<Post> matching = posts.stream().filter(p ->
-                Objects.equals(p.getAggressor(), post.getAggressor())
-                        && p.getAuthor().getId() != post.getAuthor().getId()
+                {
+                    if (isNull(p.getAggressor()) || p.getAuthor().getId() == post.getAuthor().getId()) {
+                        return false;
+                    }
+                    return p.getAggressor().equalsIgnoreCase(post.getAggressor());
+                }
         ).toList();
 
         if (matching.isEmpty()) return;

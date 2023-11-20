@@ -1,5 +1,10 @@
 import { useState } from 'react';
-import { listChats, listChatsSolicitations } from '../../external/server';
+import {
+  answerChatSolicitation,
+  detailChat,
+  listChats,
+  listChatsSolicitations,
+} from '../../external/server';
 import useGlobalUser from '../../context/user/user.context';
 import { toast } from 'react-toastify';
 
@@ -10,6 +15,9 @@ export function UseHandleChats() {
   const [solicitatons, setSolicitations] = useState([
     { id: 0, status: '', requestedUser: '', requestingUser: '' },
   ]);
+  const [chat, setChat] = useState({ id: 0, open: true, ally: '' });
+  const [isChatSelected, setIsChatSelected] = useState(false);
+  const [chatSelectedId, setChatSelectedId] = useState(0);
 
   async function handleListChats() {
     try {
@@ -33,6 +41,43 @@ export function UseHandleChats() {
     }
   }
 
+  async function acceptSolicitation(solicitationId) {
+    try {
+      await answerChatSolicitation(token, true, solicitationId);
+      toast.success('Solicitação aceita!', {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+    } catch (error) {
+      toast.error('Erro ao aceitar solicitação', {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+    }
+  }
+
+  async function denySolicitation(solicitationId) {
+    try {
+      await answerChatSolicitation(token, false, solicitationId);
+      toast.success('Solicitação negada!', {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+    } catch (error) {
+      toast.error('Erro ao recusar solicitação', {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+    }
+  }
+
+  async function handleChatSelection() {
+    try {
+      const response = await detailChat(token, chatSelectedId);
+      setChat(response);
+    } catch (error) {
+      toast.error('Erro ao buscar as informações do chat', {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+    }
+  }
+
   return {
     listOpened,
     setListOpened,
@@ -40,5 +85,13 @@ export function UseHandleChats() {
     solicitatons,
     handleListChats,
     handleListSolicitations,
+    acceptSolicitation,
+    denySolicitation,
+    chat,
+    isChatSelected,
+    setIsChatSelected,
+    handleChatSelection,
+    chatSelectedId,
+    setChatSelectedId,
   };
 }

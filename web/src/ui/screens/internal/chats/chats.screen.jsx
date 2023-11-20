@@ -58,11 +58,25 @@ export function Chats() {
     solicitatons,
     handleListChats,
     handleListSolicitations,
+    acceptSolicitation,
+    denySolicitation,
+    chat,
+    isChatSelected,
+    setIsChatSelected,
+    handleChatSelection,
+    chatSelectedId,
+    setChatSelectedId,
   } = UseHandleChats();
 
   useEffect(() => {
-    //listOpened === 'chats' ? handleListChats() : handleListSolicitations();
+    listOpened === 'chats' ? handleListChats() : handleListSolicitations();
   }, [listOpened]);
+
+  useEffect(() => {
+    if (isChatSelected) {
+      handleChatSelection();
+    }
+  }, [isChatSelected, chatSelectedId]);
 
   return (
     <BaseScreen at={'chat'} rightTab={true}>
@@ -74,9 +88,15 @@ export function Chats() {
           </button>
         </div>
         {listOpened === 'chats'
-          ? CHATS.map((chat) => {
+          ? chats.map((chat) => {
               return (
-                <div className='chat'>
+                <div
+                  className='chat'
+                  onClick={() => {
+                    setIsChatSelected(true);
+                    setChatSelectedId(chat.id);
+                  }}
+                >
                   <img
                     src={avatarList[chat.allyIcon]}
                     className='chat-profile-pic'
@@ -85,7 +105,7 @@ export function Chats() {
                 </div>
               );
             })
-          : SOLICITATIONS.map((solicitation) => {
+          : solicitatons.map((solicitation) => {
               return (
                 <div className='solicitation'>
                   <img
@@ -93,8 +113,15 @@ export function Chats() {
                     className='chat-profile-pic'
                   />
                   <p>{solicitation.requestingUser}</p>
-                  <button className='right-side'>Aceitar</button>
-                  <button>Recusar</button>
+                  <button
+                    className='right-side'
+                    onClick={() => acceptSolicitation(solicitation.id)}
+                  >
+                    Aceitar
+                  </button>
+                  <button onClick={() => denySolicitation(solicitation.id)}>
+                    Recusar
+                  </button>
                 </div>
               );
             })}
