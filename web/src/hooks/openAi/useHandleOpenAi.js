@@ -9,23 +9,25 @@ export function UseHandleOpenAi() {
 
   async function handleSend() {
     try {
+      const messagesRequest = messages.map((m) => {
+        return {
+          role: m.isMe ? 'user' : 'assistant',
+          content: m.message,
+        };
+      });
+
       setMessages((currentMessages) => [
         ...currentMessages,
         { message: newMessage, isMe: true },
+        { message: 'Digitando ...', isMe: false },
       ]);
+      messagesRequest.push({ role: 'user', content: newMessage });
       setNewMessage('');
 
-      const response = await sendMessage(
-        messages.map((m) => {
-          return {
-            role: m.isMe ? 'user' : 'system',
-            content: m.message,
-          };
-        }),
-      );
+      const response = await sendMessage(messagesRequest);
 
       setMessages((currentMessages) => [
-        ...currentMessages,
+        ...currentMessages.filter((m) => m.message !== 'Digitando ...'),
         { message: response, isMe: false },
       ]);
     } catch (error) {

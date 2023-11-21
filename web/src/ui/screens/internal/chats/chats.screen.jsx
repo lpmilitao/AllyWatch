@@ -1,6 +1,6 @@
 import './chats.style.css';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import send from '../../../../assets/icons/send-pink.svg';
 import { avatarList } from '../../../../assets/arrays/avatars';
@@ -10,6 +10,10 @@ import useGlobalReload from '../../../../context/reload/reload.context';
 import { UseHandleChats } from '../../../../hooks';
 
 import { BaseScreen, Message, RightTab } from '../../../components';
+
+import { MessageList } from './messageList';
+import { SendMessageForm } from './sendMessageForm';
+import { Client, Stomp } from '@stomp/stompjs';
 
 export function Chats() {
   const [reload] = useGlobalReload();
@@ -59,9 +63,9 @@ export function Chats() {
         <Message message={'Oi tudo tudo'} />
         <Message message={'Oi tudo tudo tudo'} isMe={true} />
         <div className='sender'>
-          <input type='text' name='' />
+          <input type='text' />
           <div>
-            <img src={send} alt='' />
+            <img src={send} />
           </div>
         </div>
       </section>
