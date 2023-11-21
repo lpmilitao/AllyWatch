@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { axiosInstance } from './_baseInstance';
 import { OPEN_AI_API_KEY } from './apiKey';
 
 export async function sendMessage(messages) {

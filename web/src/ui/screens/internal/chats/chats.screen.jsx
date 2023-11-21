@@ -11,10 +11,6 @@ import { UseHandleChats } from '../../../../hooks';
 
 import { BaseScreen, Message, RightTab } from '../../../components';
 
-import { MessageList } from './messageList';
-import { SendMessageForm } from './sendMessageForm';
-import { Client, Stomp } from '@stomp/stompjs';
-
 export function Chats() {
   const [reload] = useGlobalReload();
   const {
