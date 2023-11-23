@@ -117,3 +117,16 @@
   position: absolute;
   top: 1.5em;
 }
+
+.active {
+  font-weight: 600;
+}
+
+.background-chat {
+  max-width: 40%;
+}
+
+.chat-container .chat-title {
+  margin: 10% 20% 0;
+  font-size: 1.1em;
+}

@@ -1,9 +1,10 @@
 import './chats.style.css';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import send from '../../../../assets/icons/send-pink.svg';
 import { avatarList } from '../../../../assets/arrays/avatars';
+import background from '../../../../assets/images/chat.png';
 
 import useGlobalReload from '../../../../context/reload/reload.context';
 
@@ -46,15 +47,17 @@ export function Chats() {
   return (
     <BaseScreen at={'chat'} rightTab={true}>
       <section className='chat-container'>
-        <span>
-          Essa conversa foi iniciada pelo AllyWatch. Isso significa que você e
-          esta pessoa foram, possivelmente, vítimas de um mesmo agressor, e por
-          isso, colocamos vocês em contato para que tomem alguma provindência em
-          conjunto, troquem relatos e ajudem-se. Se este chat está aberto,
-          significa que vocês dois aceitaram participar dele.
-        </span>
-        {isChatSelected
-          ? chat?.messages?.map((message) => {
+        {isChatSelected ? (
+          <>
+            <span>
+              Essa conversa foi iniciada pelo AllyWatch. Isso significa que você
+              e esta pessoa foram, possivelmente, vítimas de um mesmo agressor,
+              e por isso, colocamos vocês em contato para que tomem alguma
+              provindência em conjunto, troquem relatos e ajudem-se. Se este
+              chat está aberto, significa que vocês dois aceitaram participar
+              dele.
+            </span>
+            {chat?.messages?.map((message) => {
               return (
                 <Message
                   message={message.message}
@@ -62,19 +65,43 @@ export function Chats() {
                   key={message.id}
                 />
               );
-            })
-          : null}
-        <div className='sender'>
-          <input type='text' value={newMessage} onChange={onChange} />
-          <div onClick={handleNewMessage}>
-            <img src={send} />
-          </div>
-        </div>
+            })}
+
+            <div className='sender'>
+              <input type='text' value={newMessage} onChange={onChange} />
+              <div onClick={handleNewMessage}>
+                <img src={send} />
+              </div>
+            </div>
+          </>
+        ) : (
+          <>
+            <span className='chat-title'>
+              Os chats são um local onde você pode conversar com pessoas que o
+              AllyWatch te conecta. Caso você denuncie um agressor através de um
+              post e uma outra pessoa denuncie esse mesmo agressor, a plataforma
+              enviará uma solicitação de participação de chat para ambos.
+              <br />
+              Caso os dois aceitem, será possível que conversem através de um
+              chat.
+            </span>
+            <img src={background} className='background-chat' />
+          </>
+        )}
       </section>
+
       <RightTab>
         <div className='switch-list'>
-          <button onClick={() => setListOpened('chats')}>Chats</button>
-          <button onClick={() => setListOpened('solicitations')}>
+          <button
+            onClick={() => setListOpened('chats')}
+            className={`${listOpened === 'chats' ? 'active' : null}`}
+          >
+            Chats
+          </button>
+          <button
+            onClick={() => setListOpened('solicitations')}
+            className={`${listOpened === 'solicitations' ? 'active' : null}`}
+          >
             Solicitações
           </button>
         </div>
@@ -82,7 +109,9 @@ export function Chats() {
           ? chats.map((chat) => {
               return (
                 <div
-                  className='chat'
+                  className={`chat ${
+                    chat.id === chatSelectedId ? 'active' : ''
+                  }`}
                   onClick={() => {
                     setIsChatSelected(true);
                     setChatSelectedId(chat.id);
@@ -96,7 +125,7 @@ export function Chats() {
                 </div>
               );
             })
-          : solicitatons.map((solicitation) => {
+          : solicitatons?.map((solicitation) => {
               return (
                 <div className='solicitation'>
                   <img
