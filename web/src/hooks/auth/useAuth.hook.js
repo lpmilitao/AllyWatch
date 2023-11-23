@@ -1,16 +1,17 @@
 import { useState } from 'react';
 
-import { login } from '../../external/server';
+import { login, logout } from '../../external/server';
 
 import useGlobalUser from '../../context/user/user.context';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
-export function useAuth() {
+export function UseAuth() {
   const [user, setUser] = useState({
     email: '',
     password: '',
   });
-  const [, setGlobalUser] = useGlobalUser();
+  const [globalUser, setGlobalUser] = useGlobalUser();
   const navigate = useNavigate();
 
   async function handleLogin(event) {
@@ -22,7 +23,9 @@ export function useAuth() {
 
       navigate('/');
     } catch (error) {
-      console.log(error);
+      toast.error('Erro ao fazer login.', {
+        position: 'top-right',
+      });
     }
   }
 
@@ -33,9 +36,22 @@ export function useAuth() {
     });
   }
 
+  async function handleLogout() {
+    try {
+      await logout(globalUser);
+      setGlobalUser(null);
+      navigate('/home');
+    } catch (error) {
+      toast.error('Erro ao fazer logout.', {
+        position: 'top-right',
+      });
+    }
+  }
+
   return {
     user,
     handleLogin,
     onChange,
+    handleLogout,
   };
 }

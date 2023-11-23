@@ -36,3 +36,7 @@
   font-weight: 500;
   color: var(--pink);
 }
+
+.pointer {
+  cursor: pointer;
+}
