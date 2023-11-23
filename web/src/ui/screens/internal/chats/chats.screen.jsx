@@ -28,17 +28,20 @@ export function Chats() {
     handleChatSelection,
     chatSelectedId,
     setChatSelectedId,
+    newMessage,
+    onChange,
+    handleNewMessage,
   } = UseHandleChats();
 
   useEffect(() => {
-    //listOpened === 'chats' ? handleListChats() : handleListSolicitations();
+    listOpened === 'chats' ? handleListChats() : handleListSolicitations();
   }, [listOpened, reload]);
 
   useEffect(() => {
     if (isChatSelected) {
-      //handleChatSelection();
+      handleChatSelection();
     }
-  }, [isChatSelected, chatSelectedId]);
+  }, [isChatSelected, chatSelectedId, reload]);
 
   return (
     <BaseScreen at={'chat'} rightTab={true}>
@@ -50,17 +53,20 @@ export function Chats() {
           conjunto, troquem relatos e ajudem-se. Se este chat está aberto,
           significa que vocês dois aceitaram participar dele.
         </span>
-        <Message message={'Oi'} />
-        <Message message={'Oi tudo'} isMe={true} />
-        <Message message={'Oi tudo tudo'} />
-        <Message message={'Oi tudo tudo tudo'} isMe={true} />
-        <Message message={'Oi'} />
-        <Message message={'Oi tudo'} isMe={true} />
-        <Message message={'Oi tudo tudo'} />
-        <Message message={'Oi tudo tudo tudo'} isMe={true} />
+        {isChatSelected
+          ? chat?.messages?.map((message) => {
+              return (
+                <Message
+                  message={message.message}
+                  isMe={message.sentByMe}
+                  key={message.id}
+                />
+              );
+            })
+          : null}
         <div className='sender'>
-          <input type='text' />
-          <div>
+          <input type='text' value={newMessage} onChange={onChange} />
+          <div onClick={handleNewMessage}>
             <img src={send} />
           </div>
         </div>
