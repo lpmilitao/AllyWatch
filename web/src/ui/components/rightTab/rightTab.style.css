@@ -10,3 +10,8 @@
   flex-direction: column;
   align-items: flex-start;
 }
+
+.profile h1 {
+  text-align: center;
+  margin: 0 auto;
+}

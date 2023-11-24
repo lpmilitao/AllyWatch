@@ -3,14 +3,7 @@
 import './helpPoints.style.css';
 import '@reach/combobox/styles.css';
 
-import { useMemo, useState } from 'react';
-
-import {
-  APIProvider,
-  AdvancedMarker,
-  Pin,
-  InfoWindow,
-} from '@vis.gl/react-google-maps';
+import { useEffect, useState } from 'react';
 
 import usePlacesAutocomplete, {
   getGeocode,
@@ -42,17 +35,37 @@ export function HelpPoints() {
 }
 
 function Map() {
-  const center = useMemo(() => ({ lat: 43.45, lng: -80.49 }), []);
+  const [center, setCenter] = useState({ lat: 43.45, lng: -80.49 });
   const [selected, setSelected] = useState(null);
+
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setCenter({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          });
+        },
+        (error) => {
+          console.error('Error Code = ' + error.code + ' - ' + error.message);
+        },
+      );
+    }
+  }, []);
 
   return (
     <>
       <div className='places-container'>
-        <PlacesAutocomplete setSelected={setSelected} />
+        <PlacesAutocomplete
+          setSelected={setSelected}
+          userLocation={center}
+          setCenter={setCenter}
+        />
       </div>
 
       <GoogleMap
-        zoom={10}
+        zoom={15}
         center={center}
         mapContainerClassName='map-container'
       >
@@ -62,22 +75,30 @@ function Map() {
   );
 }
 
-const PlacesAutocomplete = ({ setSelected }) => {
+const PlacesAutocomplete = ({ setSelected, userLocation, setCenter }) => {
+  const searchOptions = {
+    locationBias: {
+      radius: 1000,
+      center: { lat: userLocation.lat, lng: userLocation.lng },
+    },
+  };
+
   const {
     ready,
     value,
     setValue,
     suggestions: { status, data },
     clearSuggestions,
-  } = usePlacesAutocomplete();
+  } = usePlacesAutocomplete({ requestOptions: searchOptions });
 
   const handleSelect = async (address) => {
-    setValue(address, false);
+    setValue(address, searchOptions);
     clearSuggestions();
 
     const results = await getGeocode({ address });
-    const { lat, lng } = await getLatLng(results[0]);
+    const { lat, lng } = getLatLng(results[0]);
     setSelected({ lat, lng });
+    setCenter({ lat, lng });
   };
 
   return (
@@ -87,7 +108,7 @@ const PlacesAutocomplete = ({ setSelected }) => {
         onChange={(e) => setValue(e.target.value)}
         disabled={!ready}
         className='combobox-input'
-        placeholder='Search an address'
+        placeholder='Procure por um ponto de ajuda'
       />
       <ComboboxPopover>
         <ComboboxList>
@@ -100,3 +121,18 @@ const PlacesAutocomplete = ({ setSelected }) => {
     </Combobox>
   );
 };
+
+function calculateDistance(lat1, lon1, lat2, lon2) {
+  const toRad = (x) => (x * Math.PI) / 180;
+  const R = 6371; // Raio da Terra em km
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(toRad(lat1)) *
+      Math.cos(toRad(lat2)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+}
