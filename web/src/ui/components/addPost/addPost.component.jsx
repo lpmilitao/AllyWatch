@@ -2,6 +2,7 @@ import './addPost.style.css';
 
 import { UseHandlePosts } from '../../../hooks/posts/useHandlePosts.hook';
 import { XButton, SendButton } from '../';
+import { Checkbox } from '../checkbox/checkbox.component';
 
 export function AddPost({ isOpen, onClose }) {
   const { handleAddNewPost, onChangeNewPost, newPost, onChangeCheckbox } =
@@ -37,7 +38,7 @@ export function AddPost({ isOpen, onClose }) {
         </div>
         <div className='anonymous'>
           <h3>Quer compartilhar esse post de forma anônima?</h3>
-          <input type='checkbox' name='anonymous' onChange={onChangeCheckbox} />
+          <Checkbox name={'anonymous'} onChange={onChangeCheckbox} />
           <p>Quando você seleciona essa opção seu nome não será divulgado.</p>
         </div>
         <SendButton onClick={handleAddNewPost} text={'Enviar'} />

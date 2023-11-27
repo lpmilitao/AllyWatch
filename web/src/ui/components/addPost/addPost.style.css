@@ -80,3 +80,18 @@
   padding: 0 0.5em;
   margin-top: auto;
 }
+
+.anonymous {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.anonymous h3 {
+  margin-right: 1em;
+}
+
+.anonymous p {
+  display: inline-block;
+  width: 100%;
+}
