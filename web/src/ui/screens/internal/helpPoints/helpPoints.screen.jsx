@@ -19,7 +19,7 @@ import {
 } from '@reach/combobox';
 
 import { useLoadScript, GoogleMap, Marker } from '@react-google-maps/api';
-import { BaseScreen } from '../../../components';
+import { BaseScreen, Loader } from '../../../components';
 
 export function HelpPoints() {
   const { isLoaded } = useLoadScript({
@@ -28,9 +28,7 @@ export function HelpPoints() {
   });
 
   return (
-    <BaseScreen at={'local'}>
-      {!isLoaded ? <div>Loading...</div> : <Map />}
-    </BaseScreen>
+    <BaseScreen at={'local'}>{!isLoaded ? <Loader /> : <Map />}</BaseScreen>
   );
 }
 

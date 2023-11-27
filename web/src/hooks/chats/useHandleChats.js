@@ -11,10 +11,12 @@ import {
 
 import useGlobalUser from '../../context/user/user.context';
 import useGlobalReload from '../../context/reload/reload.context';
+import useGlobalLoading from '../../context/load/loading.context';
 
 export function UseHandleChats() {
   const [token] = useGlobalUser();
   const [reload, setReload] = useGlobalReload();
+  const [, setLoading] = useGlobalLoading();
 
   const [listOpened, setListOpened] = useState('chats');
   const [chats, setChats] = useState([{ id: 0, open: true, ally: '' }]);
@@ -32,6 +34,7 @@ export function UseHandleChats() {
   const [newMessage, setNewMessage] = useState('');
 
   async function handleListChats() {
+    setLoading(true);
     try {
       const response = await listChats(token);
       setChats(response);
@@ -39,10 +42,13 @@ export function UseHandleChats() {
       toast.error('Erro ao buscar chats', {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
+    } finally {
+      setLoading(false);
     }
   }
 
   async function handleListSolicitations() {
+    setLoading(true);
     try {
       const response = await listChatsSolicitations(token);
       setSolicitations(response);
@@ -50,10 +56,13 @@ export function UseHandleChats() {
       toast.error('Erro ao buscar solicitações', {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
+    } finally {
+      setLoading(false);
     }
   }
 
   async function acceptSolicitation(solicitationId) {
+    setLoading(true);
     try {
       await answerChatSolicitation(token, true, solicitationId);
       toast.success('Solicitação aceita!', {
@@ -64,10 +73,13 @@ export function UseHandleChats() {
       toast.error('Erro ao aceitar solicitação', {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
+    } finally {
+      setLoading(false);
     }
   }
 
   async function denySolicitation(solicitationId) {
+    setLoading(true);
     try {
       await answerChatSolicitation(token, false, solicitationId);
       toast.success('Solicitação negada!', {
@@ -78,10 +90,13 @@ export function UseHandleChats() {
       toast.error('Erro ao recusar solicitação', {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
+    } finally {
+      setLoading(false);
     }
   }
 
   async function handleChatSelection() {
+    setLoading(true);
     try {
       const response = await detailChat(token, chatSelectedId);
       setChat(response);
@@ -89,6 +104,8 @@ export function UseHandleChats() {
       toast.error('Erro ao buscar as informações do chat', {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -99,6 +116,7 @@ export function UseHandleChats() {
   async function handleNewMessage() {
     if (newMessage.trim() === '') return;
 
+    setLoading(true);
     try {
       await sendMessage(token, chatSelectedId, newMessage);
       setReload(!reload);
@@ -107,6 +125,8 @@ export function UseHandleChats() {
       toast.error('Erro ao enviar mensagem', {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
+    } finally {
+      setLoading(false);
     }
   }
 

@@ -10,10 +10,12 @@ import useGlobalReload from '../../../../context/reload/reload.context';
 
 import { UseHandleChats } from '../../../../hooks';
 
-import { BaseScreen, Message, RightTab } from '../../../components';
+import { BaseScreen, Loader, Message, RightTab } from '../../../components';
+import useGlobalLoading from '../../../../context/load/loading.context';
 
 export function Chats() {
   const [reload] = useGlobalReload();
+  const [isLoading] = useGlobalLoading();
   const {
     listOpened,
     setListOpened,
@@ -46,50 +48,54 @@ export function Chats() {
 
   return (
     <BaseScreen at={'chat'} rightTab={true}>
-      <section className='chat-container'>
-        {isChatSelected ? (
-          <>
-            <span>
-              Essa conversa foi iniciada pelo AllyWatch. Isso significa que você
-              e esta pessoa foram, possivelmente, vítimas de um mesmo agressor,
-              e por isso, colocamos vocês em contato para que tomem alguma
-              provindência em conjunto, troquem relatos e ajudem-se. Se este
-              chat está aberto, significa que vocês dois aceitaram participar
-              dele.
-            </span>
-            {chat?.messages?.map((message) => {
-              return (
-                <Message
-                  message={message.message}
-                  isMe={message.sentByMe}
-                  key={message.id}
-                />
-              );
-            })}
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <section className='chat-container'>
+          {isChatSelected ? (
+            <>
+              <span>
+                Essa conversa foi iniciada pelo AllyWatch. Isso significa que
+                você e esta pessoa foram, possivelmente, vítimas de um mesmo
+                agressor, e por isso, colocamos vocês em contato para que tomem
+                alguma provindência em conjunto, troquem relatos e ajudem-se. Se
+                este chat está aberto, significa que vocês dois aceitaram
+                participar dele.
+              </span>
+              {chat?.messages?.map((message) => {
+                return (
+                  <Message
+                    message={message.message}
+                    isMe={message.sentByMe}
+                    key={message.id}
+                  />
+                );
+              })}
 
-            <div className='sender'>
-              <input type='text' value={newMessage} onChange={onChange} />
-              <div onClick={handleNewMessage}>
-                <img src={send} />
+              <div className='sender'>
+                <input type='text' value={newMessage} onChange={onChange} />
+                <div onClick={handleNewMessage}>
+                  <img src={send} />
+                </div>
               </div>
-            </div>
-          </>
-        ) : (
-          <>
-            <span className='chat-title'>
-              Os chats são um local onde você pode conversar com pessoas que o
-              AllyWatch te conecta. Caso você denuncie um agressor através de um
-              post e uma outra pessoa denuncie esse mesmo agressor, a plataforma
-              enviará uma solicitação de participação de chat para ambos.
-              <br />
-              Caso os dois aceitem, será possível que conversem através de um
-              chat.
-            </span>
-            <img src={background} className='background-chat' />
-          </>
-        )}
-      </section>
-
+            </>
+          ) : (
+            <>
+              <span className='chat-title'>
+                Os chats são um local onde você pode conversar com pessoas que o
+                AllyWatch te conecta. Caso você denuncie um agressor através de
+                um post e uma outra pessoa denuncie esse mesmo agressor, a
+                plataforma enviará uma solicitação de participação de chat para
+                ambos.
+                <br />
+                Caso os dois aceitem, será possível que conversem através de um
+                chat.
+              </span>
+              <img src={background} className='background-chat' />
+            </>
+          )}
+        </section>
+      )}
       <RightTab>
         <div className='switch-list'>
           <button
@@ -105,46 +111,52 @@ export function Chats() {
             Solicitações
           </button>
         </div>
-        {listOpened === 'chats'
-          ? chats.map((chat) => {
-              return (
-                <div
-                  className={`chat ${
-                    chat.id === chatSelectedId ? 'active' : ''
-                  }`}
-                  onClick={() => {
-                    setIsChatSelected(true);
-                    setChatSelectedId(chat.id);
-                  }}
-                >
-                  <img
-                    src={avatarList[chat.allyIcon]}
-                    className='chat-profile-pic'
-                  />
-                  <p>{chat.ally}</p>
-                </div>
-              );
-            })
-          : solicitatons?.map((solicitation) => {
-              return (
-                <div className='solicitation'>
-                  <img
-                    src={avatarList[solicitation.requestingUserIcon]}
-                    className='chat-profile-pic'
-                  />
-                  <p>{solicitation.requestingUser}</p>
-                  <button
-                    className='right-side'
-                    onClick={() => acceptSolicitation(solicitation.id)}
-                  >
-                    Aceitar
-                  </button>
-                  <button onClick={() => denySolicitation(solicitation.id)}>
-                    Recusar
-                  </button>
-                </div>
-              );
-            })}
+        {!isLoading ? (
+          <>
+            {listOpened === 'chats'
+              ? chats.map((chat) => {
+                  return (
+                    <>
+                      <div
+                        className={`chat ${
+                          chat.id === chatSelectedId ? 'active' : ''
+                        }`}
+                        onClick={() => {
+                          setIsChatSelected(true);
+                          setChatSelectedId(chat.id);
+                        }}
+                      >
+                        <img
+                          src={avatarList[chat.allyIcon]}
+                          className='chat-profile-pic'
+                        />
+                        <p>{chat.ally}</p>
+                      </div>
+                    </>
+                  );
+                })
+              : solicitatons?.map((solicitation) => {
+                  return (
+                    <div className='solicitation'>
+                      <img
+                        src={avatarList[solicitation.requestingUserIcon]}
+                        className='chat-profile-pic'
+                      />
+                      <p>{solicitation.requestingUser}</p>
+                      <button
+                        className='right-side'
+                        onClick={() => acceptSolicitation(solicitation.id)}
+                      >
+                        Aceitar
+                      </button>
+                      <button onClick={() => denySolicitation(solicitation.id)}>
+                        Recusar
+                      </button>
+                    </div>
+                  );
+                })}
+          </>
+        ) : null}
       </RightTab>
     </BaseScreen>
   );

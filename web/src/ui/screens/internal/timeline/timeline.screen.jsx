@@ -11,9 +11,12 @@ import useGlobalReload from '../../../../context/reload/reload.context';
 import { UseHandlePosts } from '../../../../hooks/posts/useHandlePosts.hook';
 
 import { AddPost, BaseScreen, Post, RightTab } from '../../../components';
+import { Loader } from '../../../components/loader/loader.component';
+import useGlobalLoading from '../../../../context/load/loading.context';
 
 export function Timeline() {
-  const [reload, setReload] = useGlobalReload();
+  const [reload] = useGlobalReload();
+  const [isLoading] = useGlobalLoading();
   const {
     posts,
     getPosts,
@@ -34,12 +37,18 @@ export function Timeline() {
 
   return (
     <BaseScreen at='home' rightTab={true}>
-      <section className='timeline-container'>
-        {posts.map((post) => (
-          <Post key={post?.id} post={post} />
-        ))}
-        <AddPost isOpen={addPostIsOpen} onClose={closeAddPost} />
-      </section>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <section className='timeline-container'>
+            {posts.map((post) => (
+              <Post key={post?.id} post={post} />
+            ))}
+            <AddPost isOpen={addPostIsOpen} onClose={closeAddPost} />
+          </section>
+        </>
+      )}
       <RightTab>
         <button onClick={switchOrder} className='switch-order'>
           <img src={switchArrow} />

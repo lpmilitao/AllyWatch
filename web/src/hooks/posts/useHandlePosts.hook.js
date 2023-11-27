@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 
 import useGlobalUser from '../../context/user/user.context';
 import useGlobalReload from '../../context/reload/reload.context';
+import useGlobalLoading from '../../context/load/loading.context';
 
 import { createNewPost, listAllPosts, reportPost } from '../../external/server';
 import { listUsersPosts } from '../../external/server/post/listUsersPosts';
@@ -11,6 +12,7 @@ import { listUsersPosts } from '../../external/server/post/listUsersPosts';
 export function UseHandlePosts(postId) {
   const [globarUser] = useGlobalUser();
   const [reload, setReload] = useGlobalReload();
+  const [isLoading, setLoading] = useGlobalLoading();
 
   const [posts, setPosts] = useState([]);
   const [order, setOrder] = useState('publicationTime');
@@ -27,6 +29,7 @@ export function UseHandlePosts(postId) {
   const [report, setReport] = useState('');
 
   async function getPosts() {
+    setLoading(true);
     try {
       const response = await listAllPosts(globarUser, order, page);
 
@@ -38,6 +41,8 @@ export function UseHandlePosts(postId) {
       toast.error('Ocorreu um erro na busca dos posts.', {
         position: toast.POSITION.TOP_RIGHT,
       });
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -68,6 +73,7 @@ export function UseHandlePosts(postId) {
 
   async function handleAddNewPost(event) {
     event.preventDefault();
+    setLoading(true);
     try {
       await createNewPost(globarUser, newPost);
       toast.success('Post criado com sucesso!', {
@@ -83,6 +89,8 @@ export function UseHandlePosts(postId) {
       toast.error('Ocorreu um erro na criação do post.', {
         position: toast.POSITION.TOP_RIGHT,
       });
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -127,6 +135,8 @@ export function UseHandlePosts(postId) {
       return;
     }
 
+    setLoading(true);
+
     try {
       await reportPost(globarUser, postId, report);
       toast.success('Post denunciado com sucesso!', {
@@ -136,10 +146,13 @@ export function UseHandlePosts(postId) {
       toast.error('Ocorreu um erro na denúncia do post.', {
         position: toast.POSITION.TOP_RIGHT,
       });
+    } finally {
+      setLoading(false);
     }
   }
 
   async function getMyPosts() {
+    setLoading(true);
     try {
       const response = await listUsersPosts(globarUser);
 
@@ -151,6 +164,8 @@ export function UseHandlePosts(postId) {
       toast.error('Ocorreu um erro na busca dos posts.', {
         position: toast.POSITION.TOP_RIGHT,
       });
+    } finally {
+      setLoading(false);
     }
   }
 

@@ -1,3 +1,5 @@
+export { Checkbox } from './checkbox/checkbox.component';
+export { Loader } from './loader/loader.component';
 export { Message } from './message/message.component';
 export { ReportPost } from './reportPost/reportPost.component';
 export { AddPost } from './addPost/addPost.component';

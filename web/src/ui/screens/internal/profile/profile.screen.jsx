@@ -10,11 +10,13 @@ import useGlobalReload from '../../../../context/reload/reload.context';
 
 import { UseHandlePosts } from '../../../../hooks/posts/useHandlePosts.hook';
 
-import { BaseScreen, Post, RightTab } from '../../../components';
+import { BaseScreen, Loader, Post, RightTab } from '../../../components';
 import { UseHandleUser } from '../../../../hooks/user/useHandleUser.hook';
+import useGlobalLoading from '../../../../context/load/loading.context';
 
 export function Profile() {
   const [reload] = useGlobalReload();
+  const [isLoading] = useGlobalLoading();
   const {
     posts,
     page,
@@ -35,53 +37,63 @@ export function Profile() {
   return (
     <BaseScreen at={'profile'} rightTab={true}>
       <section className='timeline-container'>
-        {posts?.map((post) => {
-          return <Post post={post} />;
-        })}
+        {isLoading ? (
+          <Loader />
+        ) : (
+          posts?.map((post) => {
+            return <Post post={post} />;
+          })
+        )}
       </section>
       <RightTab className={'profile'}>
-        <div className='profile-pic'>
-          <img src={avatarList[user.icon]} />
-        </div>
-        <div className='edit-icon'>
-          {editOpen ? (
-            <>
-              <button
-                className='change-icon blue'
-                onClick={() => editIcon('MALE')}
-              ></button>
-              <button
-                className='change-icon pink'
-                onClick={() => editIcon('FEMALE')}
-              ></button>
-              <button
-                className='change-icon yellow'
-                onClick={() => editIcon('NEUTRAL')}
-              ></button>
-            </>
-          ) : (
-            <img
-              src={pencil}
-              className='pencil'
-              onClick={() => setEditOpen(true)}
-            />
-          )}
-        </div>
-        <h1>{user.name}</h1>
-        <h3>{user.email}</h3>
-        <span onClick={deleteAccount}>Excluir minha conta</span>
-        <div className='pagination-holder'>
-          <img
-            src={whiteArrow}
-            onClick={hasPreviousPage ? previousPage : null}
-          />
-          <h3>{page + 1}</h3>
-          <img
-            src={whiteArrow}
-            className='mirror'
-            onClick={hasNextPage ? nextPage : null}
-          />
-        </div>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <>
+            <div className='profile-pic'>
+              <img src={avatarList[user.icon]} />
+            </div>
+            <div className='edit-icon'>
+              {editOpen ? (
+                <>
+                  <button
+                    className='change-icon blue'
+                    onClick={() => editIcon('MALE')}
+                  ></button>
+                  <button
+                    className='change-icon pink'
+                    onClick={() => editIcon('FEMALE')}
+                  ></button>
+                  <button
+                    className='change-icon yellow'
+                    onClick={() => editIcon('NEUTRAL')}
+                  ></button>
+                </>
+              ) : (
+                <img
+                  src={pencil}
+                  className='pencil'
+                  onClick={() => setEditOpen(true)}
+                />
+              )}
+            </div>
+            <h1>{user.name}</h1>
+            <h3>{user.email}</h3>
+            <span onClick={deleteAccount}>Excluir minha conta</span>
+            <div className='pagination-holder'>
+              <img
+                src={whiteArrow}
+                onClick={hasPreviousPage ? previousPage : null}
+              />
+              <h3>{page + 1}</h3>
+              <img
+                src={whiteArrow}
+                className='mirror'
+                onClick={hasNextPage ? nextPage : null}
+              />
+            </div>
+          </>
+        )}
       </RightTab>
     </BaseScreen>
   );
