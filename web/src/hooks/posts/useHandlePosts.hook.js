@@ -87,6 +87,7 @@ export function UseHandlePosts(postId) {
         aggressor: '',
         anonymous: false,
       });
+      setAddPostIsOpen(!addPostIsOpen);
     } catch (error) {
       toast.error('Ocorreu um erro na criação do post.', {
         position: toast.POSITION.TOP_RIGHT,

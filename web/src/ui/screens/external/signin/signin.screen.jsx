@@ -10,6 +10,12 @@ import { useAuth } from '../../../../hooks';
 export function SignIn() {
   const { user, handleLogin, onChange } = useAuth();
 
+  function handleKeyPress(e) {
+    if (e.key === 'Enter') {
+      handleLogin(e);
+    }
+  }
+
   return (
     <section className='sign-in-container'>
       <Back route={'/home'} />
@@ -29,6 +35,7 @@ export function SignIn() {
           name={'password'}
           value={user.password}
           onChange={onChange}
+          onKeyPress={handleKeyPress}
         />
         <SendButton onClick={handleLogin} text={'Entrar'} />
         <div className='redirect'>

@@ -5,7 +5,7 @@ import { useState } from 'react';
 import eye from '../../../assets/icons/visible-eye.png';
 import closedEye from '../../../assets/icons/invisible-eye.png';
 
-export function Input({ type, onChange, value, title, name }) {
+export function Input({ type, onChange, value, title, name, onKeyPress }) {
   const [eyeOpen, setEyeOpen] = useState(false);
   const [typeInput, setTypeInput] = useState(type);
   const [icon, setIcon] = useState(closedEye);
@@ -25,7 +25,13 @@ export function Input({ type, onChange, value, title, name }) {
   return (
     <div className='input'>
       <h3>{title}</h3>
-      <input type={typeInput} onChange={onChange} value={value} name={name} />
+      <input
+        type={typeInput}
+        onChange={onChange}
+        value={value}
+        name={name}
+        onKeyPress={onKeyPress}
+      />
       {type === 'password' ? (
         <img src={icon} className='eye' onClick={changeVisibility} />
       ) : null}

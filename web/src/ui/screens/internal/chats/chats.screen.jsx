@@ -46,6 +46,12 @@ export function Chats() {
     }
   }, [isChatSelected, chatSelectedId, reload]);
 
+  function handleKeyPress(e) {
+    if (e.key === 'Enter') {
+      handleNewMessage();
+    }
+  }
+
   return (
     <BaseScreen at={'chat'} rightTab={true}>
       {isLoading ? (
@@ -73,7 +79,12 @@ export function Chats() {
               })}
 
               <div className='sender'>
-                <input type='text' value={newMessage} onChange={onChange} />
+                <input
+                  type='text'
+                  value={newMessage}
+                  onChange={onChange}
+                  onKeyPress={handleKeyPress}
+                />
                 <div onClick={handleNewMessage}>
                   <img src={send} />
                 </div>

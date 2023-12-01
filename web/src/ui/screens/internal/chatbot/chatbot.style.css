@@ -6,6 +6,7 @@
   align-items: center;
   justify-content: flex-end;
   padding: 1em 1em 4% 1em;
+  position: relative;
 }
 
 .send-message {
@@ -30,12 +31,22 @@
 }
 
 .send-message button img {
-  width: 60%;
+  width: 40%;
 }
 
 .send-message input {
   height: 100%;
   width: 94%;
-  padding: 0 1em;
+  padding: 0 1%;
   border: none;
+  font-size: 1.2em;
+}
+
+.chatbot-container > span {
+  font-size: 1em;
+  color: var(--gray);
+  text-align: center;
+  margin: 0 2em;
+  position: absolute;
+  top: 1.5em;
 }

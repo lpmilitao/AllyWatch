@@ -9,9 +9,22 @@ import { BaseScreen, Message } from '../../../components';
 export function Chatbot() {
   const { messages, newMessage, handleSend, onChange } = UseHandleOpenAi();
 
+  function handleKeyPress(e) {
+    if (e.key === 'Enter') {
+      handleSend();
+    }
+  }
+
   return (
     <BaseScreen at={'chatbot'}>
       <section className='chatbot-container'>
+        <span>
+          Converse com o AllyBot se você tem alguma dúvida e precisa de uma
+          resposta imediata!
+          <br />
+          Mas lembre-se, o AllyBot é uma inteligência artificial, então ele pode
+          estar errado.
+        </span>
         {messages
           ? messages.map((message, index) => (
               <Message
@@ -22,7 +35,12 @@ export function Chatbot() {
             ))
           : null}
         <div className='send-message'>
-          <input type='text' onChange={onChange} value={newMessage} />
+          <input
+            type='text'
+            onChange={onChange}
+            value={newMessage}
+            onKeyPress={handleKeyPress}
+          />
           <button onClick={handleSend}>
             <img src={sender} />
           </button>
