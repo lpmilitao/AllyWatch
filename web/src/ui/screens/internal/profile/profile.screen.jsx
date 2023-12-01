@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { avatarList } from '../../../../assets/arrays/avatars';
 import whiteArrow from '../../../../assets/icons/short-arrow-white.svg';
 import pencil from '../../../../assets/icons/pencil-white.svg';
+import noPosts from '../../../../assets/images/no-posts.png';
 
 import useGlobalReload from '../../../../context/reload/reload.context';
 
@@ -25,6 +26,7 @@ export function Profile() {
     hasNextPage,
     hasPreviousPage,
     getMyPosts,
+    isEmpty,
   } = UseHandlePosts();
   const { getInfo, user, deleteAccount, editOpen, editIcon, setEditOpen } =
     UseHandleUser();
@@ -36,15 +38,26 @@ export function Profile() {
 
   return (
     <BaseScreen at={'profile'} rightTab={true}>
-      <section className='timeline-container'>
-        {isLoading ? (
-          <Loader />
-        ) : (
-          posts?.map((post) => {
-            return <Post post={post} />;
-          })
-        )}
-      </section>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <section className='timeline-container'>
+          {isEmpty ? (
+            <div className='no-posts'>
+              <p>
+                Você ainda não fez nenhum post.
+                <br />
+                Quando fizer, eles aparecerão aqui!
+              </p>
+              <img src={noPosts} />
+            </div>
+          ) : (
+            posts?.map((post) => {
+              return <Post post={post} />;
+            })
+          )}
+        </section>
+      )}
       <RightTab className={'profile'}>
         {isLoading ? (
           <Loader />
@@ -80,18 +93,20 @@ export function Profile() {
             <h1>{user.name}</h1>
             <h3>{user.email}</h3>
             <span onClick={deleteAccount}>Excluir minha conta</span>
-            <div className='pagination-holder'>
-              <img
-                src={whiteArrow}
-                onClick={hasPreviousPage ? previousPage : null}
-              />
-              <h3>{page + 1}</h3>
-              <img
-                src={whiteArrow}
-                className='mirror'
-                onClick={hasNextPage ? nextPage : null}
-              />
-            </div>
+            {hasNextPage || hasPreviousPage ? (
+              <div className='pagination-holder'>
+                <img
+                  src={whiteArrow}
+                  onClick={hasPreviousPage ? previousPage : null}
+                />
+                <h3>{page + 1}</h3>
+                <img
+                  src={whiteArrow}
+                  className='mirror'
+                  onClick={hasNextPage ? nextPage : null}
+                />
+              </div>
+            ) : null}
           </>
         )}
       </RightTab>

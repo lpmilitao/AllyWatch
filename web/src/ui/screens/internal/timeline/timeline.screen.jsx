@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import switchArrow from '../../../../assets/icons/switch-arrow-pink.svg';
 import circledPlus from '../../../../assets/icons/circled-plus.svg';
 import whiteArrow from '../../../../assets/icons/short-arrow-white.svg';
+import noPosts from '../../../../assets/images/no-posts.png';
 
 import useGlobalReload from '../../../../context/reload/reload.context';
 
@@ -29,6 +30,7 @@ export function Timeline() {
     hasPreviousPage,
     addPostIsOpen,
     closeAddPost,
+    isEmpty,
   } = UseHandlePosts();
 
   useEffect(() => {
@@ -42,9 +44,18 @@ export function Timeline() {
       ) : (
         <>
           <section className='timeline-container'>
-            {posts.map((post) => (
-              <Post key={post?.id} post={post} />
-            ))}
+            {isEmpty ? (
+              <div className='no-posts'>
+                <p>
+                  No momento não há nada por aqui.
+                  <br />
+                  Que tal fazer um post?
+                </p>
+                <img src={noPosts} />
+              </div>
+            ) : (
+              posts.map((post) => <Post key={post?.id} post={post} />)
+            )}
             <AddPost isOpen={addPostIsOpen} onClose={closeAddPost} />
           </section>
         </>
@@ -60,18 +71,20 @@ export function Timeline() {
           <img src={circledPlus} />
           <h3>Fazer publicação</h3>
         </button>
-        <div className='pagination-holder'>
-          <img
-            src={whiteArrow}
-            onClick={hasPreviousPage ? previousPage : null}
-          />
-          <h3>{page + 1}</h3>
-          <img
-            src={whiteArrow}
-            className='mirror'
-            onClick={hasNextPage ? nextPage : null}
-          />
-        </div>
+        {hasNextPage || hasPreviousPage ? (
+          <div className='pagination-holder'>
+            <img
+              src={whiteArrow}
+              onClick={hasPreviousPage ? previousPage : null}
+            />
+            <h3>{page + 1}</h3>
+            <img
+              src={whiteArrow}
+              className='mirror'
+              onClick={hasNextPage ? nextPage : null}
+            />
+          </div>
+        ) : null}
       </RightTab>
     </BaseScreen>
   );

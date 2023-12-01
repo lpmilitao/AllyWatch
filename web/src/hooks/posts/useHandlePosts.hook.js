@@ -12,7 +12,7 @@ import { listUsersPosts } from '../../external/server/post/listUsersPosts';
 export function UseHandlePosts(postId) {
   const [globarUser] = useGlobalUser();
   const [reload, setReload] = useGlobalReload();
-  const [isLoading, setLoading] = useGlobalLoading();
+  const [, setLoading] = useGlobalLoading();
 
   const [posts, setPosts] = useState([]);
   const [order, setOrder] = useState('publicationTime');
@@ -27,6 +27,7 @@ export function UseHandlePosts(postId) {
   });
   const [addPostIsOpen, setAddPostIsOpen] = useState(false);
   const [report, setReport] = useState('');
+  const [isEmpty, setIsEmpty] = useState(true);
 
   async function getPosts() {
     setLoading(true);
@@ -37,6 +38,7 @@ export function UseHandlePosts(postId) {
       setHasPreviousPage(!response.first);
       setTotalPages(response.totalPages);
       setPosts(response.content);
+      setIsEmpty(response.empty);
     } catch (error) {
       toast.error('Ocorreu um erro na busca dos posts.', {
         position: toast.POSITION.TOP_RIGHT,
@@ -160,6 +162,7 @@ export function UseHandlePosts(postId) {
       setHasPreviousPage(!response.first);
       setTotalPages(response.totalPages);
       setPosts(response.content);
+      setIsEmpty(response.empty);
     } catch (error) {
       toast.error('Ocorreu um erro na busca dos posts.', {
         position: toast.POSITION.TOP_RIGHT,
@@ -189,5 +192,6 @@ export function UseHandlePosts(postId) {
     report,
     submitReport,
     getMyPosts,
+    isEmpty,
   };
 }

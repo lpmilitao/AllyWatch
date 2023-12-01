@@ -46,3 +46,22 @@
 .pagination-holder > img:hover {
   cursor: pointer;
 }
+
+.no-posts {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.no-posts > img {
+  max-width: 35%;
+}
+
+.no-posts > p {
+  color: var(--blue);
+  font-size: 1.5em;
+  text-align: center;
+}
