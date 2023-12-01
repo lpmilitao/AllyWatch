@@ -2,7 +2,7 @@ import './editPost.style.css';
 
 import { UseHandlePosts } from '../../../hooks/posts/useHandlePosts.hook';
 
-import { SendButton, XButton } from '../';
+import { Checkbox, SendButton, XButton } from '../';
 import { UseHandleEditPost } from '../../../hooks/posts/useHandleEditPost.hook';
 import { useEffect } from 'react';
 
@@ -39,9 +39,8 @@ export function EditPost({ postId, onClose }) {
         </div>
         <div className='anonymous'>
           <h3>Post anônimo?</h3>
-          <input
-            type='checkbox'
-            name='anonymous'
+          <Checkbox
+            name={'anonymous'}
             onChange={onChangeCheckbox}
             checked={post?.anonymous}
           />

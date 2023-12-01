@@ -27,6 +27,12 @@ export function CommentList({ close, isOpen, postId }) {
     }
   }, [reload, isOpen]);
 
+  function handleKeyPress(e) {
+    if (e.key === 'Enter') {
+      addCommentToPost(e);
+    }
+  }
+
   return (
     <dialog open={isOpen} className='comment-list'>
       <XButton onClick={close} />
@@ -57,6 +63,7 @@ export function CommentList({ close, isOpen, postId }) {
           name='comment'
           onChange={onChange}
           value={newComment}
+          onKeyPress={handleKeyPress}
         />
         <img src={send} onClick={addCommentToPost} />
       </div>
