@@ -33,7 +33,7 @@ public class Post {
     @OneToMany(mappedBy = "post", cascade = REMOVE)
     private List<Comment> comments = new ArrayList<>();
 
-    @ManyToMany(cascade = REMOVE) @JoinTable(name = "user_likes_post",
+    @ManyToMany @JoinTable(name = "user_likes_post",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "post_id"))
     private List<User> likes = new ArrayList<>();

@@ -33,7 +33,10 @@ export function HelpPoints() {
 }
 
 function Map() {
-  const [center, setCenter] = useState({ lat: 43.45, lng: -80.49 });
+  const [center, setCenter] = useState({
+    lat: -29.8236507,
+    lng: -51.146749799999999,
+  });
   const [selected, setSelected] = useState(null);
 
   useEffect(() => {
@@ -97,6 +100,7 @@ const PlacesAutocomplete = ({ setSelected, userLocation, setCenter }) => {
     const { lat, lng } = getLatLng(results[0]);
     setSelected({ lat, lng });
     setCenter({ lat, lng });
+    console.log(lat, lng);
   };
 
   return (

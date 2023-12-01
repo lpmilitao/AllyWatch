@@ -11,7 +11,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Getter @Setter
 @Entity
 public class Comment {
-
+ 
     @Id @GeneratedValue(strategy = IDENTITY)
     private long id;
 

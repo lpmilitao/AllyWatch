@@ -51,7 +51,7 @@ public class User {
     @ManyToMany(mappedBy = "users", cascade = REMOVE)
     private List<Chat> chats = new ArrayList<>();
 
-    @OneToMany(mappedBy = "author")
+    @OneToMany(mappedBy = "author", cascade = REMOVE)
     private List<Report>  reportsMade = new ArrayList<>();
 
 

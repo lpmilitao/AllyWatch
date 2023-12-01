@@ -6,6 +6,7 @@ import lombok.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static jakarta.persistence.CascadeType.REMOVE;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Builder @NoArgsConstructor @AllArgsConstructor
@@ -18,10 +19,10 @@ public class Chat {
 
     private boolean open;
 
-    @OneToMany(mappedBy = "chat")
+    @OneToMany(mappedBy = "chat", cascade = REMOVE)
     private List<Message> messages = new ArrayList<>();
 
-    @OneToMany(mappedBy = "chat")
+    @OneToMany(mappedBy = "chat", cascade = REMOVE)
     private List<Solicitation> solicitations = new ArrayList<>();
 
     @ManyToMany @JoinTable(name = "user_chat",

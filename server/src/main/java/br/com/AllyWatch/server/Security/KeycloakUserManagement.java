@@ -17,7 +17,7 @@ public class KeycloakUserManagement {
     private static final String BASE_URL = "http://localhost:8081/";
     private static final String REALM = "AllyWatch";
     private static final String CLIENT_ID = "admin-cli";
-    private static final String CLIENT_SECRET = "HlJXJM3erfwwFblIwuPGkTms6llFWEkB";
+    private static final String CLIENT_SECRET = System.getenv("keycloak_client_secret");;
 
     public static void createUser(long id, String fullname, String email, String password)
             throws Exception {
@@ -36,9 +36,7 @@ public class KeycloakUserManagement {
                 .build();
 
         ObjectMapper objectMapper = new ObjectMapper();
-        String requestJSON = "";
-
-        requestJSON = objectMapper.writeValueAsString(requestBody);
+        String requestJSON = objectMapper.writeValueAsString(requestBody);
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(createUserUrl))
@@ -92,6 +90,8 @@ public class KeycloakUserManagement {
                 "password="+ login.getPassword()+"&" +
                 "client_id="+ CLIENT_ID +"&" +
                 "client_secret="+ CLIENT_SECRET;
+
+        System.out.println(CLIENT_SECRET);
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(tokenUrl))
@@ -152,5 +152,4 @@ public class KeycloakUserManagement {
         }
         return null;
     }
-
 }

@@ -4,6 +4,7 @@ import br.com.AllyWatch.server.DTO.Mapper.MessageMapper;
 import br.com.AllyWatch.server.DTO.Request.MessageRequest;
 import br.com.AllyWatch.server.DTO.Response.ChatDetailedResponse;
 import br.com.AllyWatch.server.DTO.Response.ChatResponse;
+import br.com.AllyWatch.server.DTO.Response.MessageResponse;
 import br.com.AllyWatch.server.DTO.Response.SolicitationResponse;
 import br.com.AllyWatch.server.Domain.Chat;
 import br.com.AllyWatch.server.Domain.Message;
@@ -151,7 +152,7 @@ public class ChatService {
         return toDetailedResponse(chat, user, ally);
     }
 
-    public void sendMessage(String authorization, long chatId, MessageRequest request) {
+    public MessageResponse sendMessage(String authorization, long chatId, MessageRequest request) {
         User user = userService.getAuthenticatedUser(authorization);
 
         Chat chat = chatRepository.findById(chatId).orElseThrow(
@@ -167,6 +168,7 @@ public class ChatService {
         chat.addMessage(newMessage);
 
         messageRepository.save(newMessage);
+        return MessageMapper.toResponse(newMessage, user.getId());
     }
 
 

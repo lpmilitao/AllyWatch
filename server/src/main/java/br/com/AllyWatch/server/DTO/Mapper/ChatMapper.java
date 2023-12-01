@@ -2,8 +2,11 @@ package br.com.AllyWatch.server.DTO.Mapper;
 
 import br.com.AllyWatch.server.DTO.Response.ChatDetailedResponse;
 import br.com.AllyWatch.server.DTO.Response.ChatResponse;
+import br.com.AllyWatch.server.DTO.Response.MessageResponse;
 import br.com.AllyWatch.server.Domain.Chat;
 import br.com.AllyWatch.server.Domain.User;
+
+import java.util.Comparator;
 
 import static br.com.AllyWatch.server.Security.Cryptography.decrypt;
 
@@ -29,8 +32,8 @@ public class ChatMapper {
                 )
                 .messages(
                         entity.getMessages().stream().map(
-                                        message -> MessageMapper.toResponse(message, user.getId())
-                                )
+                                        message -> MessageMapper.toResponse(message, user.getId()))
+                                .sorted(Comparator.comparing(MessageResponse::getSentAt))
                                 .toList()
                 )
                 .build();
