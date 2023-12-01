@@ -32,7 +32,6 @@ export function SignIn() {
         />
         <SendButton onClick={handleLogin} text={'Entrar'} />
         <div className='redirect'>
-          <Link to=''>esqueci minha senha </Link>
           <Link to='/signup'> não tenho uma conta</Link>
         </div>
       </div>
