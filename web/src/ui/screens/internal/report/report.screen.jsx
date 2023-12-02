@@ -94,7 +94,7 @@ export function Report() {
           Para registrar sua manifestação, acesse o Fala.BR
         </a>
 
-        <h1>Denúncie pessoalmente</h1>
+        <h1>Denuncie pessoalmente</h1>
         <p>
           Caso você não queira denunciar de forma online, você pode procurar o
           ponto de ajuda mais próximo de você, através da nossa página de
