@@ -9,16 +9,20 @@ import static br.com.AllyWatch.server.Security.Cryptography.decrypt;
 
 public class CommentMapper {
 
-    public static CommentResponse toResponse(Comment entity, long userId) {
+    public static CommentResponse toResponse(Comment entity, long userId, long postAuthorId, boolean isPostAnonymous) {
+        String authorName = decrypt(entity.getAuthor().getFullname(), entity.getAuthor().getKeys().getPrivateKey());
+
+        if(postAuthorId == entity.getAuthor().getId() && isPostAnonymous){
+            authorName = "Ally";
+        }
+
         return CommentResponse.builder()
                 .id(entity.getId())
                 .comment(entity.getComment())
                 .publicationTime(
                         entity.getPublicationTime().format(DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm"))
                 )
-                .author(
-                        decrypt(entity.getAuthor().getFullname(), entity.getAuthor().getKeys().getPrivateKey())
-                )
+                .author(authorName)
                 .mine(userId == entity.getAuthor().getId())
                 .build();
     }

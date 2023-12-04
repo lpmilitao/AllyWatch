@@ -103,7 +103,7 @@ public class PostService {
         User user = userService.getAuthenticatedUser(authorization);
 
         return postRepository.findAllByAuthor_IdOrderByPublicationTimeDesc(user.getId(), pageable)
-                .map(post -> toMyResponse(post, post.getLikes().contains(user), user.getId()));
+                .map(post -> toMyResponse(post, post.getLikes().contains(user)));
     }
 
     public Page<PostResponse> listAllPosts(String authorization, Pageable pageable) {
@@ -113,19 +113,13 @@ public class PostService {
                 .map(post -> {
                     if (post.getAuthor().getId() == user.getId()) {
                         return toMyResponse(post,
-                                post.getLikes().contains(user),
-                                user.getId()
-                        );
+                                post.getLikes().contains(user));
                     } else if (post.isAnonymous()) {
                         return toAnonymousResponse(post,
-                                post.getLikes().contains(user),
-                                user.getId()
-                        );
+                                post.getLikes().contains(user));
                     }
                     return toPublicResponse(post,
-                            post.getLikes().contains(user),
-                            user.getId()
-                    );
+                            post.getLikes().contains(user));
                 });
     }
 

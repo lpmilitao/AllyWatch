@@ -11,9 +11,9 @@ public class MyPostResponse extends PostResponse {
 
     private List<String> likedBy;
 
-    public MyPostResponse(long id, String body, String publicatedAt, List<CommentResponse> comments,
-                          int numberOfLikes, boolean mine, String author, Icon icon, boolean anonymous, boolean likedByMe, List<String> likedBy) {
-        super(id, body, publicatedAt, comments, numberOfLikes, mine, author, icon, anonymous, likedByMe);
+    public MyPostResponse(long id, String body, String publicatedAt, int numberOfLikes, boolean mine, String author,
+                          Icon icon, boolean anonymous, boolean likedByMe, List<String> likedBy) {
+        super(id, body, publicatedAt, numberOfLikes, mine, author, icon, anonymous, likedByMe);
         this.likedBy = likedBy;
     }
 }

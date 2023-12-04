@@ -61,9 +61,12 @@ public class CommentService {
 
     public List<CommentResponse> list(String authorization, long postId) {
         User user = userService.getAuthenticatedUser(authorization);
+        Post post = postService.findById(postId);
 
         return commentRepository.findAllByPost_IdOrderByPublicationTimeDesc(postId)
-                .stream().map(comment -> CommentMapper.toResponse(comment, user.getId()))
+                .stream().map(comment -> CommentMapper.toResponse(
+                        comment, user.getId(), post.getAuthor().getId(), post.isAnonymous())
+                )
                 .toList();
     }
 }

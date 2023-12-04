@@ -4,8 +4,6 @@ import br.com.AllyWatch.server.Domain.Enum.Icon;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter @Setter
 public class PostResponse {
 
@@ -15,26 +13,22 @@ public class PostResponse {
 
     private String publicatedAt;
 
-    private List<CommentResponse> comments;
-
     private int numberOfLikes;
 
     private boolean mine;
 
     private String author;
-
     private Icon icon;
 
     private boolean anonymous;
 
     private boolean likedByMe;
 
-    public PostResponse(long id, String body, String publicatedAt, List<CommentResponse> comments,
-                        int numberOfLikes, boolean mine, String author, Icon icon, boolean anonymous, boolean likedByMe) {
+    public PostResponse(long id, String body, String publicatedAt, int numberOfLikes, boolean mine,
+                        String author, Icon icon, boolean anonymous, boolean likedByMe) {
         this.id = id;
         this.body = body;
         this.publicatedAt = publicatedAt;
-        this.comments = comments;
         this.numberOfLikes = numberOfLikes;
         this.mine = mine;
         this.author = author;
